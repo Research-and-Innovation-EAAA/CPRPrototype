@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CprPrototype.View.CPRPage"
+             Title="CPR">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="lblName"
+                Text="{Binding CurrentPosition.Name}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center"
+                Margin="10,10,10,5"
+                FontSize="Large"
+                FontAttributes="Bold"
+                TextColor="Black"/>
+            <Label x:Name="lblDescription"
+                Text="{Binding CurrentPosition.Description}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Center"
+                Margin="5"
+                FontSize="Medium"/>
+            <Label Text="{Binding StepTime, StringFormat='Fortsæt HLR for 30:2 for {0:%m\\:ss}'}"
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand"
+                Margin="10,10,10,5"
+                FontSize="Large"
+                IsVisible="False"
+                x:Name="lblStepTime"
+                HorizontalTextAlignment="Center"
+                TextColor="Black"/>
+            <StackLayout HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         Margin="0,25,0,0"
+                         Spacing="0">
+                <StackLayout HorizontalOptions="Fill">
+                    <Label Text="Medicin Påmindelser"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"/>
+                </StackLayout>
+                <ListView x:Name="listView"/>
+            </StackLayout>
+            <Button x:Name="btnShockable"
+                    Text="Stødbar"
+                    Margin="20,10,20,0"
+                    HeightRequest="50"
+                    Clicked="ShockableButton_Clicked"/>
+            <Button x:Name="btnNShockable"
+                    Text="Ikke-Stødbar"
+                    Margin="20,10,20,10"
+                    HeightRequest="50"
+                    Clicked="NShockableButton_Clicked"/>
+            <Button x:Name="btnNextStep"
+                    Text="Vurder Rytmen"
+                    Margin="20,0,20,10"
+                    VerticalOptions="EndAndExpand"
+                    Clicked="NextStepButton_Clicked"
+                    IsVisible="False" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

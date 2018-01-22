@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CprPrototype"
+             x:Class="CprPrototype.MainPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to CPR App Prototype Test!"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                Margin="40"
+                FontSize="Medium"/>
+            <Label Text="Please select interaction mode"
+                   VerticalOptions="Start"
+                   HorizontalOptions="CenterAndExpand"
+                   Margin="20"
+                   FontSize="Small"/>
+            <StackLayout
+                Orientation="Horizontal"
+                HorizontalOptions="CenterAndExpand">
+                <Label Text="Sound alerts"
+                       VerticalOptions="Start"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="20"
+                       FontSize="Small"/>
+                <Switch x:Name="swSoundMode"
+                        HorizontalOptions="Center"/>
+            </StackLayout>
+            <Button Text="Small Steps"
+                    Clicked="SilentButton_Clicked" />
+            <Button Text="Big Steps"
+                    Clicked="SoundButton_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CprPrototype.View.OverviewPage"
+             Title="Oversigt">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout 
+                VerticalOptions="Start"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                Spacing="5"
+                Margin="5, 5, 5, 10">
+                <Label 
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="5"
+                    FontSize="Large"/>
+                <Label
+                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="5"
+                    FontSize="Large"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         Margin="0,5,0,0"
+                         Spacing="0">
+                <StackLayout HorizontalOptions="Fill">
+                    <Label Text="Historie"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"/>
+                </StackLayout>
+                <ListView x:Name="listView"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="CenterAndExpand" >
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
