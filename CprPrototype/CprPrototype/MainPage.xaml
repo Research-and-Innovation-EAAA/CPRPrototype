@@ -26,8 +26,7 @@
                 <Switch x:Name="swSoundMode"
                         HorizontalOptions="Center"/>
             </StackLayout>
-            <Button Text="Small Steps"
-                    Clicked="SilentButton_Clicked" />
+           
             <Button Text="Big Steps"
                     Clicked="SoundButton_Clicked"/>
         </StackLayout>

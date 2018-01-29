@@ -41,22 +41,41 @@
                 </StackLayout>
                 <ListView x:Name="listView"/>
             </StackLayout>
-            <Button x:Name="btnShockable"
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
+                <Button x:Name="btnShockable"
                     Text="Stødbar"
-                    Margin="20,10,20,0"
-                    HeightRequest="50"
-                    Clicked="ShockableButton_Clicked"/>
-            <Button x:Name="btnNShockable"
-                    Text="Ikke-Stødbar"
-                    Margin="20,10,20,10"
-                    HeightRequest="50"
-                    Clicked="NShockableButton_Clicked"/>
-            <Button x:Name="btnNextStep"
+                    Clicked="ShockableButton_Clicked"
+                        FontSize="Medium"/>
+                <Button x:Name="btnNShockable"
+                    Text="Ikke-&#10;Stødbar"
+                    Clicked="NShockableButton_Clicked"
+                    FontSize="Medium"/>
+                <Button x:Name="btnNextStep"
                     Text="Vurder Rytmen"
                     Margin="20,0,20,10"
                     VerticalOptions="EndAndExpand"
                     Clicked="NextStepButton_Clicked"
                     IsVisible="False" />
+            </StackLayout>
+            <StackLayout 
+                VerticalOptions="Start"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                Spacing="25"
+                Margin="5, 5, 5, 10">
+                <Label 
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"/>
+                <Label
+                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

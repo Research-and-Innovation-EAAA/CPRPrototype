@@ -13,7 +13,7 @@ namespace CprPrototype
         {
             InitializeComponent();
 
-            MainPage = new CprPrototype.MainPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
