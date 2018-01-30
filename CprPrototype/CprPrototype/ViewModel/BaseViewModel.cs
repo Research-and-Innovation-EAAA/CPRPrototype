@@ -22,6 +22,8 @@ namespace CprPrototype.ViewModel
         #region Properties
 
         private static BaseViewModel instance;
+        private static readonly object padlock = new object(); // Used to make singleton thread-safe
+
         private AlgorithmBase algoBase;
         private CPRHistory history = new CPRHistory();
 
@@ -29,6 +31,11 @@ namespace CprPrototype.ViewModel
         private AlgorithmStep currStep;
         private TimeSpan totalTime, stepTime;
         private int cycles;
+
+        // Begin testarea: 
+        private InteractionMode mode = InteractionMode.Silent;
+        private StepSize stepSize = StepSize.Big;
+        // End testarea
 
         private IAdvancedTimer timer = DependencyService.Get<IAdvancedTimer>();
         private bool timerStarted = false;
@@ -81,8 +88,11 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// Total time spent in the resuscitation process.
+        /// The amount of time for each step
         /// </summary>
+        /// <example>
+        /// The algorithm takes two minutes for each resuscitation attempt. 
+        /// </example>
         public TimeSpan StepTime
         {
             get { return stepTime; }
@@ -149,7 +159,10 @@ namespace CprPrototype.ViewModel
             get { return history; }
         }
 
-        public StepSize StepSize { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public StepSize StepSize { get { return stepSize; } }
 
         /// <summary>
         /// The Timer object.
@@ -161,8 +174,10 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public AlgorithmBase Algorithm { get { return algoBase; } }
 
-
-        public InteractionMode Mode { get; set; }
+        /// <summary>
+        /// Property to specify if the device is silent or not
+        /// </summary>
+        public InteractionMode Mode { get { return mode; } }
 
         #endregion
 
@@ -176,10 +191,9 @@ namespace CprPrototype.ViewModel
            
         }
 
-        public void InitAlgorithmBase(StepSize size)
+        public void InitAlgorithmBase(StepSize stepsize)
         {
-            StepSize = size;
-            algoBase = new AlgorithmBase(size);
+            algoBase = new AlgorithmBase(stepSize);
             CurrentPosition = algoBase.CurrentStep;
         }
 
@@ -210,12 +224,6 @@ namespace CprPrototype.ViewModel
                     if (StepTime.TotalSeconds < 21)
                     {
                         CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-
-                        if (Mode == InteractionMode.Sound)
-                        {
-                            // Play Sound
-                            DependencyService.Get<IAudio>().PlayMp3File(2);
-                        }
                     }
                 }
             }
@@ -258,24 +266,12 @@ namespace CprPrototype.ViewModel
                 if (item.TimeRemaining.TotalSeconds == 120)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-
-                    if (Mode == InteractionMode.Sound)
-                    {
-                        // Play Sound
-                        DependencyService.Get<IAudio>().PlayMp3File(1);
-                    }
                 }
 
                 // Notify constantly when drug timer is nearly done
                 if (item.TimeRemaining.TotalSeconds < 16)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-
-                    if (Mode == InteractionMode.Sound)
-                    {
-                        // Play Sound
-                        DependencyService.Get<IAudio>().PlayMp3File(2);
-                    }
                 }
             }
         }
@@ -285,22 +281,28 @@ namespace CprPrototype.ViewModel
         /// </summary>
         /// <remarks>
         /// Use this to access the BaseViewModel.
+        /// Uses an object(padlock) to lock the critical region, to the effect of being thread-safe 
         /// </remarks>
         /// <returns>BaseViewModel Instance</returns>
-        public static BaseViewModel Instance()
+        public static BaseViewModel Instance
         {
-            // uses lazy initialization.
-            // this is not thread safe.
-            if (instance == null)
+            get
             {
-                instance = new BaseViewModel();
-            }
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new BaseViewModel();
+                    }
 
-            return instance;
+                    return instance;
+                }
+            }
         }
 
         #endregion
 
+        #region Events & Handlers
         /// <summary>
         /// Advances the algorithm and updates the current step property.
         /// </summary>
@@ -351,6 +353,6 @@ namespace CprPrototype.ViewModel
                 }
             }
         }
-        
+        #endregion
     }
 }

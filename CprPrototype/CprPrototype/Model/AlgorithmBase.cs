@@ -102,7 +102,7 @@ namespace CprPrototype.Model
             drugs = new DrugFactory().CreateDrugs();
             stepTime = TimeSpan.FromMinutes(2);
             this.stepSize = stepSize;
-            
+
             // Select first step
             CurrentStep = steps[0];
         }
@@ -125,80 +125,39 @@ namespace CprPrototype.Model
             // Exit Step
             exit1 = new AlgorithmStep("Circulation restored", "Continue with further resuscitation");
 
-            switch (stepSize)
-            {
-                case StepSize.Small:
-                    // Shockable Steps
-                    smallShock1 = new AlgorithmStep("Stød en gang", "Minimer afbrydelser");
-                    smallShock1.RythmStyle = RythmStyle.Shockable;
-                    smallShock2 = new AlgorithmStep("HLR 2 Minutter", "Fortsæt HLR for den resterende tid");
-                    smallShock2.RythmStyle = RythmStyle.Shockable;
 
-                    // Non-Shockable Steps
-                    smallNShock1 = new AlgorithmStep("Giv 1mg Adrenalin", "Med det samme");
-                    smallNShock1.RythmStyle = RythmStyle.NonShockable;
-                    smallNShock2 = new AlgorithmStep("HLR 2 Minutter", "Fortsæt HLR for den resterende tid");
-                    smallNShock2.RythmStyle = RythmStyle.Shockable;
+            // Shockable Steps
+            smallShock1 = new AlgorithmStep("Stød en gang", "Fortsæt HLR");
+            smallShock1.RythmStyle = RythmStyle.Shockable;
 
-                    // Setup Step Relations
-                    step1.PreviousStep = null;
-                    step1.CircRestoredStep = exit1;
+            // Non-Shockable Steps
+            smallNShock1 = new AlgorithmStep("Giv 1mg Adrenalin", "Fortsæt HLR");
+            smallNShock1.RythmStyle = RythmStyle.NonShockable;
 
-                    smallShock1.PreviousStep = step1;
-                    smallShock1.NextStep = smallShock2;
-                    smallShock2.PreviousStep = smallShock1;
-                    smallShock2.NextStep = step1;
+            smallNShock2 = new AlgorithmStep("Fortsæt HLR ", "Fortsæt HLR");
+            smallNShock2.RythmStyle = RythmStyle.NonShockable;
 
-                    smallNShock1.PreviousStep = step1;
-                    smallNShock1.NextStep = smallNShock2;
-                    smallNShock2.PreviousStep = smallNShock1;
-                    smallNShock2.NextStep = step1;
+            // Setup Step Relations
+            step1.PreviousStep = null;
+            step1.CircRestoredStep = exit1;
 
-                    exit1.PreviousStep = step1;
+            smallShock1.PreviousStep = step1;
+            smallShock1.NextStep = step1;
 
-                    // Add everything to the list
-                    result.Add(step1);
-                    result.Add(smallShock1);
-                    result.Add(smallShock2);
-                    result.Add(smallNShock1);
-                    result.Add(smallNShock2);
-                    result.Add(exit1);
-                    break;
-                case StepSize.Big:
-                    // Shockable Steps
-                    smallShock1 = new AlgorithmStep("Stød en gang", "Fortsæt HLR");
-                    smallShock1.RythmStyle = RythmStyle.Shockable;
+            smallNShock1.PreviousStep = step1;
+            smallNShock1.NextStep = step1;
 
-                    // Non-Shockable Steps
-                    smallNShock1 = new AlgorithmStep("Giv 1mg Adrenalin", "Fortsæt HLR");
-                    smallNShock1.RythmStyle = RythmStyle.NonShockable;
-                    smallNShock2 = new AlgorithmStep("Fortsæt HLR ", "");
-                    smallNShock2.RythmStyle = RythmStyle.NonShockable;
+            smallNShock2.PreviousStep = step1;
+            smallNShock2.NextStep = step1;
 
-                    // Setup Step Relations
-                    step1.PreviousStep = null;
-                    step1.CircRestoredStep = exit1;
+            exit1.PreviousStep = step1;
 
-                    smallShock1.PreviousStep = step1;
-                    smallShock1.NextStep = step1;
-
-                    smallNShock1.PreviousStep = step1;
-                    smallNShock1.NextStep = step1;
-                    smallNShock2.PreviousStep = step1;
-                    smallNShock2.NextStep = step1;
-
-                    exit1.PreviousStep = step1;
-
-                    // Add everything to the list
-                    result.Add(step1);
-                    result.Add(smallShock1);
-                    result.Add(smallNShock1);
-                    result.Add(smallNShock2);
-                    result.Add(exit1);
-                    break;
-            }
-
-            
+            // Add everything to the list
+            result.Add(step1);
+            result.Add(smallShock1);
+            result.Add(smallNShock1);
+            result.Add(smallNShock2);
+            result.Add(exit1);
 
             return result;
         }
@@ -214,13 +173,13 @@ namespace CprPrototype.Model
         public void AddDrugsToQueue(ObservableCollection<DrugShot> list, RythmStyle style)
         {
             if (drugs != null && drugs.Count > 0)
-            {          
+            {
                 foreach (Drug drug in drugs)
                 {
-                   var shot = drug.GetDrugShot(Cycles, style);
+                    var shot = drug.GetDrugShot(Cycles, style);
 
-                   if (shot != null && !list.Contains(shot))
-                   {
+                    if (shot != null && !list.Contains(shot))
+                    {
                         if (cycles == 0 && CurrentStep.NextStep.RythmStyle == RythmStyle.NonShockable)
                         {
                             shot.TimeRemaining = TimeSpan.FromMinutes(2);
@@ -231,7 +190,7 @@ namespace CprPrototype.Model
                             shot.ResetShot();
                             list.Add(shot);
                         }
-                   }
+                    }
                 }
             }
         }
@@ -246,7 +205,7 @@ namespace CprPrototype.Model
                 foreach (DrugShot shot in list)
                 {
                     var drug = drugs.Find(x => x.DrugType == shot.Drug.DrugType);
-                    
+
                     if (shot.Injected)
                     {
                         list.Remove(shot);
@@ -268,36 +227,22 @@ namespace CprPrototype.Model
                 startTime = DateTime.Now;
             }
 
-            if (cycles == 1)
-            {
-                if (stepSize == StepSize.Small)
-                { 
-                    smallNShock2.PreviousStep = step1;
-                    smallNShock2.NextStep = step1;
-                    steps.Remove(smallNShock1);
-                }
-                else
-                {
-                    smallNShock2.PreviousStep = step1;
-                    smallNShock2.NextStep = step1;
-                    steps.Remove(smallNShock1);
-                }
+            if (cycles == 1) // Fjerner instansen hvor der skal gives medicin omgående, så ikke stødbar kan gå i sin normale cyklus.
+            {   
+                // Dette gør ikke noget.
+                //smallNShock2.PreviousStep = step1;
+                //smallNShock2.NextStep = step1;
+                steps.Remove(smallNShock1);
             }
 
             switch (style)
             {
-                case RythmStyle.Shockable: 
+                case RythmStyle.Shockable:
                     CurrentStep.NextStep = smallShock1;
                     break;
-                case RythmStyle.NonShockable:
-                    if (stepSize == StepSize.Big)
-                    {
-                        CurrentStep.NextStep = steps[2];
-                    }
-                    else
-                    {
-                        CurrentStep.NextStep = steps[3];
-                    }
+                case RythmStyle.NonShockable: // Har ændret her:
+                    CurrentStep.NextStep = smallNShock2;
+                    //CurrentStep.NextStep = steps[2];
                     break;
             }
         }

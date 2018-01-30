@@ -9,7 +9,7 @@ namespace CprPrototype.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExtraDrugs : ContentPage
     {
-        private BaseViewModel viewModel = BaseViewModel.Instance();
+        private BaseViewModel viewModel = BaseViewModel.Instance;
 
         public ExtraDrugs()
         {

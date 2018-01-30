@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CprPrototype.Model;
+using CprPrototype.ViewModel;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -8,7 +8,7 @@ namespace CprPrototype.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CPRPage : ContentPage
 	{
-        private BaseViewModel viewModel = BaseViewModel.Instance();
+        private BaseViewModel viewModel = BaseViewModel.Instance;
         private bool bigStepShocked = false;
 
 		public CPRPage ()
@@ -29,7 +29,9 @@ namespace CprPrototype.View
             listView.ItemsSource = viewModel.DoseQueue;
             listView.BindingContext = viewModel;
 
-           UpdateUI();
+            // Initialize Algorithm and UI:
+            viewModel.InitAlgorithmBase(viewModel.StepSize);
+            UpdateUI();
 		}
 
         /// <summary>
@@ -39,25 +41,25 @@ namespace CprPrototype.View
         {
             var currStep = viewModel.CurrentPosition;
 
-            if (viewModel.StepSize == Model.StepSize.Small)
-            {
-                if (currStep.Name == "Stød en gang")
-                {
-                    lblStepTime.IsVisible = false;
-                    lblDescription.IsVisible = true;
-                }
-                else if (currStep.Name == "HLR 2 Minutter")
-                {
-                    lblDescription.IsVisible = false;
-                    lblStepTime.IsVisible = true;
-                }
+            //if (viewModel.StepSize == Model.StepSize.Small)
+            //{
+            //    if (currStep.Name == "Stød en gang")
+            //    {
+            //        lblStepTime.IsVisible = false;
+            //        lblDescription.IsVisible = true;
+            //    }
+            //    else if (currStep.Name == "HLR 2 Minutter")
+            //    {
+            //        lblDescription.IsVisible = false;
+            //        lblStepTime.IsVisible = true;
+            //    }
 
-                if (currStep.NextStep != null)
-                {
-                    btnNextStep.Text = currStep.NextStep.Name ?? "Vurder Rytmen";
-                }
-            }
-            else if(viewModel.StepSize == Model.StepSize.Big)
+            //    if (currStep.NextStep != null)
+            //    {
+            //        btnNextStep.Text = currStep.NextStep.Name ?? "Vurder Rytmen";
+            //    }
+            //}
+            if(viewModel.StepSize == Model.StepSize.Big)
             {
                 //if (currStep.RythmStyle == Model.RythmStyle.Shockable)
                 //{

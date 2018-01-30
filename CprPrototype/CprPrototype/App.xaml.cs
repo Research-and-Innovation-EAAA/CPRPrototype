@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CprPrototype;
 
 using Xamarin.Forms;
 
@@ -11,9 +12,9 @@ namespace CprPrototype
     {
         public App()
         {
+            MainPage = new View.MasterTabbedPage();
             InitializeComponent();
 
-            MainPage = new MainPage();
         }
 
         protected override void OnStart()
