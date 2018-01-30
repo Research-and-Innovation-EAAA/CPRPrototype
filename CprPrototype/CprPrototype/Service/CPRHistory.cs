@@ -36,6 +36,10 @@ namespace CprPrototype.Service
             }
         }
 
+        /// <summary>
+        /// Adds an item the the log of the app.
+        /// </summary>
+        /// <param name="name"></param>
         public void AddItem(string name)
         {
             var item = new CPRHistoryEntry(name, DateTime.Now);
@@ -61,8 +65,20 @@ namespace CprPrototype.Service
     /// </summary>
     public class CPRHistoryEntry
     {
+        /// <summary>
+        /// Name of the event occured
+        /// </summary>
+        /// <example>
+        /// Adrenalin
+        /// </example>
         public string Name { get; set; }
+        /// <summary>
+        /// Time for when the event occured
+        /// </summary>
         public DateTime Date { get; set; }
+        /// <summary>
+        /// Formatted time string shown in GUI
+        /// </summary>
         public string DateTimeString { get; set; }
 
         public CPRHistoryEntry(string name, DateTime date)

@@ -7,7 +7,7 @@ namespace CprPrototype.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OverviewPage : ContentPage
     {
-        private BaseViewModel viewModel = BaseViewModel.Instance();
+        private BaseViewModel viewModel = BaseViewModel.Instance;
 
         public OverviewPage()
         {
