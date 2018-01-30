@@ -11,19 +11,19 @@ namespace CprPrototype.Droid.Service
     {
         public AudioService() { }
 
-        private MediaPlayer _mediaPlayer;
+        //private MediaPlayer _mediaPlayer;
 
         public bool PlayMp3File(int i)
         {
             if (i == 1)
             {
-                _mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, Resource.Raw.beep1);
-                _mediaPlayer.Start();
+                //_mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, Resource.Raw.beep1);
+                //_mediaPlayer.Start();
             }
             else
             {
-                _mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, Resource.Raw.beep2);
-                _mediaPlayer.Start();
+                //_mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, Resource.Raw.beep2);
+                //_mediaPlayer.Start();
             }
 
             return true;

@@ -20,13 +20,13 @@
                 HorizontalOptions="Center"
                 Margin="5"
                 FontSize="Medium"/>
-            <Label x:Name="lblStepTime" 
-                Text="{Binding StepTime, StringFormat='Fortsæt HLR for 30:2 for {0:%m\\:ss}'}"
+            <Label Text="{Binding StepTime, StringFormat='Fortsæt HLR for 30:2 for {0:%m\\:ss}'}"
                 VerticalOptions="Center" 
                 HorizontalOptions="CenterAndExpand"
                 Margin="10,10,10,5"
                 FontSize="Large"
                 IsVisible="False"
+                x:Name="lblStepTime"
                 HorizontalTextAlignment="Center"
                 TextColor="Black"/>
             <StackLayout HorizontalOptions="Fill"
@@ -39,24 +39,43 @@
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"/>
-                    <ListView x:Name="listView"/>
                 </StackLayout>
+                <ListView x:Name="listView"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
                 <Button x:Name="btnShockable"
                     Text="Stødbar"
-                    Margin="20,10,20,0"
-                    HeightRequest="50"
-                    Clicked="ShockableButton_Clicked"/>
+                    Clicked="ShockableButton_Clicked"
+                        FontSize="Medium"/>
                 <Button x:Name="btnNShockable"
-                    Text="Ikke-Stødbar"
-                    Margin="20,10,20,10"
-                    HeightRequest="50"
-                    Clicked="NShockableButton_Clicked"/>
+                    Text="Ikke-&#10;Stødbar"
+                    Clicked="NShockableButton_Clicked"
+                    FontSize="Medium"/>
                 <Button x:Name="btnNextStep"
                     Text="Vurder Rytmen"
                     Margin="20,0,20,10"
                     VerticalOptions="EndAndExpand"
                     Clicked="NextStepButton_Clicked"
                     IsVisible="False" />
+            </StackLayout>
+            <StackLayout 
+                VerticalOptions="Start"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                Spacing="25"
+                Margin="5, 5, 5, 10">
+                <Label 
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"/>
+                <Label
+                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
