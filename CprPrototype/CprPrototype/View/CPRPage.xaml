@@ -12,6 +12,7 @@
                 Margin="10,10,10,5"
                 FontSize="Large"
                 FontAttributes="Bold"
+                   
                 TextColor="Black"/>
             <Label x:Name="lblDescription"
                 Text="{Binding CurrentPosition.Description}"
