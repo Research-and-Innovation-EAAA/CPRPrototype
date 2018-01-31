@@ -9,7 +9,7 @@ namespace CprPrototype.Model
     /// <summary>
     /// The AssessmentStep class represents the initial step of the CPR Algorithm
     /// where the user must choose between Shockable or Unshocable rythm. In case
-    /// of restored circulation the user can exist the algorithm loop.
+    /// of restored circulation the user can exit the algorithm loop.
     /// </summary>
     public class AssessmentStep : AlgorithmStep, IDisposable
     {
@@ -48,11 +48,5 @@ namespace CprPrototype.Model
             this.RythmStyle = null;
             this.CircRestoredStep = null;
         }
-    }
-
-    public enum RythmStyle
-    {
-        Shockable = 0,
-        NonShockable = 1
     }
 }

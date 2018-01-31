@@ -21,7 +21,7 @@ namespace CprPrototype.Model
         public Drug Drug { get; set; }
         public DrugDoseTarget Target { get; set; }
         public string Dose { get; set; }
-        public bool Injected { get; set; }
+        public bool IsInjected { get; set; }
         public ICommand DrugCommand { get; set; }
         public Color TextColor
         {
@@ -31,12 +31,15 @@ namespace CprPrototype.Model
             }
         }
 
+        /// <summary>
+        /// Defines the color of the drug notification background
+        /// </summary>
         public Color BackgroundColor
         {
             get
             {
                 //Success Color
-                if (Injected)
+                if (IsInjected)
                 {
                     return Color.FromHex("A6CE38");
                 }
@@ -59,6 +62,9 @@ namespace CprPrototype.Model
             }
         }
 
+        /// <summary>
+        /// Creates a formatted String to the notification
+        /// </summary>
         public string DrugDoseString
         {
             get
@@ -149,7 +155,7 @@ namespace CprPrototype.Model
             Drug = drug;
             Target = target;
             Dose = dose;
-            Injected = false;
+            IsInjected = false;
             DrugCommand = new Command(ShotAddressed);
             timeRemaining = Drug.PrepTime;
             UpdateTimeRemainingString();
@@ -162,7 +168,7 @@ namespace CprPrototype.Model
         {
             timeRemaining = Drug.PrepTime;
             DrugCommand = new Command(ShotAddressed);
-            Injected = false;
+            IsInjected = false;
             UpdateTimeRemainingString();
         }
 
@@ -170,13 +176,13 @@ namespace CprPrototype.Model
 
         public void ShotAddressed()
         {
-            Injected = true;
-            Drug.LastInjection = DateTime.Now;
+            IsInjected = true;
+            Drug.TimeOfLatestInjection = DateTime.Now;
         }
 
         public void ResetShot()
         {
-            Injected = false;
+            IsInjected = false;
             TimeRemaining = Drug.PrepTime;
         }
 

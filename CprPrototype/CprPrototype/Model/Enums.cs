@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CprPrototype.Model
+﻿namespace CprPrototype.Model
 {
-   public enum InteractionMode
+    public enum InteractionMode
    {
         Silent,
         Sound
@@ -31,5 +25,17 @@ namespace CprPrototype.Model
     {
         Adult,
         Children
+    }
+
+    public enum RythmStyle
+    {
+        Shockable,
+        NonShockable
+    }
+
+    public enum StepType
+    {
+        AssessmentStep,
+        HLRStep
     }
 }

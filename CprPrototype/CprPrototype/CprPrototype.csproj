@@ -50,6 +50,7 @@
     <Compile Include="Model\Drug.cs" />
     <Compile Include="Model\DrugShot.cs" />
     <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\HLRStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />

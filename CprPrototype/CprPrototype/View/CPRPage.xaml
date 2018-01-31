@@ -12,7 +12,6 @@
                 Margin="10,10,10,5"
                 FontSize="Large"
                 FontAttributes="Bold"
-                   
                 TextColor="Black"/>
             <Label x:Name="lblDescription"
                 Text="{Binding CurrentPosition.Description}"
@@ -42,11 +41,18 @@
                 </StackLayout>
                 <ListView x:Name="listView"/>
             </StackLayout>
+            <StackLayout HorizontalOptions="Fill">
+                <Label Text="Handlinger"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"/>
+            </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
                 <Button x:Name="btnShockable"
                     Text="Stødbar"
                     Clicked="ShockableButton_Clicked"
-                        FontSize="Medium"/>
+                    FontSize="Medium"/>
                 <Button x:Name="btnNShockable"
                     Text="Ikke-&#10;Stødbar"
                     Clicked="NShockableButton_Clicked"
@@ -55,7 +61,7 @@
                     Text="Vurder Rytmen"
                     Margin="20,0,20,10"
                     VerticalOptions="EndAndExpand"
-                    Clicked="NextStepButton_Clicked"
+                    Clicked="RhythmButton_Clicked"
                     IsVisible="False" />
             </StackLayout>
             <StackLayout 
