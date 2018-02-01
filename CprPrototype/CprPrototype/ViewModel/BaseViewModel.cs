@@ -33,15 +33,12 @@ namespace CprPrototype.ViewModel
         private TimeSpan totalTime, stepTime;
         private int totalElapsedCycles;
         private const int CRITICAL_ALERT_TIME = 10;
-        // Begin testarea: 
-        private InteractionMode mode = InteractionMode.Silent;
-        // End testarea
 
         private IAdvancedTimer timer = DependencyService.Get<IAdvancedTimer>();
         private bool timerStarted = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler TimerElapsed;
+        //public event EventHandler TimerElapsed;
         
 
         /// <summary>
@@ -145,7 +142,7 @@ namespace CprPrototype.ViewModel
 
                     if (PropertyChanged != null)
                     {
-                        NotifyPropertyChanged("Cycles");
+                        NotifyPropertyChanged("TotalElapsedCycles");
                     }
                 }
             }
@@ -169,11 +166,6 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public AlgorithmBase Algorithm { get { return algoBase; } }
 
-        /// <summary>
-        /// Property to specify if the device is silent or not
-        /// </summary>
-        public InteractionMode Mode { get { return mode; } }
-
         #endregion
 
         #region Construction & Initialization
@@ -186,6 +178,9 @@ namespace CprPrototype.ViewModel
            
         }
 
+        /// <summary>
+        /// Sets up the algorithm
+        /// </summary>
         public void InitAlgorithmBase()
         {
             algoBase = new AlgorithmBase();
@@ -228,7 +223,7 @@ namespace CprPrototype.ViewModel
 
             if (StepTime.TotalSeconds == 0)
             {
-                AdvanceAlgorithm();
+                Debug.WriteLine(StepTime.Ticks.ToString());
                 Debug.WriteLine("I've reached zero!");
 
             }

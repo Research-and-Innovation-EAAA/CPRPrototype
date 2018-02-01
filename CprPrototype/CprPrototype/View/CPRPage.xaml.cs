@@ -38,10 +38,9 @@ namespace CprPrototype.View
         /// </summary>
         private void UpdateUI()
         {
-
-                lblName.IsVisible = true;
-                lblDescription.IsVisible = false;
-                lblStepTime.IsVisible = true;
+            lblName.IsVisible = true;
+            lblDescription.IsVisible = false;
+            lblStepTime.IsVisible = true;
 
             if (viewModel.CurrentPosition.RythmStyle == Model.RythmStyle.NonShockable)
             {

@@ -77,7 +77,7 @@
                     Margin="-3"
                     FontSize="Large"/>
                 <Label
-                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
+                    Text="{Binding TotalElapsedCycles, StringFormat='{0} Cykler'}"
                     VerticalOptions="Start"
                     HorizontalOptions="Fill"
                     Margin="-3"

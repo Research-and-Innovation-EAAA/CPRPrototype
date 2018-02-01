@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,7 +18,6 @@ namespace CprPrototype.View
         public static readonly BindableProperty ButtonCommandProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
-
 
         public string Name
         {
@@ -55,15 +55,29 @@ namespace CprPrototype.View
 
         public DrugCell()
         {
+            // For example:
+            //var command = new Command((o) => Debug.WriteLine("Command Executed: {0}", o));
+            //var button = new Button
+            //{
+            //    Text = "Hit me to execute the command",
+            //    Command = command,
+            //    CommandParameter = "button0"
+            //};
+
             // Init Views
             lblName = new Label();
-            lblTime = new Label();
-            lblTime.TextColor = TextColor;
-            btnCommand = new Button();
-            btnCommand.Text = "Givet";
-            btnCommand.WidthRequest = 70;
-            //btnCommand.HeightRequest = 15;
-            btnCommand.HorizontalOptions = LayoutOptions.End;
+
+            lblTime = new Label
+            {
+                TextColor = TextColor
+            };
+
+            btnCommand = new Button
+            {
+                Text = "Giv",
+                WidthRequest = 70,
+                HorizontalOptions = LayoutOptions.End
+            };
 
             labelLayout = new StackLayout
             {

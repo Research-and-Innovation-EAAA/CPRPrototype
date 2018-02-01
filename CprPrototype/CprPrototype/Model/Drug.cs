@@ -23,10 +23,12 @@ namespace CprPrototype.Model
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Drug(DrugType type, TimeSpan prepTime)
+        /// <param name="drugType">Name of the type of drug</param>
+        /// <param name="prepTime">How much time it needs for preparation</param>
+        public Drug(DrugType drugType, TimeSpan prepTime)
         {
             IsInjected = false;
-            DrugType = type;
+            DrugType = drugType;
             PrepTime = prepTime;
             DosesCollection = new List<DrugShot>();
         }
@@ -41,6 +43,7 @@ namespace CprPrototype.Model
         {
             DrugShot result = null;
 
+            // All drug types:
             switch (DrugType)
             {
                 case DrugType.Adrenalin:
@@ -56,13 +59,13 @@ namespace CprPrototype.Model
                             {
                                 IsInjected = true;
                                 TimeOfLatestInjection = DateTime.Now.Add(TimeSpan.FromMinutes(2));
-                                result = DosesCollection[0];
+                                result = DosesCollection.Find(d => d.Dose == "1mg");
                             }
                             // Then every 3-5 minutes
                             else if (totalCycles >= 1 && DateTime.Now.Subtract(TimeOfLatestInjection).TotalMinutes >= 3)
                             {
                                 TimeOfLatestInjection = DateTime.Now.Add(TimeSpan.FromMinutes(3));
-                                result = DosesCollection[0];
+                                result = DosesCollection.Find(d => d.Dose == "1mg");
                             }
                             break;
                         case RythmStyle.Shockable:
@@ -71,12 +74,12 @@ namespace CprPrototype.Model
                             {
                                 IsInjected = true;
                                 TimeOfLatestInjection = DateTime.Now.Add(PrepTime);
-                                result = DosesCollection[0];
+                                result = DosesCollection.Find(d => d.Dose == "1mg");
                             }
                             // Then every 3-5 minutes
                             else if (totalCycles > 3 && DateTime.Now.Subtract(TimeOfLatestInjection).TotalMinutes >= 3)
                             {
-                                result = DosesCollection[0];
+                                result = DosesCollection.Find(d => d.Dose == "1mg");
                                 TimeOfLatestInjection = DateTime.Now.Add(TimeSpan.FromMinutes(3));
                             }
                             break;
@@ -89,14 +92,14 @@ namespace CprPrototype.Model
                         // cycles >= 5.
                         if (totalCycles >= 3 && totalCycles % 3 == 0 && IsInjected == false)
                         {
-                            result = DosesCollection[0];
+                            result = DosesCollection.Find(d => d.Dose == "300ml");
                             TimeOfLatestInjection = DateTime.Now.Add(PrepTime);
                         }
                         // Address after 5 additional cycles, 
                         // rather than 5 in total
                         else if (totalCycles >= 5 && IsInjected == true && ((totalCycles - 3) % 5) == 0)
                         {
-                            result = DosesCollection[1];
+                            result = DosesCollection.Find(d => d.Dose == "150ml");
                             TimeOfLatestInjection = DateTime.Now.Add(PrepTime);
                         }
                     }

@@ -20,16 +20,12 @@ namespace CprPrototype.Model
     {
         #region Properties
 
-        //private List<AlgorithmStep> stepsCollection;
         private List<Drug> drugsCollection;
         private DateTime? startTime;
         private TimeSpan stepTime;
-        private AlgorithmStep firstStep, shockable1, smallShock2, nonShockable1, nonShockable2, exitStep, currentStep;
+        private AlgorithmStep firstStep, shockable1, nonShockable1, nonShockable2, exitStep, currentStep;
 
         private int totalElapsedCycles = 0;
-
-
-        private const int FIRST_CYCLE = 1;
 
         /// <summary>
         /// Property Changed event handler.
@@ -113,7 +109,7 @@ namespace CprPrototype.Model
         /// Construct and Initialize algorithm steps.
         /// </summary>
         public void InitializeAlgorithmSteps()
-        {            
+        {
             //========================================================================
             // Initial Step
             //========================================================================
@@ -159,7 +155,7 @@ namespace CprPrototype.Model
             };
 
             //========================================================================
-            // Setup Step Relations
+            // Setup Step Relations (Linked List)
             //========================================================================
 
             firstStep.PreviousStep = null;
@@ -184,7 +180,7 @@ namespace CprPrototype.Model
         /// Adds drug shots to the drug queue if it
         /// does not exist in it already.
         /// </summary>
-        public void AddDrugsToQueue(ObservableCollection<DrugShot> list, RythmStyle rythmStyle)
+        public void AddDrugsToQueue(ObservableCollection<DrugShot> notificationQueue, RythmStyle rythmStyle)
         {
             if (drugsCollection != null && drugsCollection.Count > 0)
             {
@@ -192,17 +188,17 @@ namespace CprPrototype.Model
                 {
                     var shot = drug.GetDrugShot(TotalElapsedCycles, rythmStyle);
 
-                    if (shot != null && !list.Contains(shot))
+                    if (shot != null && !notificationQueue.Contains(shot))
                     {
-                        if (TotalElapsedCycles == 0 && CurrentStep.NextStep.RythmStyle == RythmStyle.NonShockable)
+                        if (TotalElapsedCycles == 0 && CurrentStep.NextStep.RythmStyle == RythmStyle.NonShockable) // Handles the first Non-Shockable drug shot
                         {
-                            shot.TimeRemaining = TimeSpan.FromMinutes(2);
-                            list.Add(shot);
+                            shot.TimeRemaining = TimeSpan.FromMinutes(0);
+                            notificationQueue.Add(shot);
                         }
                         else
                         {
                             shot.ResetShot();
-                            list.Add(shot);
+                            notificationQueue.Add(shot);
                         }
                     }
                 }
@@ -212,17 +208,17 @@ namespace CprPrototype.Model
         /// <summary>
         /// Removes Expired Drug Reminders form queue.
         /// </summary>
-        public void RemoveDrugsFromQueue(ObservableCollection<DrugShot> list)
+        public void RemoveDrugsFromQueue(ObservableCollection<DrugShot> notificationQueue)
         {
             if (drugsCollection != null && drugsCollection.Count > 0)
             {
-                foreach (DrugShot shot in list)
+                foreach (DrugShot shot in notificationQueue)
                 {
                     var drug = drugsCollection.Find(x => x.DrugType == shot.Drug.DrugType);
 
                     if (shot.IsInjected)
                     {
-                        list.Remove(shot);
+                        notificationQueue.Remove(shot);
                     }
                 }
             }
@@ -236,18 +232,22 @@ namespace CprPrototype.Model
         /// </summary>
         public void BeginSequence(RythmStyle rythmStyle)
         {
-            if (startTime == null)
-            {
-                startTime = DateTime.Now;
-            }
+            if (startTime == null) { startTime = DateTime.Now; }
 
             switch (rythmStyle)
             {
                 case RythmStyle.Shockable:
                     CurrentStep.NextStep = shockable1;
                     break;
-                case RythmStyle.NonShockable: 
-                    CurrentStep.NextStep = nonShockable2;
+                case RythmStyle.NonShockable:
+                    if (TotalElapsedCycles != 0)
+                    {
+                        CurrentStep.NextStep = nonShockable2;
+                    }
+                    else
+                    {
+                        CurrentStep.NextStep = nonShockable1;
+                    }
                     break;
             }
         }
@@ -295,7 +295,7 @@ namespace CprPrototype.Model
         /// </summary>
         public void Dispose()
         {
-            //this.stepsCollection = null;
+            this.drugsCollection = null;
         }
     }
 }

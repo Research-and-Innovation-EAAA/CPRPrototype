@@ -19,7 +19,6 @@ namespace CprPrototype.Model
         private string timeRemainingString;
 
         public Drug Drug { get; set; }
-        public DrugDoseTarget Target { get; set; }
         public string Dose { get; set; }
         public bool IsInjected { get; set; }
         public ICommand DrugCommand { get; set; }
@@ -150,10 +149,9 @@ namespace CprPrototype.Model
         /// <param name="drug">Drug</param>
         /// <param name="target">Adult or Child</param>
         /// <param name="dose">Dose as string</param>
-        public DrugShot(Drug drug, DrugDoseTarget target, string dose)
+        public DrugShot(Drug drug, string dose)
         {
             Drug = drug;
-            Target = target;
             Dose = dose;
             IsInjected = false;
             DrugCommand = new Command(ShotAddressed);
@@ -193,11 +191,11 @@ namespace CprPrototype.Model
 
             if (minutes > 0)
             {
-                TimeRemainingString = minutes + " min " + seconds + " secs";
+                TimeRemainingString = minutes + " min " + seconds + " sek";
             }
             else
             {
-                TimeRemainingString = seconds + " secs";
+                TimeRemainingString = seconds + " sek";
             }
         }
 

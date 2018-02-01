@@ -48,12 +48,11 @@ namespace CprPrototype.Model
         #region Construction & Initialization
 
         /// <summary>
-        /// Default Constructor.
+        /// Default Constructor
         /// </summary>
         /// <param name="name">Name of the step</param>
         /// <param name="description">Description of the step</param>
-        /// <param name="previous">Previous step</param>
-        /// <param name="next">Next</param>
+
         public AlgorithmStep(string name, string description)
         {
             this.Name = name;
