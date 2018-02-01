@@ -13,8 +13,7 @@ namespace CprPrototype
         public App()
         {
             MainPage = new View.MasterTabbedPage();
-            InitializeComponent();
-
+            InitializeComponent();  
         }
 
         protected override void OnStart()
