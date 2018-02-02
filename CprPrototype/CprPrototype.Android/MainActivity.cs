@@ -1,17 +1,8 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Naxam.Controls.Platform.Droid;
 using Android.Graphics;
-using V7Toolbar = Android.Support.V7.Widget.Toolbar;
-using Android.Support.V7.App;
-using Android.Support.V4.Widget;
-using Android.Support.Design.Widget;
 
 namespace CprPrototype.Droid
 {
