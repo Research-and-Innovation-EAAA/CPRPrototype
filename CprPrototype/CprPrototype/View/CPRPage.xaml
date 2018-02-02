@@ -33,6 +33,25 @@
                          VerticalOptions="Fill"
                          Margin="0,25,0,0"
                          Spacing="0">
+                <StackLayout 
+                VerticalOptions="Start"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                Spacing="25"
+                Margin="5, 5, 5, 10">
+                    <Label 
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"/>
+                    <Label
+                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"/>
+                </StackLayout>
                 <StackLayout HorizontalOptions="Fill">
                     <Label Text="Medicin Påmindelser"
                        FontSize="Small"
@@ -57,25 +76,6 @@
                     VerticalOptions="EndAndExpand"
                     Clicked="NextStepButton_Clicked"
                     IsVisible="False" />
-            </StackLayout>
-            <StackLayout 
-                VerticalOptions="Start"
-                HorizontalOptions="CenterAndExpand"
-                Orientation="Horizontal"
-                Spacing="25"
-                Margin="5, 5, 5, 10">
-                <Label 
-                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
-                    VerticalOptions="Start" 
-                    HorizontalOptions="Fill"
-                    Margin="-3"
-                    FontSize="Large"/>
-                <Label
-                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
-                    VerticalOptions="Start"
-                    HorizontalOptions="Fill"
-                    Margin="-3"
-                    FontSize="Large"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

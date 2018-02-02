@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<naxam:BottomTabbedPage
+            xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:local="clr-namespace:CprPrototype.View;assembly=CprPrototype"
+            xmlns:naxam="clr-namespace:Naxam.BottomNavs.Forms;assembly=Naxam.BottomNavs.Forms"
             x:Class="CprPrototype.View.MasterTabbedPage">
   <!--Pages can be added as references or inline-->
     <local:CPRPage/>
     <local:OverviewPage/>
     <local:ExtraDrugs/>
-</TabbedPage>
+    <local:CausePage/>
+</naxam:BottomTabbedPage>

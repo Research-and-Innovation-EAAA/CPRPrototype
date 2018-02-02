@@ -23,7 +23,7 @@ namespace CprPrototype.Model
         private DateTime? startTime;
         private TimeSpan stepTime;
         private AssessmentStep step1;
-        private AlgorithmStep smallShock1, smallShock2, smallNShock1, smallNShock2, exit1, currentStep;
+        private AlgorithmStep smallShock1,smallNShock1, smallNShock2, exit1, currentStep;
         private StepSize stepSize;
 
         private int cycles = 0;

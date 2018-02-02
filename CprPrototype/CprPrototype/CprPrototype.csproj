@@ -54,6 +54,9 @@
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="View\CausePage.xaml.cs">
+      <DependentUpon>CausePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CPRPage.xaml.cs">
       <DependentUpon>CPRPage.xaml</DependentUpon>
     </Compile>
@@ -84,6 +87,9 @@
     </Reference>
     <Reference Include="MvvmCross.Platform, Version=5.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MvvmCross.Platform.5.6.3\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Naxam.BottomTabbedPage.Forms, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Naxam.BottomTabbedPage.0.1.0.1\lib\portable-net45+wp80+win8+wpa81\Naxam.BottomTabbedPage.Forms.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
@@ -133,6 +139,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="View\ExtraDrugs.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\CausePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
