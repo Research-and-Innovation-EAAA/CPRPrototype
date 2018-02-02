@@ -9,7 +9,7 @@ namespace CprPrototype.View
 	public partial class CPRPage : ContentPage
 	{
         private BaseViewModel viewModel = BaseViewModel.Instance;
-        private bool bigStepShocked = false;
+        
 
 		public CPRPage ()
 		{
@@ -156,7 +156,7 @@ namespace CprPrototype.View
             //{
                 viewModel.AdvanceAlgorithm();
                 UpdateUI();
-                bigStepShocked = false;
+                
             //}
         }
         

@@ -41,7 +41,7 @@ namespace CprPrototype.ViewModel
         private bool timerStarted = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler TimerElapsed;
+       
         
 
         /// <summary>
