@@ -20,4 +20,13 @@
         AssessmentStep,
         HLRStep
     }
+
+    public enum SpecialCasesH
+    {
+        Hypoxi,Hypovolæmi,Hyperkalæmi,Hypotermi
+    }
+    public enum SpecialCasesT
+    {
+        Tamponade,Trykneumothorax,Trombose,Toksisk
+    }
 }
