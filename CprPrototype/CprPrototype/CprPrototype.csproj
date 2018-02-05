@@ -45,7 +45,6 @@
     <Compile Include="Model\AlgorithmBase.cs" />
     <Compile Include="Model\AlgorithmStep.cs" />
     <Compile Include="Model\AlgorithmTimer.cs" />
-    <Compile Include="Model\AssessmentStep.cs" />
     <Compile Include="Model\DrugFactory.cs" />
     <Compile Include="Model\Drug.cs" />
     <Compile Include="Model\DrugShot.cs" />

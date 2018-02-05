@@ -5,6 +5,7 @@ using Plugin.Vibrate;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
@@ -22,7 +23,7 @@ namespace CprPrototype.ViewModel
         #region Properties
 
         private static BaseViewModel instance;
-        private static readonly object padlock = new object(); // Used to make singleton thread-safe
+        private static readonly object padlock = new object(); // Object used to make singleton thread-safe
 
         private AlgorithmBase algoBase;
         private CPRHistory history = new CPRHistory();
@@ -30,18 +31,14 @@ namespace CprPrototype.ViewModel
         private ObservableCollection<DrugShot> doseQueue = new ObservableCollection<DrugShot>();
         private AlgorithmStep currStep;
         private TimeSpan totalTime, stepTime;
-        private int cycles;
-
-        // Begin testarea: 
-        private InteractionMode mode = InteractionMode.Silent;
-        private StepSize stepSize = StepSize.Big;
-        // End testarea
+        private int totalElapsedCycles;
+        private const int CRITICAL_ALERT_TIME = 10;
 
         private IAdvancedTimer timer = DependencyService.Get<IAdvancedTimer>();
         private bool timerStarted = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
-       
+        //public event EventHandler TimerElapsed;
         
 
         /// <summary>
@@ -61,7 +58,7 @@ namespace CprPrototype.ViewModel
 
                     if (PropertyChanged != null)
                     {
-                        OnPropertyChanged("CurrentPosition");
+                        NotifyPropertyChanged("CurrentPosition");
                     }
                 }
             }
@@ -81,7 +78,7 @@ namespace CprPrototype.ViewModel
 
                     if (PropertyChanged != null)
                     {
-                        OnPropertyChanged("TotalTime");
+                        NotifyPropertyChanged("TotalTime");
                     }
                 }
             }
@@ -104,7 +101,7 @@ namespace CprPrototype.ViewModel
 
                     if (PropertyChanged != null)
                     {
-                        OnPropertyChanged("StepTime");
+                        NotifyPropertyChanged("StepTime");
                     }
                 }
             }
@@ -125,7 +122,7 @@ namespace CprPrototype.ViewModel
                 {
                     if (PropertyChanged != null)
                     {
-                        OnPropertyChanged("DoseQueue");
+                        NotifyPropertyChanged("DoseQueue");
                     }
                 }
             }
@@ -134,18 +131,18 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// Returns the total number of cycles we went through;
         /// </summary>
-        public int Cycles
+        public int TotalElapsedCycles
         {
-            get { return cycles; }
+            get { return totalElapsedCycles; }
             set
             {
-                if (cycles != value)
+                if (totalElapsedCycles != value)
                 {
-                    cycles = value;
+                    totalElapsedCycles = value;
 
                     if (PropertyChanged != null)
                     {
-                        OnPropertyChanged("Cycles");
+                        NotifyPropertyChanged("TotalElapsedCycles");
                     }
                 }
             }
@@ -160,11 +157,6 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public StepSize StepSize { get { return stepSize; } }
-
-        /// <summary>
         /// The Timer object.
         /// </summary>
         public IAdvancedTimer Timer { get { return timer; } }
@@ -173,11 +165,6 @@ namespace CprPrototype.ViewModel
         /// The Algorithm Model.
         /// </summary>
         public AlgorithmBase Algorithm { get { return algoBase; } }
-
-        /// <summary>
-        /// Property to specify if the device is silent or not
-        /// </summary>
-        public InteractionMode Mode { get { return mode; } }
 
         #endregion
 
@@ -191,51 +178,66 @@ namespace CprPrototype.ViewModel
            
         }
 
-        public void InitAlgorithmBase(StepSize stepsize)
+        /// <summary>
+        /// Sets up the algorithm
+        /// </summary>
+        public void InitAlgorithmBase()
         {
-            algoBase = new AlgorithmBase(stepSize);
+            algoBase = new AlgorithmBase();
             CurrentPosition = algoBase.CurrentStep;
         }
 
         /// <summary>
         /// TimerElapsed event handler.
         /// </summary>
+        /// <remarks>
+        /// {PWM} - This event is usually called each second, 
+        /// since its job is to increment the total timer and current step time
+        /// </remarks>
         /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
-        private void OnTimerElapsed(object sender, EventArgs e)
+        private void NotifyTimerIncremented(object sender, EventArgs e)
         {
+            // Debug.WriteLine("Entered NotifyTimerIncremented!");
             // Update Total Time
             TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(Algorithm.StartTime.Value).TotalSeconds);
 
+
             // Update Step Time
-            if (CurrentPosition.GetType().Equals(typeof(AssessmentStep)))
-            {
-                Algorithm.StepTime = TimeSpan.FromMinutes(2);
-                StepTime = Algorithm.StepTime;
-            }
-            else if (CurrentPosition.Name == "HLR 2 Minutter" || CurrentPosition.Name == "Fortsæt HLR"
-                || CurrentPosition.Description == "Fortsæt HLR")
+            // Denne skal nok fjernes, da de skal slåes sammen med AlgorithmStep
+            //if (CurrentPosition.GetType().Equals(typeof(AssessmentStep)))
+            if (CurrentPosition.StepType.Equals(StepType.HLRStep))
             {
                 if (Algorithm.StepTime.TotalSeconds > 0)
                 {
                     Algorithm.StepTime = Algorithm.StepTime.Subtract(TimeSpan.FromSeconds(1));
                     StepTime = Algorithm.StepTime; 
 
-                    if (StepTime.TotalSeconds < 21)
+                    if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                     {
-                        CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                        // Debug.WriteLine(StepTime.TotalSeconds);
+                        CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
                     }
                 }
             }
 
+            if (StepTime.TotalSeconds == 0)
+            {
+                Debug.WriteLine(StepTime.Ticks.ToString());
+                Debug.WriteLine("I've reached zero!");
+
+            }
+
+            
+
             // Update Cycles
-            Cycles = Algorithm.Cycles;
+            TotalElapsedCycles = Algorithm.TotalElapsedCycles;
 
             // Update Drug Queue
             ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
             foreach (DrugShot shot in DoseQueue)
             {
-                if (Cycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable 
+                if (TotalElapsedCycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable 
                     && shot.Drug.DrugType == DrugType.Adrenalin && shot.TimeRemaining.TotalMinutes > TimeSpan.FromMinutes(2).TotalMinutes)
                 {
                     shot.TimeRemaining = TimeSpan.FromMinutes(2);
@@ -246,7 +248,7 @@ namespace CprPrototype.ViewModel
                     shot.TimeRemaining = shot.TimeRemaining.Subtract(TimeSpan.FromSeconds(1));
                 }
 
-                if (shot.Injected)
+                if (shot.IsInjected)
                 {
                     shot.ShotAddressed();
                     History.AddItem(shot.DrugDoseString);
@@ -311,7 +313,7 @@ namespace CprPrototype.ViewModel
             if (!timerStarted)
             {
                 timerStarted = true;
-                Timer.initTimer(1000, OnTimerElapsed, true);
+                Timer.initTimer(1000, NotifyTimerIncremented, true);
                 Timer.startTimer();
             }
 
@@ -338,14 +340,19 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// Event handler for INotifyPropertyChanged.
         /// </summary>
+        /// <remarks>
+        /// This method is called by the Set accessor of each property.
+        /// The CallerMemberName attribute that is applied to the optional propertyName
+        /// parameter causes the property name of the caller to be substituted as an argument.
+        /// </remarks>
         /// <param name="propertyName">Name of the property changed. Optional</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
-                //Debug.WriteLine("PropertyChanged - " + propertyName);
+                // Debug.WriteLine("PropertyChanged - " + propertyName);
 
                 if (propertyName.Equals("CurrentStep") && Algorithm.CurrentStep != null)
                 {

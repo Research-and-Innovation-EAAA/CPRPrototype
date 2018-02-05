@@ -21,13 +21,13 @@ namespace CprPrototype.Model
 
             // Adrenalin
             var adrenalinDrug = new Drug(DrugType.Adrenalin, prepTime);
-            adrenalinDrug.Doses.Add(new DrugShot(adrenalinDrug, DrugDoseTarget.Adult, "1mg"));
+            adrenalinDrug.DosesCollection.Add(new DrugShot(adrenalinDrug, "1mg"));
             result.Add(adrenalinDrug);
 
             // Amiodoran
             var amiodoranDrug = new Drug(DrugType.Amiodaron, prepTime);
-            amiodoranDrug.Doses.Add(new DrugShot(amiodoranDrug, DrugDoseTarget.Adult, "300ml"));
-            amiodoranDrug.Doses.Add(new DrugShot(amiodoranDrug, DrugDoseTarget.Adult, "150ml"));
+            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "300ml"));
+            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "150ml"));
             result.Add(amiodoranDrug);
 
             // TODO: Add extra drugs

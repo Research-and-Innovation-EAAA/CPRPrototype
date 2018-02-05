@@ -19,8 +19,10 @@ namespace CprPrototype.Service
 
         public void AddItem(string name, DateTime date)
         {
-            var item = new CPRHistoryEntry(name, date);
-            item.DateTimeString = date.ToString("{0:MM/dd/yy H:mm:ss}");
+            var item = new CPRHistoryEntry(name, date)
+            {
+                DateTimeString = date.ToString("{0:MM/dd/yy H:mm:ss}")
+            };
 
             List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
             list.Add(item);
@@ -50,7 +52,7 @@ namespace CprPrototype.Service
 
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
-
+                
             Records.Clear();
 
             foreach (var i in list)

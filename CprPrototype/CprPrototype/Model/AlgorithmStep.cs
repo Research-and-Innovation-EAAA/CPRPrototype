@@ -34,21 +34,25 @@ namespace CprPrototype.Model
         public AlgorithmStep NextStep { get; set; }
 
         /// <summary>
-        /// Represents the style of the assessed rythm.
+        /// Represents the style of the assessed rythm either shockable or non-shockable.
         /// </summary>
         public RythmStyle? RythmStyle { get; set; }
+
+        /// <summary>
+        /// This is a temporary property for distinction between Assessment and HLRStep types
+        /// </summary>
+        public StepType? StepType { get; set; }
 
         #endregion
 
         #region Construction & Initialization
 
         /// <summary>
-        /// Default Constructor.
+        /// Default Constructor
         /// </summary>
         /// <param name="name">Name of the step</param>
         /// <param name="description">Description of the step</param>
-        /// <param name="previous">Previous step</param>
-        /// <param name="next">Next</param>
+
         public AlgorithmStep(string name, string description)
         {
             this.Name = name;

@@ -5,15 +5,14 @@ using Xamarin.Forms.Xaml;
 
 namespace CprPrototype.View
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CPRPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class CPRPage : ContentPage
+    {
         private BaseViewModel viewModel = BaseViewModel.Instance;
-        
 
-		public CPRPage ()
-		{
-			InitializeComponent ();
+        public CPRPage()
+        {
+            InitializeComponent();
             BindingContext = viewModel;
 
             // ListView
@@ -30,70 +29,30 @@ namespace CprPrototype.View
             listView.BindingContext = viewModel;
 
             // Initialize Algorithm and UI:
-            viewModel.InitAlgorithmBase(viewModel.StepSize);
+            viewModel.InitAlgorithmBase();
             UpdateUI();
-		}
+        }
 
         /// <summary>
         /// Updates UI elements based on the current step in the algorithm.
         /// </summary>
         private void UpdateUI()
         {
-            var currStep = viewModel.CurrentPosition;
+            lblName.IsVisible = true;
+            lblDescription.IsVisible = false;
+            lblStepTime.IsVisible = true;
 
-            //if (viewModel.StepSize == Model.StepSize.Small)
-            //{
-            //    if (currStep.Name == "Stød en gang")
-            //    {
-            //        lblStepTime.IsVisible = false;
-            //        lblDescription.IsVisible = true;
-            //    }
-            //    else if (currStep.Name == "HLR 2 Minutter")
-            //    {
-            //        lblDescription.IsVisible = false;
-            //        lblStepTime.IsVisible = true;
-            //    }
-
-            //    if (currStep.NextStep != null)
-            //    {
-            //        btnNextStep.Text = currStep.NextStep.Name ?? "Vurder Rytmen";
-            //    }
-            //}
-            if(viewModel.StepSize == Model.StepSize.Big)
+            if (viewModel.CurrentPosition.RythmStyle == Model.RythmStyle.NonShockable)
             {
-                //if (currStep.RythmStyle == Model.RythmStyle.Shockable)
-                //{
-                //    if (!bigStepShocked)
-                //    {
+                if (viewModel.TotalElapsedCycles > 0)
+                {
+                    lblName.IsVisible = false;
+                }
+
                 lblName.IsVisible = true;
                 lblDescription.IsVisible = false;
                 lblStepTime.IsVisible = true;
-                //        btnNextStep.Text = "Stødt en gang";
-                //    }
-                //    else
-                //    {
-                //        lblName.IsVisible = false;
-                //        lblDescription.IsVisible = false;
-                //        lblStepTime.IsVisible = true;
-
-                if (currStep.NextStep != null)
-                {
-                    btnNextStep.Text = currStep.NextStep.Name ?? "Vurder Rytmen";
-                }
-                //    } 
             }
-                else if (currStep.RythmStyle == Model.RythmStyle.NonShockable)
-                {
-                    if (viewModel.Cycles > 0)
-                    {
-                        lblName.IsVisible = false;
-                    }
-
-                    lblName.IsVisible = true;
-                    lblDescription.IsVisible = false;
-                    lblStepTime.IsVisible = true;
-                }
-            //}
 
             if (viewModel.Algorithm.FirstStep == viewModel.Algorithm.CurrentStep)
             {
@@ -113,6 +72,12 @@ namespace CprPrototype.View
 
         }
 
+        private void HelperMethodRefresh()
+        {
+            viewModel.Algorithm.StepTime = TimeSpan.FromMinutes(2);
+            viewModel.StepTime = viewModel.Algorithm.StepTime;
+        }
+
         /// <summary>
         /// Handler for Silent Button clicked event.
         /// </summary>
@@ -123,6 +88,7 @@ namespace CprPrototype.View
             viewModel.Algorithm.BeginSequence(Model.RythmStyle.Shockable);
             viewModel.Algorithm.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
             viewModel.AdvanceAlgorithm();
+            HelperMethodRefresh();
             UpdateUI();
         }
 
@@ -136,6 +102,7 @@ namespace CprPrototype.View
             viewModel.Algorithm.BeginSequence(Model.RythmStyle.NonShockable);
             viewModel.Algorithm.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
             viewModel.AdvanceAlgorithm();
+            HelperMethodRefresh();
             UpdateUI();
         }
 
@@ -144,30 +111,9 @@ namespace CprPrototype.View
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Args</param>
-        private void NextStepButton_Clicked(object sender, EventArgs e)
+        private void RhythmButton_Clicked(object sender, EventArgs e)
         {
-            //if (bigStepShocked == false && viewModel.StepSize == Model.StepSize.Big 
-            //    && viewModel.CurrentPosition.RythmStyle == Model.RythmStyle.Shockable)
-            //{
-            //    bigStepShocked = true;
-            //    UpdateUI();
-            //}
-            //else
-            //{
-                viewModel.AdvanceAlgorithm();
-                UpdateUI();
-                
-            //}
-        }
-        
-        /// <summary>
-        /// Handler for NStep button clicked, to handle big steps
-        /// in shockable rythm.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnNextStep_Clicked(object sender, EventArgs e)
-        {
+            viewModel.AdvanceAlgorithm();
             UpdateUI();
         }
     }

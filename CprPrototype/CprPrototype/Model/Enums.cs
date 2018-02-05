@@ -1,23 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CprPrototype.Model
+﻿namespace CprPrototype.Model
 {
-   public enum InteractionMode
-   {
-        Silent,
-        Sound
-   }
-
-   public enum StepSize
-    {
-        Small,
-        Big
-    }
-
    public enum DrugType
     {
         Adrenalin,
@@ -27,9 +9,15 @@ namespace CprPrototype.Model
         Magnesium
     }
 
-    public enum DrugDoseTarget
+    public enum RythmStyle
     {
-        Adult,
-        Children
+        Shockable,
+        NonShockable
+    }
+
+    public enum StepType
+    {
+        AssessmentStep,
+        HLRStep
     }
 }
