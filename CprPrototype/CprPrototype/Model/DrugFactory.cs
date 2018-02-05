@@ -14,7 +14,7 @@ namespace CprPrototype.Model
         /// </summary>
         /// <param name="prepTimeMinutes">Optional - Drug Prep Time in Minutes. (Default = 5.0)</param>
         /// <returns>List of Drugs</returns>
-        public List<Drug> CreateDrugs(double prepTimeMinutes = 5)
+        public List<Drug> CreateDrugs(double prepTimeMinutes = 3)
         {
             var result = new List<Drug>();
             var prepTime = TimeSpan.FromMinutes(prepTimeMinutes);

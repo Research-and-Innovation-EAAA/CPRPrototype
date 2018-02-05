@@ -5,9 +5,13 @@
              Title="Årsager">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Årsager!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Årsager" HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+            <TableView>
+                <TableRoot>
+                    <TableSection Title="De 4 H´er " x:Name="sectionH"/>
+                    <TableSection Title="De 4 T'er " x:Name="sectionT"/>
+                </TableRoot>
+            </TableView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
