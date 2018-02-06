@@ -38,11 +38,6 @@ namespace CprPrototype.Model
         /// </summary>
         public RythmStyle? RythmStyle { get; set; }
 
-        /// <summary>
-        /// This is a temporary property for distinction between Assessment and HLRStep types
-        /// </summary>
-        public StepType? StepType { get; set; }
-
         #endregion
 
         #region Construction & Initialization
