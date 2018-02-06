@@ -183,22 +183,35 @@ namespace CprPrototype.Model
             IsInjected = false;
             TimeRemaining = Drug.PrepTime;
         }
+        
+        // M.I.S
+        //public void UpdateTimeRemainingString()
+        //{
+        //    int minutes = TimeRemaining.Minutes;
+        //    int seconds = TimeRemaining.Seconds;
+
+        //    if (minutes > 0)
+        //    {
+        //        TimeRemainingString = minutes + " min " + seconds + " sek";
+        //    }
+        //    else
+        //    {
+        //        TimeRemainingString = seconds + " sek";
+        //    }
+        //}
 
         public void UpdateTimeRemainingString()
         {
-            int minutes = TimeRemaining.Minutes;
-            int seconds = TimeRemaining.Seconds;
+            TimeSpan DisplayTime = TimeRemaining - TimeSpan.FromMinutes(1);
+            int minutes = DisplayTime.Minutes;
+            int seconds = DisplayTime.Seconds;
 
-            if (minutes > 0)
-            {
-                TimeRemainingString = minutes + " min " + seconds + " sek";
-            }
-            else
-            {
-                TimeRemainingString = seconds + " sek";
-            }
+            TimeRemainingString = "";
+            if (minutes != 0)
+                TimeRemainingString += minutes + " min ";
+            if (seconds != 0)
+                TimeRemainingString += seconds + " sek";
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -211,7 +224,7 @@ namespace CprPrototype.Model
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
-                Debug.WriteLine("DrugShotPropertyChanged - " + propertyName);
+                // Debug.WriteLine("DrugShotPropertyChanged - " + propertyName);
             }
         }
 

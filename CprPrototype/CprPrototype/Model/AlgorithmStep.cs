@@ -36,12 +36,7 @@ namespace CprPrototype.Model
         /// <summary>
         /// Represents the style of the assessed rythm either shockable or non-shockable.
         /// </summary>
-        public RythmStyle? RythmStyle { get; set; }
-
-        /// <summary>
-        /// This is a temporary property for distinction between Assessment and HLRStep types
-        /// </summary>
-        public StepType? StepType { get; set; }
+        public RythmStyle RythmStyle { get; set; }
 
         #endregion
 
@@ -76,7 +71,7 @@ namespace CprPrototype.Model
             this.Description = null;
             this.NextStep = null;
             this.PreviousStep = null;
-            this.RythmStyle = null;
+            //this.RythmStyle = null;
         }
 
         #endregion

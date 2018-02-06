@@ -34,10 +34,14 @@ namespace CprPrototype.View
 
         private void HelperMethodRefresh()
         {
-            viewModel.Algorithm.StepTime = TimeSpan.FromMinutes(2);
-            viewModel.StepTime = viewModel.Algorithm.StepTime;
+            viewModel.AlgorithmBase.StepTime = TimeSpan.FromMinutes(2);
+            viewModel.StepTime = viewModel.AlgorithmBase.StepTime;
         }
 
+        /// <summary>
+        /// [Helper Method] - Used for enabling the UI after the first click 
+        /// by making the hidden elements visible.
+        /// </summary>
         private void EnableUI()
         {
             lblTotalElapsedCycles.IsVisible = true;
@@ -47,8 +51,6 @@ namespace CprPrototype.View
             lblStepDescription.IsVisible = true;
             lblStepTime.IsVisible = true;
             lblMedicinReminders.IsVisible = true;
-
-
         }
 
         /// <summary>
@@ -62,8 +64,8 @@ namespace CprPrototype.View
             {
                 EnableUI();
             }
-            viewModel.Algorithm.BeginSequence(Model.RythmStyle.Shockable);
-            viewModel.Algorithm.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
+            viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
+            viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
             viewModel.AdvanceAlgorithm();
             HelperMethodRefresh();
         }
@@ -79,8 +81,8 @@ namespace CprPrototype.View
             {
                 EnableUI();
             }
-            viewModel.Algorithm.BeginSequence(Model.RythmStyle.NonShockable);
-            viewModel.Algorithm.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
+            viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
+            viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
             viewModel.AdvanceAlgorithm();
             HelperMethodRefresh();
         }
