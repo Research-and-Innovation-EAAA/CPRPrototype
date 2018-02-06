@@ -70,7 +70,7 @@ namespace CprPrototype.Model
                             break;
                         case RythmStyle.Shockable:
                             // Address first time in Shockable after 3 cycles
-                            if (totalCycles >= 2 && IsInjected == false)
+                            if (totalCycles >= 1 && IsInjected == false)
                             {
                                 IsInjected = true;
                                 TimeOfLatestInjection = DateTime.Now.Add(PrepTime);

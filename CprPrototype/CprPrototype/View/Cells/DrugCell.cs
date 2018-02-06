@@ -65,7 +65,10 @@ namespace CprPrototype.View
             //};
 
             // Init Views
-            lblName = new Label();
+            lblName = new Label()
+            {
+                FontAttributes = FontAttributes.Bold
+            };
 
             lblTime = new Label
             {
