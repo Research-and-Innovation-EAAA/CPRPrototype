@@ -74,7 +74,6 @@
                     Text="Vurder Rytmen"
                     Margin="20,0,20,10"
                     VerticalOptions="EndAndExpand"
-                    Clicked="NextStepButton_Clicked"
                     IsVisible="False" />
             </StackLayout>
         </StackLayout>
