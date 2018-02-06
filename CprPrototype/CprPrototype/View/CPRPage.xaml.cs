@@ -30,52 +30,25 @@ namespace CprPrototype.View
 
             // Initialize Algorithm and UI:
             viewModel.InitAlgorithmBase();
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Updates UI elements based on the current step in the algorithm.
-        /// </summary>
-        private void UpdateUI()
-        {
-            lblName.IsVisible = true;
-            lblDescription.IsVisible = false;
-            lblStepTime.IsVisible = true;
-
-            if (viewModel.CurrentPosition.RythmStyle == Model.RythmStyle.NonShockable)
-            {
-                if (viewModel.TotalElapsedCycles > 0)
-                {
-                    lblName.IsVisible = false;
-                }
-
-                lblName.IsVisible = true;
-                lblDescription.IsVisible = false;
-                lblStepTime.IsVisible = true;
-            }
-
-            if (viewModel.Algorithm.FirstStep == viewModel.Algorithm.CurrentStep)
-            {
-                lblName.IsVisible = true;
-                lblDescription.IsVisible = true;
-                btnShockable.IsVisible = true;
-                btnNShockable.IsVisible = true;
-                btnNextStep.IsVisible = false;
-                lblStepTime.IsVisible = false;
-            }
-            else
-            {
-                btnShockable.IsVisible = false;
-                btnNShockable.IsVisible = false;
-                btnNextStep.IsVisible = true;
-            }
-
         }
 
         private void HelperMethodRefresh()
         {
             viewModel.Algorithm.StepTime = TimeSpan.FromMinutes(2);
             viewModel.StepTime = viewModel.Algorithm.StepTime;
+        }
+
+        private void EnableUI()
+        {
+            lblTotalElapsedCycles.IsVisible = true;
+            lblTotalTime.IsVisible = true;
+            lblHeart.IsVisible = true;
+            lblName.IsVisible = true;
+            lblStepDescription.IsVisible = true;
+            lblStepTime.IsVisible = true;
+            lblMedicinReminders.IsVisible = true;
+
+
         }
 
         /// <summary>
@@ -85,11 +58,14 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private void ShockableButton_Clicked(object sender, EventArgs e)
         {
+            if(viewModel.TotalElapsedCycles == 0)
+            {
+                EnableUI();
+            }
             viewModel.Algorithm.BeginSequence(Model.RythmStyle.Shockable);
             viewModel.Algorithm.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
             viewModel.AdvanceAlgorithm();
             HelperMethodRefresh();
-            UpdateUI();
         }
 
         /// <summary>
@@ -99,22 +75,14 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private void NShockableButton_Clicked(object sender, EventArgs e)
         {
+            if (viewModel.TotalElapsedCycles == 0)
+            {
+                EnableUI();
+            }
             viewModel.Algorithm.BeginSequence(Model.RythmStyle.NonShockable);
             viewModel.Algorithm.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
             viewModel.AdvanceAlgorithm();
             HelperMethodRefresh();
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Handler for Shockable Button clicked event.
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Args</param>
-        private void RhythmButton_Clicked(object sender, EventArgs e)
-        {
-            viewModel.AdvanceAlgorithm();
-            UpdateUI();
         }
     }
 }

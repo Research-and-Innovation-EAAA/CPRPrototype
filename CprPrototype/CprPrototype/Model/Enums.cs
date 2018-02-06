@@ -15,18 +15,18 @@
         NonShockable
     }
 
-    public enum StepType
-    {
-        AssessmentStep,
-        HLRStep
-    }
-
     public enum SpecialCasesH
     {
-        Hypoxi,Hypovolæmi,Hyperkalæmi,Hypotermi
+        Hypoxi,
+        Hypovolæmi,
+        Hyperkalæmi,
+        Hypotermi
     }
     public enum SpecialCasesT
     {
-        Tamponade,Trykneumothorax,Trombose,Toksisk
+        Tamponade,
+        Trykneumothorax,
+        Trombose,
+        Toksisk
     }
 }

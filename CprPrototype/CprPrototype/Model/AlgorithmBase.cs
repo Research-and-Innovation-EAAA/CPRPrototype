@@ -10,8 +10,6 @@ using Xamarin.Forms;
 
 namespace CprPrototype.Model
 {
-    //================================================================================
-    //================================================================================
     /// <summary>
     /// The AlgorithmBase class represents a collection of algorithm steps,
     /// resulting in the digital form of CPR algorithm.
@@ -114,10 +112,7 @@ namespace CprPrototype.Model
             // Initial Step
             //========================================================================
 
-            firstStep = new AlgorithmStep("Vurder Rytmen", "Vurder patientens rytme")
-            {
-                StepType = StepType.AssessmentStep
-            };
+            firstStep = new AlgorithmStep("Vurder Rytmen", "Vurder patientens rytme");
 
             //========================================================================
             // Shockable Steps
@@ -126,7 +121,6 @@ namespace CprPrototype.Model
             shockable1 = new AlgorithmStep("Stød en gang", "Fortsæt HLR")
             {
                 RythmStyle = RythmStyle.Shockable,
-                StepType = StepType.HLRStep
             };
 
             //========================================================================
@@ -135,24 +129,19 @@ namespace CprPrototype.Model
 
             nonShockable1 = new AlgorithmStep("Giv 1mg Adrenalin", "Fortsæt HLR")
             {
-                RythmStyle = RythmStyle.NonShockable,
-                StepType = StepType.HLRStep
+                RythmStyle = RythmStyle.NonShockable
             };
 
-            nonShockable2 = new AlgorithmStep("Fortsæt HLR ", "Fortsæt HLR")
+            nonShockable2 = new AlgorithmStep("", "Fortsæt HLR")
             {
-                RythmStyle = RythmStyle.NonShockable,
-                StepType = StepType.HLRStep
+                RythmStyle = RythmStyle.NonShockable
             };
 
             //========================================================================
             // Exit Step (currently not used)
             //========================================================================
 
-            exitStep = new AlgorithmStep("Circulation restored", "Continue with further resuscitation")
-            {
-                StepType = StepType.AssessmentStep
-            };
+            exitStep = new AlgorithmStep("Circulation restored", "Continue with further resuscitation");
 
             //========================================================================
             // Setup Step Relations (Linked List)
@@ -258,12 +247,8 @@ namespace CprPrototype.Model
         public void AdvanceOneStep()
         {
             var next = CurrentStep.NextStep;
+            totalElapsedCycles++;
 
-            // Update Cycle count
-            if (next.StepType.Equals(StepType.AssessmentStep))
-            {
-                totalElapsedCycles++;
-            }
 
             // Sanity check
             if (next != null)

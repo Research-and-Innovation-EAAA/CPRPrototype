@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace CprPrototype.ViewModel
-{ 
+{
     /// <summary>
     /// The Base View Model class. This class links our 
     /// model and view together. Part of MVVM architecture.
@@ -39,7 +39,7 @@ namespace CprPrototype.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
         //public event EventHandler TimerElapsed;
-        
+
 
         /// <summary>
         /// NextStepProperty accessor.
@@ -175,7 +175,7 @@ namespace CprPrototype.ViewModel
         /// </summary>
         protected BaseViewModel()
         {
-           
+
         }
 
         /// <summary>
@@ -206,12 +206,11 @@ namespace CprPrototype.ViewModel
             // Update Step Time
             // Denne skal nok fjernes, da de skal slåes sammen med AlgorithmStep
             //if (CurrentPosition.GetType().Equals(typeof(AssessmentStep)))
-            if (CurrentPosition.StepType.Equals(StepType.HLRStep))
-            {
+
                 if (Algorithm.StepTime.TotalSeconds > 0)
                 {
                     Algorithm.StepTime = Algorithm.StepTime.Subtract(TimeSpan.FromSeconds(1));
-                    StepTime = Algorithm.StepTime; 
+                    StepTime = Algorithm.StepTime;
 
                     if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                     {
@@ -219,16 +218,16 @@ namespace CprPrototype.ViewModel
                         CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
                     }
                 }
-            }
+            
 
             if (StepTime.TotalSeconds == 0)
             {
-                Debug.WriteLine(StepTime.Ticks.ToString());
-                Debug.WriteLine("I've reached zero!");
+                //Debug.WriteLine(StepTime.Ticks.ToString());
+                //Debug.WriteLine("I've reached zero!");
 
             }
 
-            
+
 
             // Update Cycles
             TotalElapsedCycles = Algorithm.TotalElapsedCycles;
@@ -237,7 +236,7 @@ namespace CprPrototype.ViewModel
             ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
             foreach (DrugShot shot in DoseQueue)
             {
-                if (TotalElapsedCycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable 
+                if (TotalElapsedCycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable
                     && shot.Drug.DrugType == DrugType.Adrenalin && shot.TimeRemaining.TotalMinutes > TimeSpan.FromMinutes(2).TotalMinutes)
                 {
                     shot.TimeRemaining = TimeSpan.FromMinutes(2);
@@ -259,7 +258,7 @@ namespace CprPrototype.ViewModel
             }
 
             DoseQueue.Clear();
-            
+
             foreach (var item in list)
             {
                 DoseQueue.Add(item);
@@ -317,21 +316,16 @@ namespace CprPrototype.ViewModel
                 Timer.startTimer();
             }
 
-            if (CurrentPosition.Equals(Algorithm.FirstStep))
+
+            if (CurrentPosition.NextStep.RythmStyle == RythmStyle.Shockable)
             {
-                if (CurrentPosition.NextStep.RythmStyle == RythmStyle.Shockable)
-                {
-                    History.AddItem("Rytme vurderet - Stødbar");
-                }
-                else
-                {
-                    History.AddItem("Rytme vurderet - Ikke-Stødbar");
-                }
+                History.AddItem("Rytme vurderet - Stødbar");
             }
             else
             {
-                History.AddItem(CurrentPosition.Name);
+                History.AddItem("Rytme vurderet - Ikke-Stødbar");
             }
+
 
             Algorithm.AdvanceOneStep();
             CurrentPosition = Algorithm.CurrentStep;
