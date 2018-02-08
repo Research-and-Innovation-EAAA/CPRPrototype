@@ -213,6 +213,7 @@ namespace CprPrototype.ViewModel
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
+                    DependencyService.Get<IAudio>().PlayMp3File(2);
                 }
             }
 
@@ -260,12 +261,14 @@ namespace CprPrototype.ViewModel
                 if (item.TimeRemaining.TotalSeconds == 120)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                    DependencyService.Get<IAudio>().PlayMp3File(1);
                 }
 
                 // Notify constantly when drug timer is nearly done
                 if (item.TimeRemaining.TotalSeconds < 16)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                    DependencyService.Get<IAudio>().PlayMp3File(2);
                 }
             }
         }
