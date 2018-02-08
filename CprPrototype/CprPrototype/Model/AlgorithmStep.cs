@@ -71,7 +71,6 @@ namespace CprPrototype.Model
             this.Description = null;
             this.NextStep = null;
             this.PreviousStep = null;
-            //this.RythmStyle = null;
         }
 
         #endregion

@@ -39,25 +39,17 @@ namespace CprPrototype.Model
             {
                 //Success Color
                 if (IsInjected)
-                {
                     return Color.FromHex("A6CE38");
-                }
 
                 // Default Color
                 if (timeRemaining.TotalSeconds > 120)
-                {
                     return Color.LightGray;
-                }
+
                 // Warning Color
                 else if (TimeRemaining.TotalSeconds > 15 && TimeRemaining.TotalSeconds <= 120)
-                {
                     return Color.FromHex("#f1c40f");
-                }
                 else
-                {
                     return Color.FromHex("#e74c3c");
-                }
-                
             }
         }
 
@@ -183,34 +175,20 @@ namespace CprPrototype.Model
             IsInjected = false;
             TimeRemaining = Drug.PrepTime;
         }
-        
-        // M.I.S
-        //public void UpdateTimeRemainingString()
-        //{
-        //    int minutes = TimeRemaining.Minutes;
-        //    int seconds = TimeRemaining.Seconds;
 
-        //    if (minutes > 0)
-        //    {
-        //        TimeRemainingString = minutes + " min " + seconds + " sek";
-        //    }
-        //    else
-        //    {
-        //        TimeRemainingString = seconds + " sek";
-        //    }
-        //}
-
-        public void UpdateTimeRemainingString()
+        /// <summary>
+        /// [Helper Method] - Updates the notification time-string using the TimeRemaining class property.
+        /// </summary>
+        private void UpdateTimeRemainingString()
         {
-            TimeSpan DisplayTime = TimeRemaining - TimeSpan.FromMinutes(1);
-            int minutes = DisplayTime.Minutes;
-            int seconds = DisplayTime.Seconds;
+            int minutes = TimeRemaining.Minutes;
+            int seconds = TimeRemaining.Seconds;
 
             TimeRemainingString = "";
-            if (minutes != 0)
-                TimeRemainingString += minutes + " min ";
-            if (seconds != 0)
-                TimeRemainingString += seconds + " sek";
+            if (minutes > 0)
+                TimeRemainingString = minutes + " min " + seconds + " sek";
+            else
+                TimeRemainingString = seconds + " sek";
         }
         public event PropertyChangedEventHandler PropertyChanged;
 

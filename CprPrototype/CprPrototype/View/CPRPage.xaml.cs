@@ -8,8 +8,11 @@ namespace CprPrototype.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CPRPage : ContentPage
     {
+        #region Properties
         private BaseViewModel viewModel = BaseViewModel.Instance;
+        #endregion
 
+        #region Construction & Initialisation
         public CPRPage()
         {
             InitializeComponent();
@@ -31,15 +34,21 @@ namespace CprPrototype.View
             // Initialize Algorithm and UI:
             viewModel.InitAlgorithmBase();
         }
+        #endregion
 
-        private void HelperMethodRefresh()
+        #region Methods & Event Handlers
+
+        /// <summary>
+        /// Refreshes the two minute timespan for HLR-countdown.
+        /// </summary>
+        private void RefreshStepTime()
         {
             viewModel.AlgorithmBase.StepTime = TimeSpan.FromMinutes(2);
             viewModel.StepTime = viewModel.AlgorithmBase.StepTime;
         }
 
         /// <summary>
-        /// [Helper Method] - Used for enabling the UI after the first click 
+        /// Used for enabling the UI after the first click 
         /// by making the hidden elements visible.
         /// </summary>
         private void EnableUI()
@@ -47,14 +56,13 @@ namespace CprPrototype.View
             lblTotalElapsedCycles.IsVisible = true;
             lblTotalTime.IsVisible = true;
             lblHeart.IsVisible = true;
-            lblName.IsVisible = true;
             lblStepDescription.IsVisible = true;
             lblStepTime.IsVisible = true;
             lblMedicinReminders.IsVisible = true;
         }
 
         /// <summary>
-        /// Handler for Silent Button clicked event.
+        /// [Event Handler] - Shockable Button clicked event.
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Args</param>
@@ -67,11 +75,11 @@ namespace CprPrototype.View
             viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
             viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
             viewModel.AdvanceAlgorithm();
-            HelperMethodRefresh();
+            RefreshStepTime();
         }
 
         /// <summary>
-        /// Handler for NonShockable Button clicked event.
+        /// [Event Handler] - NonShockable Button clicked event.
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Args</param>
@@ -84,7 +92,9 @@ namespace CprPrototype.View
             viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
             viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
             viewModel.AdvanceAlgorithm();
-            HelperMethodRefresh();
+            RefreshStepTime();
         }
+
+        #endregion
     }
 }

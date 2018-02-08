@@ -37,14 +37,6 @@
                        BackgroundColor="#00447B"
                        IsVisible="False"/>
             </StackLayout>
-            <Label x:Name="lblName"
-                Text="{Binding CurrentPosition.Name}"
-                VerticalOptions="Start" 
-                HorizontalOptions="Center"
-                Margin="10,10,10,5"
-                FontSize="Large"
-                FontAttributes="Bold"                   
-                TextColor="Black"/>
             <Label x:Name="lblStepDescription" 
                 Text="Fortsæt HLR for 30:2 for"
                 VerticalOptions="Center" 
