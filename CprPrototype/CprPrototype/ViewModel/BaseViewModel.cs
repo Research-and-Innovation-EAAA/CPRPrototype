@@ -25,10 +25,10 @@ namespace CprPrototype.ViewModel
         private static BaseViewModel instance;
         private static readonly object padlock = new object(); // Object used to make singleton thread-safe
 
-        private AlgorithmBase algoBase;
+        private AlgorithmBase algorithmBase;
         private CPRHistory history = new CPRHistory();
 
-        private ObservableCollection<DrugShot> doseQueue = new ObservableCollection<DrugShot>();
+        private ObservableCollection<DrugShot> medicinQueue = new ObservableCollection<DrugShot>();
         private AlgorithmStep currStep;
         private TimeSpan totalTime, stepTime;
         private int totalElapsedCycles;
@@ -114,11 +114,11 @@ namespace CprPrototype.ViewModel
         {
             get
             {
-                return doseQueue;
+                return medicinQueue;
             }
             set
             {
-                if (doseQueue != value)
+                if (medicinQueue != value)
                 {
                     if (PropertyChanged != null)
                     {
@@ -164,7 +164,7 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// The Algorithm Model.
         /// </summary>
-        public AlgorithmBase Algorithm { get { return algoBase; } }
+        public AlgorithmBase AlgorithmBase { get { return algorithmBase; } }
 
         #endregion
 
@@ -183,8 +183,8 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public void InitAlgorithmBase()
         {
-            algoBase = new AlgorithmBase();
-            CurrentPosition = algoBase.CurrentStep;
+            algorithmBase = new AlgorithmBase();
+            CurrentPosition = algorithmBase.CurrentStep;
         }
 
         /// <summary>
@@ -200,58 +200,60 @@ namespace CprPrototype.ViewModel
         {
             // Debug.WriteLine("Entered NotifyTimerIncremented!");
             // Update Total Time
-            TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(Algorithm.StartTime.Value).TotalSeconds);
+            TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(AlgorithmBase.StartTime.Value).TotalSeconds);
 
 
             // Update Step Time
             // Denne skal nok fjernes, da de skal slåes sammen med AlgorithmStep
             //if (CurrentPosition.GetType().Equals(typeof(AssessmentStep)))
 
-                if (Algorithm.StepTime.TotalSeconds > 0)
-                {
-                    Algorithm.StepTime = Algorithm.StepTime.Subtract(TimeSpan.FromSeconds(1));
-                    StepTime = Algorithm.StepTime;
-
-                    if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
-                    {
-                        // Debug.WriteLine(StepTime.TotalSeconds);
-                        CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
-                    }
-                }
-            
-
-            if (StepTime.TotalSeconds == 0)
+            if (AlgorithmBase.StepTime.TotalSeconds > 0)
             {
-                //Debug.WriteLine(StepTime.Ticks.ToString());
-                //Debug.WriteLine("I've reached zero!");
+                AlgorithmBase.StepTime = AlgorithmBase.StepTime.Subtract(TimeSpan.FromSeconds(1));
+                StepTime = AlgorithmBase.StepTime;
 
+                if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
+                {
+                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
+                }
             }
 
-
-
             // Update Cycles
-            TotalElapsedCycles = Algorithm.TotalElapsedCycles;
+            TotalElapsedCycles = AlgorithmBase.TotalElapsedCycles;
 
             // Update Drug Queue
+            //========================================================================
+            // TODO TEST
+            //========================================================================
+
+            // AlgorithmBase.AddDrugsToQueue(DoseQueue, CurrentPosition.RythmStyle);
+
+            //========================================================================
+            // END TEST
+            //========================================================================
+
             ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
             foreach (DrugShot shot in DoseQueue)
             {
-                if (TotalElapsedCycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable
-                    && shot.Drug.DrugType == DrugType.Adrenalin && shot.TimeRemaining.TotalMinutes > TimeSpan.FromMinutes(2).TotalMinutes)
-                {
-                    shot.TimeRemaining = TimeSpan.FromMinutes(2);
-                }
 
+                //if (TotalElapsedCycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable
+                //    && shot.Drug.DrugType == DrugType.Adrenalin && shot.TimeRemaining.TotalMinutes > TimeSpan.FromMinutes(2).TotalMinutes)
+                //{
+                //    shot.TimeRemaining = TimeSpan.FromMinutes(2);
+                //}
+
+                // decrements the counter.
                 if (shot.TimeRemaining.TotalSeconds > 0)
                 {
                     shot.TimeRemaining = shot.TimeRemaining.Subtract(TimeSpan.FromSeconds(1));
                 }
 
+                // Checks if the "giv" button has been clicked.
                 if (shot.IsInjected)
                 {
                     shot.ShotAddressed();
                     History.AddItem(shot.DrugDoseString);
-                    Algorithm.RemoveDrugsFromQueue(DoseQueue);
+                    AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
                 }
 
                 list.Add(shot);
@@ -327,8 +329,8 @@ namespace CprPrototype.ViewModel
             }
 
 
-            Algorithm.AdvanceOneStep();
-            CurrentPosition = Algorithm.CurrentStep;
+            AlgorithmBase.AdvanceOneStep();
+            CurrentPosition = AlgorithmBase.CurrentStep;
         }
 
         /// <summary>
@@ -346,11 +348,10 @@ namespace CprPrototype.ViewModel
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
-                // Debug.WriteLine("PropertyChanged - " + propertyName);
 
-                if (propertyName.Equals("CurrentStep") && Algorithm.CurrentStep != null)
+                if (propertyName.Equals("CurrentStep") && AlgorithmBase.CurrentStep != null)
                 {
-                    CurrentPosition = Algorithm.CurrentStep;
+                    CurrentPosition = AlgorithmBase.CurrentStep;
                 }
             }
         }

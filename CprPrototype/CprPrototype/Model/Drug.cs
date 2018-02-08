@@ -20,6 +20,7 @@ namespace CprPrototype.Model
         public DateTime TimeOfLatestInjection { get; set; }
         public TimeSpan PrepTime { get; set; }
 
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -90,7 +91,7 @@ namespace CprPrototype.Model
                     {
                         // Give at 3rd cycle, smaller dose if
                         // cycles >= 5.
-                        if (totalCycles >= 3 && totalCycles % 3 == 0 && IsInjected == false)
+                        if (totalCycles == 1 && totalCycles % 1 == 0 && IsInjected == false)
                         {
                             result = DosesCollection.Find(d => d.Dose == "300ml");
                             TimeOfLatestInjection = DateTime.Now.Add(PrepTime);

@@ -118,7 +118,7 @@ namespace CprPrototype.Model
             // Shockable Steps
             //========================================================================
 
-            shockable1 = new AlgorithmStep("Stød en gang", "Fortsæt HLR")
+            shockable1 = new AlgorithmStep("Stød én gang", "Fortsæt HLR")
             {
                 RythmStyle = RythmStyle.Shockable,
             };
@@ -138,7 +138,7 @@ namespace CprPrototype.Model
             };
 
             //========================================================================
-            // Exit Step (currently not used)
+            // Exit Step (Currently not used)
             //========================================================================
 
             exitStep = new AlgorithmStep("Circulation restored", "Continue with further resuscitation");
