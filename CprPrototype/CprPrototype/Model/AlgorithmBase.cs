@@ -118,7 +118,7 @@ namespace CprPrototype.Model
             // Shockable Steps
             //========================================================================
 
-            shockable1 = new AlgorithmStep("Stød én gang", "Fortsæt HLR")
+            shockable1 = new AlgorithmStep("", "Fortsæt HLR")
             {
                 RythmStyle = RythmStyle.Shockable,
             };
@@ -215,6 +215,8 @@ namespace CprPrototype.Model
 
         #endregion
 
+        #region Class Methods
+
         /// <summary>
         /// Initiates the CPR sequence based on
         /// the provided rythm style.
@@ -261,6 +263,9 @@ namespace CprPrototype.Model
             }
         }
 
+        #endregion
+
+        #region Events
         /// <summary>
         /// Event handler for INotifyPropertyChanged.
         /// </summary>
@@ -274,6 +279,8 @@ namespace CprPrototype.Model
                 Debug.WriteLine("AlgorithmPropertyChanged - " + propertyName);
             }
         }
+        #endregion
+
 
         /// <summary>
         /// IDisposible implementation.

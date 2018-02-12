@@ -210,8 +210,6 @@ namespace CprPrototype.ViewModel
 
 
             // Update Step Time
-            // Denne skal nok fjernes, da de skal slåes sammen med AlgorithmStep
-            //if (CurrentPosition.GetType().Equals(typeof(AssessmentStep)))
 
             if (AlgorithmBase.StepTime.TotalSeconds > 0)
             {
@@ -221,6 +219,7 @@ namespace CprPrototype.ViewModel
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
+                    DependencyService.Get<IAudio>().PlayMp3File(2);
                 }
             }
 
@@ -229,7 +228,7 @@ namespace CprPrototype.ViewModel
 
             // Update Drug Queue
             //========================================================================
-            // TODO TEST
+            // TODO TEST - Checks for medicin every tick 
             //========================================================================
 
             // AlgorithmBase.AddDrugsToQueue(DoseQueue, CurrentPosition.RythmStyle);
@@ -241,13 +240,6 @@ namespace CprPrototype.ViewModel
             ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
             foreach (DrugShot shot in DoseQueue)
             {
-
-                //if (TotalElapsedCycles == 0 && CurrentPosition.NextStep.RythmStyle == RythmStyle.NonShockable
-                //    && shot.Drug.DrugType == DrugType.Adrenalin && shot.TimeRemaining.TotalMinutes > TimeSpan.FromMinutes(2).TotalMinutes)
-                //{
-                //    shot.TimeRemaining = TimeSpan.FromMinutes(2);
-                //}
-
                 // decrements the counter.
                 if (shot.TimeRemaining.TotalSeconds > 0)
                 {
@@ -275,12 +267,14 @@ namespace CprPrototype.ViewModel
                 if (item.TimeRemaining.TotalSeconds == 120)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                    DependencyService.Get<IAudio>().PlayMp3File(1);
                 }
 
                 // Notify constantly when drug timer is nearly done
                 if (item.TimeRemaining.TotalSeconds < 16)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                    DependencyService.Get<IAudio>().PlayMp3File(2);
                 }
             }
         }
