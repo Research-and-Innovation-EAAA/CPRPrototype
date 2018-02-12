@@ -329,12 +329,12 @@ namespace CprPrototype.ViewModel
 
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Stød givet, HLR fortsættes");
+                History.AddItem("Rytme vurderet - Stødbar");
                 _listofPressed.Add(true);
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes");
+                History.AddItem("Rytme vurderet - Ikke-Stødbar");
                 _listofPressed.Add(false);
             }
 
