@@ -50,17 +50,17 @@
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="View\CausePage.xaml.cs">
+    <Compile Include="View\Tabs\CausePage.xaml.cs">
       <DependentUpon>CausePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CPRPage.xaml.cs">
+    <Compile Include="View\Tabs\CPRPage.xaml.cs">
       <DependentUpon>CPRPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Cells\DrugCell.cs" />
-    <Compile Include="View\ExtraDrugs.xaml.cs">
+    <Compile Include="View\Tabs\ExtraDrugs.xaml.cs">
       <DependentUpon>ExtraDrugs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MasterTabbedPage.xaml.cs">
+    <Compile Include="View\Tabs\MasterTabbedPage.xaml.cs">
       <DependentUpon>MasterTabbedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\OverviewPage.xaml.cs">
@@ -109,13 +109,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\CPRPage.xaml">
+    <EmbeddedResource Include="View\Tabs\CPRPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\MasterTabbedPage.xaml">
+    <EmbeddedResource Include="View\Tabs\MasterTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -127,7 +127,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\ExtraDrugs.xaml">
+    <EmbeddedResource Include="View\Tabs\ExtraDrugs.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -136,7 +136,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\CausePage.xaml">
+    <EmbeddedResource Include="View\Tabs\CausePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
