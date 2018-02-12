@@ -21,7 +21,9 @@ namespace CprPrototype.Model
         public Drug Drug { get; set; }
         public string Dose { get; set; }
         public bool IsInjected { get; set; }
+        public bool IsIgnored { get; set; }
         public ICommand DrugCommand { get; set; }
+        public ICommand DrugIgnoredCommand { get; set; }
         public Color TextColor
         {
             get
@@ -146,7 +148,9 @@ namespace CprPrototype.Model
             Drug = drug;
             Dose = dose;
             IsInjected = false;
+            IsIgnored = false;
             DrugCommand = new Command(ShotAddressed);
+            DrugIgnoredCommand = new Command(ShotIgnored);
             timeRemaining = Drug.PrepTime;
             UpdateTimeRemainingString();
         }
@@ -158,6 +162,8 @@ namespace CprPrototype.Model
         {
             timeRemaining = Drug.PrepTime;
             DrugCommand = new Command(ShotAddressed);
+            DrugIgnoredCommand = new Command(ShotIgnored);
+            IsIgnored = false;
             IsInjected = false;
             UpdateTimeRemainingString();
         }
@@ -168,6 +174,11 @@ namespace CprPrototype.Model
         {
             IsInjected = true;
             Drug.TimeOfLatestInjection = DateTime.Now;
+        }
+
+        public void ShotIgnored()
+        {
+            IsIgnored = true;
         }
 
         public void ResetShot()
@@ -198,12 +209,7 @@ namespace CprPrototype.Model
         /// <param name="propertyName">Name of the property changed. Optional</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-                // Debug.WriteLine("DrugShotPropertyChanged - " + propertyName);
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

@@ -205,7 +205,7 @@ namespace CprPrototype.Model
                 {
                     var drug = drugsCollection.Find(x => x.DrugType == shot.Drug.DrugType);
 
-                    if (shot.IsInjected)
+                    if (shot.IsInjected || shot.IsIgnored)
                     {
                         notificationQueue.Remove(shot);
                     }
@@ -223,7 +223,7 @@ namespace CprPrototype.Model
         /// </summary>
         public void BeginSequence(RythmStyle rythmStyle)
         {
-            if (startTime == null) { startTime = DateTime.Now; }
+            if (StartTime == null) { startTime = DateTime.Now; }
 
             switch (rythmStyle)
             {
