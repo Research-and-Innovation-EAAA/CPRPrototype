@@ -17,11 +17,10 @@ namespace CprPrototype.View
         private const string actionSheetTitle = "STØD GIVET?";
         private const string shockGiven = "GIVET";
         private const string shockNotGiven = "IKKE-GIVET";
-
+        
         #endregion
 
         #region Construction & Initialisation
-
         public CPRPage()
         {
             InitializeComponent();
@@ -44,7 +43,6 @@ namespace CprPrototype.View
             // Initialize Algorithm and UI:
             viewModel.InitAlgorithmBase();
         }
-        
         #endregion
 
         #region Methods & Event Handlers
