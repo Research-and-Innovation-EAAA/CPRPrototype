@@ -10,6 +10,7 @@ namespace CprPrototype.View
         public MasterTabbedPage()
         {
             InitializeComponent();
+            BarBackgroundColor = Color.FromHex("#004578");
         } 
     }
 }

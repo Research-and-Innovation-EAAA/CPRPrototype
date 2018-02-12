@@ -16,6 +16,16 @@ namespace CprPrototype.View
             InitializeComponent();
         }
 
+        private void btnAdrenalin_Clicked(object sender, EventArgs e)
+        {
+            viewModel.History.AddItem("Adrenalin");
+        }
+
+        private void btnAmiodaron_Clicked(object sender, EventArgs e)
+        {
+            viewModel.History.AddItem("Amiodaron");
+        }
+
         private void btnBikarbonat_Clicked(object sender, EventArgs e)
         {
             viewModel.History.AddItem("Bikarbonat");

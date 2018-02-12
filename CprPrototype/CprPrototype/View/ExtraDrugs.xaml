@@ -6,21 +6,33 @@
     <ContentPage.Content>
         <StackLayout
             Spacing="10">
+            <Button x:Name="btnAdrenalin"
+                Margin="10, 0, 10, 0"
+                VerticalOptions="FillAndExpand"
+                Text="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)" FontSize="12"
+                    Clicked="btnAdrenalin_Clicked"/>
+            <Button x:Name="btnAmiodaron"
+                Text="Amiodaron&#10;(300 mg bolus efter 3.stød) &#10; (150 mg bolus efter 5. stød)"
+                Margin="10, 0, 10, 0"
+                VerticalOptions="FillAndExpand" FontSize="12"
+                    Clicked="btnAmiodaron_Clicked"/>
             <Button x:Name="btnBikarbonat"
-                Text="Bikarbonat"
+                Text="Bikarbonat&#10;50mg 8,4% (50 mmol) bolus&#10;gentages efter behov"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Clicked="btnBikarbonat_Clicked" />
+                Clicked="btnBikarbonat_Clicked" FontSize="12"/>
             <Button x:Name="btnCalcium"
-                Text="Calcium"
+                Text="Calcium&#10;10 ml(50 mmol) 0,5 mmol/ml bolus&#10;gentages ved behov"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Clicked="btnCalcium_Clicked" />
+                Clicked="btnCalcium_Clicked" 
+                    FontSize="12"/>
             <Button x:Name="btnMagnesium"
-                Text="Magnesium"
+                Text="Magnesium&#10; 4 ml Magnesiumsulfat/magnesiumklorid &#10; 2 mml/ml over 1-2 min &#10; evt gentages efter 10-15min"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Clicked="btnMagnesium_Clicked" />
+                Clicked="btnMagnesium_Clicked"
+                FontSize="12"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
