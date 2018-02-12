@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Graphics;
+using CprPrototype;
 
 namespace CprPrototype.Droid
 {
@@ -13,8 +14,6 @@ namespace CprPrototype.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
-           
 
             base.OnCreate(bundle);
 
