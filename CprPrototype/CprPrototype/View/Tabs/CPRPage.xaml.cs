@@ -1,5 +1,7 @@
 ﻿using CprPrototype.ViewModel;
 using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,10 +11,17 @@ namespace CprPrototype.View
     public partial class CPRPage : ContentPage
     {
         #region Properties
+
         private BaseViewModel viewModel = BaseViewModel.Instance;
+
+        private const string actionSheetTitle = "STØD GIVET?";
+        private const string shockGiven = "GIVET";
+        private const string shockNotGiven = "IKKE-GIVET";
+
         #endregion
 
         #region Construction & Initialisation
+
         public CPRPage()
         {
             InitializeComponent();
@@ -23,6 +32,7 @@ namespace CprPrototype.View
             template.SetBinding(DrugCell.NameProperty, "DrugDoseString");
             template.SetBinding(DrugCell.TimeRemainingProperty, "TimeRemainingString");
             template.SetBinding(DrugCell.ButtonCommandProperty, "DrugCommand");
+            template.SetBinding(DrugCell.ButtonCommandIgnoreProperty, "DrugIgnoredCommand");
             template.SetBinding(DrugCell.TextColorProperty, "TextColor");
             template.SetBinding(DrugCell.BackgroundColorProperty, "BackgroundColor");
 
@@ -34,6 +44,7 @@ namespace CprPrototype.View
             // Initialize Algorithm and UI:
             viewModel.InitAlgorithmBase();
         }
+        
         #endregion
 
         #region Methods & Event Handlers
@@ -48,7 +59,7 @@ namespace CprPrototype.View
         }
 
         /// <summary>
-        /// Used for enabling the UI after the first click 
+        /// Enables the UI after the first click 
         /// by making the hidden elements visible.
         /// </summary>
         private void EnableUI()
@@ -62,36 +73,63 @@ namespace CprPrototype.View
         }
 
         /// <summary>
-        /// [Event Handler] - Shockable Button clicked event.
+        /// Displays an actionsheet and presents the user for possible choices.
+        /// Loops until the user has chosen one of the outcomes.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Args</param>
-        private void ShockableButton_Clicked(object sender, EventArgs e)
+        /// <returns>returns the answer the user has given in form of a string</returns>
+        private async Task<string> CheckShockGivenActionSheet()
         {
-            if(viewModel.TotalElapsedCycles == 0)
+            string answer = null;
+
+            while (answer == null)
             {
-                EnableUI();
+                answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven);
             }
-            viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
-            viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
-            viewModel.AdvanceAlgorithm();
-            RefreshStepTime();
+
+            return answer;
         }
 
         /// <summary>
-        /// [Event Handler] - NonShockable Button clicked event.
+        /// Occures when Shockable Button is clicked.
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Args</param>
-        private void NShockableButton_Clicked(object sender, EventArgs e)
+        private async void ShockableButton_Clicked(object sender, EventArgs e)
         {
             if (viewModel.TotalElapsedCycles == 0)
             {
                 EnableUI();
             }
+
+            viewModel.History.AddItem("Rytme vurderet - Stødbar");
+
+
+            var answer = await CheckShockGivenActionSheet();
+
+            viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
+            viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
+            viewModel.AdvanceAlgorithm(answer);
+            RefreshStepTime();
+        }
+
+        /// <summary>
+        /// Occures when the NonShockable Button is clicked.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
+        private async void NShockableButton_Clicked(object sender, EventArgs e)
+        {
+            if (viewModel.TotalElapsedCycles == 0)
+            {
+                EnableUI();
+            }
+            viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar");
+
+            var answer = await CheckShockGivenActionSheet();
+
             viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
             viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
-            viewModel.AdvanceAlgorithm();
+            viewModel.AdvanceAlgorithm(answer);
             RefreshStepTime();
         }
 
