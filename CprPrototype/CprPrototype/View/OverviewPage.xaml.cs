@@ -21,10 +21,10 @@ namespace CprPrototype.View
             template.SetBinding(TextCell.DetailProperty, "Date");
             template.SetValue(TextCell.TextColorProperty, Color.FromHex("A6CE38"));
             //---
-            List<Image> _imagelist = new List<Image>();
-            Image s = new Image();
-            s.Source = "icon_shockable.png";
-            _imagelist.Add(s);
+            //List<Image> _imagelist = new List<Image>();
+            //Image s = new Image();
+            //s.Source = "icon_shockable.png";
+            //_imagelist.Add(s);
             listView.ItemTemplate = template;
             listView.BindingContext = viewModel;
             listView.ItemsSource = viewModel.History.Records;

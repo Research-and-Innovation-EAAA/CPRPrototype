@@ -10,12 +10,13 @@ namespace CprPrototype.View
         #region Properties 
 
         Label lblName, lblTime;
-        Button btnCommand;
+        Button btnCommand, btnCommandIgnore;
         StackLayout labelLayout, labelBtnLayout;
 
         public static readonly BindableProperty NameProperty = BindableProperty.Create(nameof(Name), typeof(string), typeof(DrugCell));
         public static readonly BindableProperty TimeRemainingProperty = BindableProperty.Create(nameof(Time), typeof(string), typeof(DrugCell));
         public static readonly BindableProperty ButtonCommandProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
+        public static readonly BindableProperty ButtonCommandIgnoreProperty = BindableProperty.Create(nameof(DrugIgnoredCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
 
@@ -29,6 +30,12 @@ namespace CprPrototype.View
         {
             get { return (ICommand)GetValue(ButtonCommandProperty); }
             set { SetValue(ButtonCommandProperty, value); }
+        }
+
+        public ICommand DrugIgnoredCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandIgnoreProperty); }
+            set { SetValue(ButtonCommandIgnoreProperty, value); }
         }
 
         public string Time
@@ -82,6 +89,13 @@ namespace CprPrototype.View
                 HorizontalOptions = LayoutOptions.End
             };
 
+            btnCommandIgnore = new Button
+            {
+                Image = "cross.png",
+                WidthRequest = 70,
+                HorizontalOptions = LayoutOptions.End
+            };
+
             labelLayout = new StackLayout
             {
                 Spacing = 2,
@@ -102,6 +116,7 @@ namespace CprPrototype.View
             };
             labelBtnLayout.Children.Add(labelLayout);
             labelBtnLayout.Children.Add(btnCommand);
+            labelBtnLayout.Children.Add(btnCommandIgnore);
 
             // Set bindings
             //lblName.SetBinding(Label.TextProperty, nameof(Name));
@@ -124,6 +139,7 @@ namespace CprPrototype.View
                 lblTime.Text = Time;
                 lblTime.TextColor = TextColor;
                 btnCommand.Command = DrugInjectedCommand;
+                btnCommandIgnore.Command = DrugIgnoredCommand;
                 labelLayout.BackgroundColor = BackgroundColor;
                 labelBtnLayout.BackgroundColor = BackgroundColor;
             }

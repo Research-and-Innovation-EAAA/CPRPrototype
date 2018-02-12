@@ -17,26 +17,26 @@ namespace CprPrototype.Service
             get { return list; }
         }
 
-        public void AddItem(string name, DateTime date)
-        {
-            var item = new CPRHistoryEntry(name, date)
-            {
-                DateTimeString = date.ToString("{0:MM/dd/yy H:mm:ss}")
-            };
+        //public void AddItem(string name, DateTime date)
+        //{
+        //    var item = new CPRHistoryEntry(name, date)
+        //    {
+        //        DateTimeString = date.ToString("{0:MM/dd/yy H:mm:ss}")
+        //    };
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
-            list.Add(item);
+        //    List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
+        //    list.Add(item);
             
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
+        //    list.Sort((x, y) => y.Date.CompareTo(x.Date));
+        //    //list.Reverse();
 
-            Records.Clear();
+        //    Records.Clear();
 
-            foreach (var i in list)
-            {
-                Records.Add(i);
-            }
-        }
+        //    foreach (var i in list)
+        //    {
+        //        Records.Add(i);
+        //    }
+        //}
 
         /// <summary>
         /// Adds an item the the log of the app.

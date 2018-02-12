@@ -204,13 +204,11 @@ namespace CprPrototype.ViewModel
         /// <param name="e">Arguments</param>
         private void NotifyTimerIncremented(object sender, EventArgs e)
         {
-            // Debug.WriteLine("Entered NotifyTimerIncremented!");
             // Update Total Time
             TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(AlgorithmBase.StartTime.Value).TotalSeconds);
 
 
             // Update Step Time
-
             if (AlgorithmBase.StepTime.TotalSeconds > 0)
             {
                 AlgorithmBase.StepTime = AlgorithmBase.StepTime.Subtract(TimeSpan.FromSeconds(1));
@@ -237,6 +235,11 @@ namespace CprPrototype.ViewModel
             // END TEST
             //========================================================================
 
+
+            //========================================================================
+            // Notificaition Queue
+            //========================================================================
+
             ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
             foreach (DrugShot shot in DoseQueue)
             {
@@ -250,7 +253,12 @@ namespace CprPrototype.ViewModel
                 if (shot.IsInjected)
                 {
                     shot.ShotAddressed();
-                    History.AddItem(shot.DrugDoseString);
+                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet");
+                    AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
+                }
+                else if(shot.IsIgnored) // Checks if the drug has been ignored
+                {
+                    shot.ShotIgnored();
                     AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
                 }
 
@@ -309,7 +317,8 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// Advances the algorithm and updates the current step property.
         /// </summary>
-        public void AdvanceAlgorithm()
+        /// <param name="answer">Specifies whether the user clicked yes on the alert window</param>
+        public void AdvanceAlgorithm(string answer)
         {
             if (!timerStarted)
             {
@@ -318,8 +327,7 @@ namespace CprPrototype.ViewModel
                 Timer.startTimer();
             }
 
-
-            if (CurrentPosition.NextStep.RythmStyle == RythmStyle.Shockable)
+            if (answer.Equals("GIVET"))
             {
                 History.AddItem("Rytme vurderet - Stødbar");
                 _listofPressed.Add(true);
@@ -329,6 +337,7 @@ namespace CprPrototype.ViewModel
                 History.AddItem("Rytme vurderet - Ikke-Stødbar");
                 _listofPressed.Add(false);
             }
+
 
 
             AlgorithmBase.AdvanceOneStep();
