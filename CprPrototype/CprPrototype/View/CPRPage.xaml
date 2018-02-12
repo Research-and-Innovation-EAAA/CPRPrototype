@@ -76,6 +76,7 @@
                        Text="Vurder Rytme"
                        FontSize="Small"
                        TextColor="White"
+                       FontFamily="Helvetica Neue - Light"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"/>
             </StackLayout>
@@ -83,11 +84,15 @@
                 <Button x:Name="btnShockable"
                     Text="Stødbar"
                     Clicked="ShockableButton_Clicked"
-                        FontSize="Medium"/>
+                        FontSize="Medium"
+                        FontFamily="Helvetica Neue - Light" 
+                        BackgroundColor="#A2CD54"/>
                 <Button x:Name="btnNShockable"
                     Text="Ikke-&#10;Stødbar"
                     Clicked="NShockableButton_Clicked"
-                    FontSize="Medium"/>
+                    FontSize="Medium"
+                        FontFamily="Helvetica Neue - Light "
+                        BackgroundColor="#A2CD54"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

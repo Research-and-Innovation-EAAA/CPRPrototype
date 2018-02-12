@@ -39,7 +39,13 @@ namespace CprPrototype.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
         //public event EventHandler TimerElapsed;
+        private System.Collections.Generic.List<bool> _listofPressed = new System.Collections.Generic.List<bool>();
 
+
+        public System.Collections.Generic.List<bool> ChoosedShockableNonShockable
+        {
+            get { return _listofPressed; }
+        }
 
         /// <summary>
         /// NextStepProperty accessor.
@@ -316,10 +322,12 @@ namespace CprPrototype.ViewModel
             if (CurrentPosition.NextStep.RythmStyle == RythmStyle.Shockable)
             {
                 History.AddItem("Rytme vurderet - Stødbar");
+                _listofPressed.Add(true);
             }
             else
             {
                 History.AddItem("Rytme vurderet - Ikke-Stødbar");
+                _listofPressed.Add(false);
             }
 
 
