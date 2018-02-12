@@ -85,7 +85,7 @@ namespace CprPrototype.View
             {
                 answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven);
             }
-
+            // Test
             return answer;
         }
 
