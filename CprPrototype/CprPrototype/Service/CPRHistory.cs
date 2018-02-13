@@ -34,9 +34,36 @@ namespace CprPrototype.Service
         /// Adds an item the the log of the app.
         /// </summary>
         /// <param name="name"></param>
+        public void AddItem(string name,string source)
+        {
+            var item = new CPRHistoryEntry(name + " Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
+            item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
+
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
+            list.Add(item);
+
+            list.Sort((x, y) => y.Date.CompareTo(x.Date));
+            //list.Reverse();
+                
+            Records.Clear();
+
+            foreach (var i in list)
+            {
+                Records.Add(i);
+            }
+        }
+
         public void AddItem(string name)
         {
-            var item = new CPRHistoryEntry(name, DateTime.Now);
+            CPRHistoryEntry entry = new CPRHistoryEntry();
+            entry.Name = name;
+
+            Records.Add(entry);
+        }
+
+        public void AddItems(string name, string source)
+        {
+            var item = new CPRHistoryEntry(name, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
             List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries);
@@ -78,19 +105,14 @@ namespace CprPrototype.Service
         /// </summary>
         public string DateTimeString { get; set; }
 
-        #endregion
+        //
+        public string ImageSource { get; set; }
 
-        #region Contruction
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CPRHistoryEntry"/> class
-        /// </summary>
-        /// <param name="name">Name of the entry</param>
-        /// <param name="date">The date the entry is added to history</param>
-        public CPRHistoryEntry(string name, DateTime date)
+        public CPRHistoryEntry(string name, DateTime date,string source)
         {
             Name = name;
             Date = date;
+            ImageSource = source;
         }
         
         #endregion

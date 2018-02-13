@@ -255,7 +255,7 @@ namespace CprPrototype.ViewModel
                 if (shot.IsInjected)
                 {
                     shot.ShotAddressed();
-                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet");
+                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
                     AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
                 }
                 else if (shot.IsIgnored) // Checks if the drug has been ignored
@@ -316,13 +316,11 @@ namespace CprPrototype.ViewModel
         {
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Stød givet, HLR fortsættes");
-                _listofPressed.Add(true);
+                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.png");
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes");
-                _listofPressed.Add(false);
+                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
             }
         }
 

@@ -38,8 +38,6 @@
                 <ListView x:Name="listView"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="CenterAndExpand"/>
-                <TableView x:Name="tbl">
-                </TableView>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

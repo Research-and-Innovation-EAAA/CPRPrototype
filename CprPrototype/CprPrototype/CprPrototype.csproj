@@ -144,6 +144,7 @@
   <ItemGroup>
     <Content Include="Graphics\Icons from AppLab\icon_nonshockable.png" />
     <Content Include="Graphics\Icons from AppLab\icon_shockable.png" />
+    <Content Include="Graphics\icon_medicin.png" />
     <Content Include="Graphics\icon_nonshockable.png" />
     <Content Include="Graphics\icon_shockable.png" />
   </ItemGroup>
