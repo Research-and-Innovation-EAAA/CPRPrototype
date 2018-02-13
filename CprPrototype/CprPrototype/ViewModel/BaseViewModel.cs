@@ -39,13 +39,6 @@ namespace CprPrototype.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
         //public event EventHandler TimerElapsed;
-        private System.Collections.Generic.List<bool> _listofPressed = new System.Collections.Generic.List<bool>();
-
-
-        public System.Collections.Generic.List<bool> ChoosedShockableNonShockable
-        {
-            get { return _listofPressed; }
-        }
 
         /// <summary>
         /// NextStepProperty accessor.
@@ -253,10 +246,10 @@ namespace CprPrototype.ViewModel
                 if (shot.IsInjected)
                 {
                     shot.ShotAddressed();
-                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet");
+                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
                     AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
                 }
-                else if(shot.IsIgnored) // Checks if the drug has been ignored
+                else if (shot.IsIgnored) // Checks if the drug has been ignored
                 {
                     shot.ShotIgnored();
                     AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
@@ -329,13 +322,11 @@ namespace CprPrototype.ViewModel
 
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Rytme vurderet - Stødbar");
-                _listofPressed.Add(true);
+                History.AddItem("Rytme vurderet - Stødbar", "icon_shockable.png");
             }
             else
             {
-                History.AddItem("Rytme vurderet - Ikke-Stødbar");
-                _listofPressed.Add(false);
+                History.AddItem("Rytme vurderet - Ikke-Stødbar", "icon_nonshockable.png");
             }
 
 
