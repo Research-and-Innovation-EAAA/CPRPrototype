@@ -27,7 +27,7 @@ namespace CprPrototype.View
             _imagelist.Add(s);
             listView.ItemTemplate = template;
             listView.BindingContext = viewModel;
-            listView.ItemsSource = viewModel.History.Records;
+            listView.ItemsSource = viewModel.History.Entries;
         }
     }
 }

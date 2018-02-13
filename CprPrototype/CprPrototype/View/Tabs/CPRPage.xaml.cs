@@ -12,7 +12,7 @@ namespace CprPrototype.View
     {
         #region Properties
 
-        private BaseViewModel viewModel = BaseViewModel.Instance;
+        private BaseViewModel _viewModel = BaseViewModel.Instance;
 
         private const string actionSheetTitle = "STØD GIVET?";
         private const string shockGiven = "GIVET";
@@ -21,28 +21,31 @@ namespace CprPrototype.View
         #endregion
 
         #region Construction & Initialisation
+
         public CPRPage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = _viewModel;
 
             // ListView
             DataTemplate template = new DataTemplate(typeof(DrugCell));
             template.SetBinding(DrugCell.NameProperty, "DrugDoseString");
             template.SetBinding(DrugCell.TimeRemainingProperty, "TimeRemainingString");
-            template.SetBinding(DrugCell.ButtonCommandProperty, "DrugCommand");
+            template.SetBinding(DrugCell.ButtonCommandInjectedProperty, "DrugInjectedCommand");
             template.SetBinding(DrugCell.ButtonCommandIgnoreProperty, "DrugIgnoredCommand");
             template.SetBinding(DrugCell.TextColorProperty, "TextColor");
             template.SetBinding(DrugCell.BackgroundColorProperty, "BackgroundColor");
+            
 
             listView.HasUnevenRows = true;
             listView.ItemTemplate = template;
-            listView.ItemsSource = viewModel.DoseQueue;
-            listView.BindingContext = viewModel;
+            listView.ItemsSource = _viewModel.NotificationQueue;
+            listView.BindingContext = _viewModel;
 
             // Initialize Algorithm and UI:
-            viewModel.InitAlgorithmBase();
+            _viewModel.InitAlgorithmBase();
         }
+        
         #endregion
 
         #region Methods & Event Handlers
@@ -52,8 +55,8 @@ namespace CprPrototype.View
         /// </summary>
         private void RefreshStepTime()
         {
-            viewModel.AlgorithmBase.StepTime = TimeSpan.FromMinutes(2);
-            viewModel.StepTime = viewModel.AlgorithmBase.StepTime;
+            _viewModel.AlgorithmBase.StepTime = TimeSpan.FromMinutes(2);
+            _viewModel.StepTime = _viewModel.AlgorithmBase.StepTime;
         }
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace CprPrototype.View
             {
                 answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven);
             }
-            // Test
+            
             return answer;
         }
 
@@ -94,19 +97,19 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private async void ShockableButton_Clicked(object sender, EventArgs e)
         {
-            if (viewModel.TotalElapsedCycles == 0)
+            if (_viewModel.TotalElapsedCycles == 0)
             {
                 EnableUI();
             }
 
-            viewModel.History.AddItem("Rytme vurderet - Stødbar");
+            _viewModel.History.AddItem("Rytme vurderet - Stødbar");
 
 
             var answer = await CheckShockGivenActionSheet();
 
-            viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
-            viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.Shockable);
-            viewModel.AdvanceAlgorithm(answer);
+            _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
+            _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
+            _viewModel.AdvanceAlgorithm(answer);
             RefreshStepTime();
         }
 
@@ -117,17 +120,17 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private async void NShockableButton_Clicked(object sender, EventArgs e)
         {
-            if (viewModel.TotalElapsedCycles == 0)
+            if (_viewModel.TotalElapsedCycles == 0)
             {
                 EnableUI();
             }
-            viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar");
+            _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar");
 
             var answer = await CheckShockGivenActionSheet();
 
-            viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
-            viewModel.AlgorithmBase.AddDrugsToQueue(viewModel.DoseQueue, Model.RythmStyle.NonShockable);
-            viewModel.AdvanceAlgorithm(answer);
+            _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
+            _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
+            _viewModel.AdvanceAlgorithm(answer);
             RefreshStepTime();
         }
 

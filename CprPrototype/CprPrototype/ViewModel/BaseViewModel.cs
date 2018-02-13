@@ -3,6 +3,7 @@ using CprPrototype.Model;
 using CprPrototype.Service;
 using Plugin.Vibrate;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -22,45 +23,89 @@ namespace CprPrototype.ViewModel
     {
         #region Properties
 
-        private static BaseViewModel instance;
-        private static readonly object padlock = new object(); // Object used to make singleton thread-safe
+        private static BaseViewModel _instance;
+        private static readonly object _padlock = new object(); // Object used to make singleton thread-safe
 
-        private AlgorithmBase algorithmBase;
-        private CPRHistory history = new CPRHistory();
-
-        private ObservableCollection<DrugShot> medicinQueue = new ObservableCollection<DrugShot>();
-        private AlgorithmStep currStep;
-        private TimeSpan totalTime, stepTime;
-        private int totalElapsedCycles;
+        private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
+        private List<bool> _listofPressed = new List<bool>();
+        private AlgorithmStep _currentPosition;
+        private TimeSpan _totalTime, _stepTime;
+        private int _totalElapsedCycles;
+        
         private const int CRITICAL_ALERT_TIME = 10;
-
-        private IAdvancedTimer timer = DependencyService.Get<IAdvancedTimer>();
-        private bool timerStarted = false;
+        private bool _timerStarted = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
         //public event EventHandler TimerElapsed;
-        private System.Collections.Generic.List<bool> _listofPressed = new System.Collections.Generic.List<bool>();
 
 
-        public System.Collections.Generic.List<bool> ChoosedShockableNonShockable
+        /// <summary>
+        /// Gets the singleton instance of <see cref="BaseViewModel"/>.
+        /// </summary>
+        /// <remarks>
+        /// Use this to access the BaseViewModel.
+        /// Uses an object(padlock) to lock the critical region, to the effect of being thread-safe 
+        /// </remarks>
+        /// <returns>BaseViewModel Instance</returns>
+        public static BaseViewModel Instance
+        {
+            get
+            {
+                lock (_padlock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new BaseViewModel();
+                    }
+
+                    return _instance;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current dose queue.
+        /// </summary>
+        public ObservableCollection<DrugShot> NotificationQueue
+        {
+            get
+            {
+                return _notificationQueue;
+            }
+            set
+            {
+                if (_notificationQueue != value)
+                {
+                    if (PropertyChanged != null)
+                    {
+                        NotifyPropertyChanged("NotificationQueue");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        public List<bool> ChoosedShockableNonShockable
         {
             get { return _listofPressed; }
         }
 
         /// <summary>
-        /// NextStepProperty accessor.
+        /// Gets or sets the current position in the resuscitation process
         /// </summary>
         public AlgorithmStep CurrentPosition
         {
             get
             {
-                return currStep;
+                return _currentPosition;
             }
             set
             {
-                if (currStep != value)
+                if (_currentPosition != value)
                 {
-                    currStep = value;
+                    _currentPosition = value;
 
                     if (PropertyChanged != null)
                     {
@@ -71,16 +116,16 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// Total time spent in the resuscitation process.
+        /// Gets or sets the total time spent in the resuscitation process.
         /// </summary>
         public TimeSpan TotalTime
         {
-            get { return totalTime; }
+            get { return _totalTime; }
             set
             {
-                if (totalTime != value)
+                if (_totalTime != value)
                 {
-                    totalTime = value;
+                    _totalTime = value;
 
                     if (PropertyChanged != null)
                     {
@@ -91,19 +136,19 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// The amount of time for each step
+        /// Gets or sets the amount of time for each step
         /// </summary>
         /// <example>
         /// The algorithm takes two minutes for each resuscitation attempt. 
         /// </example>
         public TimeSpan StepTime
         {
-            get { return stepTime; }
+            get { return _stepTime; }
             set
             {
-                if (stepTime != value)
+                if (_stepTime != value)
                 {
-                    stepTime = value;
+                    _stepTime = value;
 
                     if (PropertyChanged != null)
                     {
@@ -114,37 +159,16 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// Returns the current dose queue.
-        /// </summary>
-        public ObservableCollection<DrugShot> DoseQueue
-        {
-            get
-            {
-                return medicinQueue;
-            }
-            set
-            {
-                if (medicinQueue != value)
-                {
-                    if (PropertyChanged != null)
-                    {
-                        NotifyPropertyChanged("DoseQueue");
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns the total number of cycles we went through;
+        /// Gets or set the total number of cycles went through;
         /// </summary>
         public int TotalElapsedCycles
         {
-            get { return totalElapsedCycles; }
+            get { return _totalElapsedCycles; }
             set
             {
-                if (totalElapsedCycles != value)
+                if (_totalElapsedCycles != value)
                 {
-                    totalElapsedCycles = value;
+                    _totalElapsedCycles = value;
 
                     if (PropertyChanged != null)
                     {
@@ -155,60 +179,51 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// Returns the CPRHistory instance.
+        /// Gets the CPRHistory instance.
         /// </summary>
-        public CPRHistory History
-        {
-            get { return history; }
-        }
+        public CPRHistory History { get; private set; }
 
         /// <summary>
-        /// The Timer object.
+        /// Gets the Timer object.
         /// </summary>
-        public IAdvancedTimer Timer { get { return timer; } }
+        public IAdvancedTimer Timer { get; set; }
 
         /// <summary>
-        /// The Algorithm Model.
+        /// Gets the Algorithm model.
         /// </summary>
-        public AlgorithmBase AlgorithmBase { get { return algorithmBase; } }
+        public AlgorithmBase AlgorithmBase { get; private set; }
 
         #endregion
 
         #region Construction & Initialization
 
         /// <summary>
-        /// Constructor.
+        /// Empty contructor - Initializes a new instance of the <see cref="BaseViewModel"/> class.
         /// </summary>
         protected BaseViewModel()
         {
-
+            History = new CPRHistory();
+            Timer = DependencyService.Get<IAdvancedTimer>();
         }
 
         /// <summary>
-        /// Sets up the algorithm
+        /// Initializes the <see cref="AlgorithmBase"/> class, and sets the <see cref="CurrentPosition"/>
         /// </summary>
         public void InitAlgorithmBase()
         {
-            algorithmBase = new AlgorithmBase();
-            CurrentPosition = algorithmBase.CurrentStep;
+            AlgorithmBase = new AlgorithmBase();
+            CurrentPosition = AlgorithmBase.CurrentStep;
         }
 
+        #endregion
+
+        #region Methods & Events
+
         /// <summary>
-        /// TimerElapsed event handler.
+        /// Updates the <see cref="StepTime"/> and checks timers for activating vibration
         /// </summary>
-        /// <remarks>
-        /// {PWM} - This event is usually called each second, 
-        /// since its job is to increment the total timer and current step time
-        /// </remarks>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Arguments</param>
-        private void NotifyTimerIncremented(object sender, EventArgs e)
+        private void UpdateStepTime()
         {
-            // Update Total Time
-            TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(AlgorithmBase.StartTime.Value).TotalSeconds);
-
-
-            // Update Step Time
             if (AlgorithmBase.StepTime.TotalSeconds > 0)
             {
                 AlgorithmBase.StepTime = AlgorithmBase.StepTime.Subtract(TimeSpan.FromSeconds(1));
@@ -220,28 +235,15 @@ namespace CprPrototype.ViewModel
                     DependencyService.Get<IAudio>().PlayMp3File(2);
                 }
             }
+        }
 
-            // Update Cycles
-            TotalElapsedCycles = AlgorithmBase.TotalElapsedCycles;
-
-            // Update Drug Queue
-            //========================================================================
-            // TODO TEST - Checks for medicin every tick 
-            //========================================================================
-
-            // AlgorithmBase.AddDrugsToQueue(DoseQueue, CurrentPosition.RythmStyle);
-
-            //========================================================================
-            // END TEST
-            //========================================================================
-
-
-            //========================================================================
-            // Notificaition Queue
-            //========================================================================
-
+        /// <summary>
+        /// Updates the notification timers and sorts them correctly
+        /// </summary>
+        private void UpdateNotificationTimers()
+        {
             ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
-            foreach (DrugShot shot in DoseQueue)
+            foreach (DrugShot shot in NotificationQueue)
             {
                 // decrements the counter.
                 if (shot.TimeRemaining.TotalSeconds > 0)
@@ -254,22 +256,23 @@ namespace CprPrototype.ViewModel
                 {
                     shot.ShotAddressed();
                     History.AddItem(shot.Drug.DrugType.ToString() + " Givet");
-                    AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
+                    AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
                 }
-                else if(shot.IsIgnored) // Checks if the drug has been ignored
+                else if (shot.IsIgnored) // Checks if the drug has been ignored
                 {
                     shot.ShotIgnored();
-                    AlgorithmBase.RemoveDrugsFromQueue(DoseQueue);
+                    AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
                 }
 
                 list.Add(shot);
             }
 
-            DoseQueue.Clear();
+            // To avoid overflow of notifications
+            NotificationQueue.Clear();
 
             foreach (var item in list)
             {
-                DoseQueue.Add(item);
+                NotificationQueue.Add(item);
 
                 // Notify when we change from 'prep' drug to 'give' drug
                 if (item.TimeRemaining.TotalSeconds == 120)
@@ -288,60 +291,64 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// Singleton instance.
-        /// </summary>
-        /// <remarks>
-        /// Use this to access the BaseViewModel.
-        /// Uses an object(padlock) to lock the critical region, to the effect of being thread-safe 
-        /// </remarks>
-        /// <returns>BaseViewModel Instance</returns>
-        public static BaseViewModel Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new BaseViewModel();
-                    }
-
-                    return instance;
-                }
-            }
-        }
-
-        #endregion
-
-        #region Events & Handlers
-        /// <summary>
         /// Advances the algorithm and updates the current step property.
         /// </summary>
-        /// <param name="answer">Specifies whether the user clicked yes on the alert window</param>
+        /// <param name="answer">Is the input string, which is the same as the name on the button as the user has pushed</param>
         public void AdvanceAlgorithm(string answer)
         {
-            if (!timerStarted)
+            if (!_timerStarted)
             {
-                timerStarted = true;
+                _timerStarted = true;
                 Timer.initTimer(1000, NotifyTimerIncremented, true);
                 Timer.startTimer();
             }
 
+            AddAlertSheetAnswerToHistory(answer);
+            AlgorithmBase.AdvanceOneStep();
+            CurrentPosition = AlgorithmBase.CurrentStep;
+        }
+
+        /// <summary>
+        /// Private helpermethod to AdvanceAlgorithm, this adds an entry to the history list.
+        /// </summary>
+        /// <param name="answer">answer from DisplayAlertSheet</param>
+        private void AddAlertSheetAnswerToHistory(string answer)
+        {
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Rytme vurderet - Stødbar");
+                History.AddItem("Stød givet, HLR fortsættes");
                 _listofPressed.Add(true);
             }
             else
             {
-                History.AddItem("Rytme vurderet - Ikke-Stødbar");
+                History.AddItem("Stød ikke givet, HLR fortsættes");
                 _listofPressed.Add(false);
             }
+        }
 
+        /// <summary>
+        /// Occures when the timer ticks
+        /// </summary>
+        /// <remarks>
+        /// {PWM} - This event is usually called each second, 
+        /// since its job is to increment the total timer and current step time
+        /// </remarks>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Arguments</param>
+        private void NotifyTimerIncremented(object sender, EventArgs e)
+        {
+            // Update Total Time
+            TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(AlgorithmBase.StartTime.Value).TotalSeconds);
 
+            // Update Step Time
+            UpdateStepTime();
 
-            AlgorithmBase.AdvanceOneStep();
-            CurrentPosition = AlgorithmBase.CurrentStep;
+            // Update Cycles
+            TotalElapsedCycles = AlgorithmBase.TotalElapsedCycles;
+
+            // Update Drug Queue
+            UpdateNotificationTimers();
+
         }
 
         /// <summary>
@@ -366,6 +373,7 @@ namespace CprPrototype.ViewModel
                 }
             }
         }
+        
         #endregion
     }
 }

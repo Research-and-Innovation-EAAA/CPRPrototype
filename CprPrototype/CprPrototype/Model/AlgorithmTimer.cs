@@ -1,9 +1,5 @@
 ﻿using AdvancedTimer.Forms.Plugin.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CprPrototype.Model
@@ -11,37 +7,38 @@ namespace CprPrototype.Model
     public class AlgorithmTimer
     {
         #region Properties 
-
-        // Gain access to timers via DependencyService from XForms
-        private IAdvancedTimer totalTimer = DependencyService.Get<IAdvancedTimer>();
         
-        private int interval;
+        /// <summary>
+        /// Gets or sets the interval used by <see cref="AlgorithmTimer"./>
+        /// </summary>
+        public int Interval { get; set; }
 
         /// <summary>
-        /// Start DateTime.
+        /// Gets or sets the <see cref="AlgorithmTimer"/> starttime.
         /// </summary>
-        public DateTime StartTime { get; set; }
+        public DateTime TimerStartTime { get; set; }
 
         /// <summary>
-        /// Accessor for the totalTimer object.
+        /// Gets the totalTimer object.
         /// </summary>
-        public IAdvancedTimer Timer { get { return totalTimer; } }
+        public IAdvancedTimer Timer { get; private set; }
+
+        // Event for ViewModel to subscribe to
+        public event EventHandler TimerElapsedEvent;
 
         #endregion
 
         #region Construction & Initialization
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="AlgorithmTimer" class./>
         /// </summary>
         public AlgorithmTimer(int interval, bool init = true)
         {
-            this.interval = interval;
+            Timer = DependencyService.Get<IAdvancedTimer>();
+            Interval = interval;
 
-            if (init)
-            {
-                Initialize();
-            }
+            if (init) { Initialize(); }
         }
 
         /// <summary>
@@ -49,36 +46,30 @@ namespace CprPrototype.Model
         /// </summary>
         public void Initialize()
         {
-            totalTimer.initTimer(interval, TimerElapsedEvent, true);
+            Timer.initTimer(Interval, TimerElapsedEvent, true);
         }
 
         #endregion
 
-        #region Events & Handlers
-
-        // Event for ViewModel to subscribe to
-        public event EventHandler TimerElapsedEvent;
-
-        /// <summary>
-        /// Fire our TimerElapsedEvent.
-        /// </summary>
-        protected virtual void OnTimerElapsedEvent()
-        {
-            if (TimerElapsedEvent != null)
-            {
-                TimerElapsedEvent(this, EventArgs.Empty);
-            }
-        }
-
-        #endregion
+        #region Methods & Events
 
         /// <summary>
         /// Starts the totalTimer and sets DateTime property.
         /// </summary>
         public void StartTimer()
         {
-            StartTime = DateTime.Now;
-            totalTimer.startTimer();
+            TimerStartTime = DateTime.Now;
+            Timer.startTimer();
         }
+
+        /// <summary>
+        /// Occured when TimerElapsedEvent is invoked.
+        /// </summary>
+        protected virtual void OnTimerElapsedEvent()
+        {
+            TimerElapsedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
     }
 }

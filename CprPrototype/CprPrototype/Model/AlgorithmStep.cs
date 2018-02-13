@@ -43,34 +43,34 @@ namespace CprPrototype.Model
         #region Construction & Initialization
 
         /// <summary>
-        /// Default Constructor
+        /// Initializes a new instance of the <see cref="AlgorithmStep"/> class.
         /// </summary>
         /// <param name="name">Name of the step</param>
         /// <param name="description">Description of the step</param>
 
         public AlgorithmStep(string name, string description)
         {
-            this.Name = name;
-            this.Description = description;
+            Name = name;
+            Description = description;
         }
 
-        /// <summary>
-        /// CTOR.
-        /// </summary>
-        public AlgorithmStep()
-        {
-            // Empty
-        }
+        ///// <summary>
+        ///// CTOR.
+        ///// </summary>
+        //public AlgorithmStep()
+        //{
+        //    // Empty
+        //}
 
         /// <summary>
         /// IDisposible implementation.
         /// </summary>
         public virtual void Dispose()
         {
-            this.Name = null;
-            this.Description = null;
-            this.NextStep = null;
-            this.PreviousStep = null;
+            Name = null;
+            Description = null;
+            NextStep = null;
+            PreviousStep = null;
         }
 
         #endregion
