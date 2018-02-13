@@ -37,8 +37,7 @@
                 </StackLayout>
                 <ListView x:Name="listView"
                 VerticalOptions="StartAndExpand"
-                HorizontalOptions="CenterAndExpand" >
-                </ListView>
+                HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

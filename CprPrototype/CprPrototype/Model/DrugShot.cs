@@ -8,20 +8,50 @@ using Xamarin.Forms;
 namespace CprPrototype.Model
 {
     /// <summary>
-    /// The DrugShot class represents a single Drug & Dose combination
-    /// for a specific target.
+    /// Represents a single Drug & Dose combination
     /// </summary>
     public class DrugShot : INotifyPropertyChanged
     {
         #region Properties
+        
+        private TimeSpan _timeRemaining;
+        private string _timeRemainingString;
 
-        private TimeSpan timeRemaining;
-        private string timeRemainingString;
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets the <see cref="Model.Drug"/> connected to the <see cref="DrugShot"/> class
+        /// </summary>
         public Drug Drug { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dose string
+        /// </summary>
         public string Dose { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the drug is injected
+        /// </summary>
         public bool IsInjected { get; set; }
-        public ICommand DrugCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the drug is ignored
+        /// </summary>
+        public bool IsIgnored { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assigned command
+        /// </summary>
+        public ICommand DrugInjectedCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assigned command
+        /// </summary>
+        public ICommand DrugIgnoredCommand { get; set; }
+
+        /// <summary>
+        /// Gets the textcolor af the notification text
+        /// </summary>
         public Color TextColor
         {
             get
@@ -31,7 +61,7 @@ namespace CprPrototype.Model
         }
 
         /// <summary>
-        /// Defines the color of the drug notification background
+        /// Gets the color of the drug notification background
         /// </summary>
         public Color BackgroundColor
         {
@@ -39,30 +69,22 @@ namespace CprPrototype.Model
             {
                 //Success Color
                 if (IsInjected)
-                {
                     return Color.FromHex("A6CE38");
-                }
 
                 // Default Color
-                if (timeRemaining.TotalSeconds > 120)
-                {
+                if (_timeRemaining.TotalSeconds > 120)
                     return Color.LightGray;
-                }
+
                 // Warning Color
                 else if (TimeRemaining.TotalSeconds > 15 && TimeRemaining.TotalSeconds <= 120)
-                {
                     return Color.FromHex("#f1c40f");
-                }
                 else
-                {
                     return Color.FromHex("#e74c3c");
-                }
-                
             }
         }
 
         /// <summary>
-        /// Creates a formatted String to the notification
+        /// Gets a formatted String to the notification text
         /// </summary>
         public string DrugDoseString
         {
@@ -100,14 +122,17 @@ namespace CprPrototype.Model
             }
         }
 
+        /// <summary>
+        /// Gets or sets the time remaining for the <see cref="DrugShot"/>
+        /// </summary>
         public TimeSpan TimeRemaining
         {
-            get { return timeRemaining; }
+            get { return _timeRemaining; }
             set
             {
-                if (timeRemaining != value)
+                if (_timeRemaining != value)
                 {
-                    timeRemaining = value;
+                    _timeRemaining = value;
 
                     if (PropertyChanged != null)
                     {
@@ -119,17 +144,20 @@ namespace CprPrototype.Model
             }
         }
 
+        /// <summary>
+        /// Gets or sets the formatted time string for <see cref="DrugShot"/>
+        /// </summary>
         public string TimeRemainingString
         {
             get
             {
-                return timeRemainingString;
+                return _timeRemainingString;
             }
             set
             {
-                if (timeRemainingString != value)
+                if (_timeRemainingString != value)
                 {
-                    timeRemainingString = value;
+                    _timeRemainingString = value;
 
                     if (PropertyChanged != null)
                     {
@@ -144,62 +172,79 @@ namespace CprPrototype.Model
         #region Construction & Initialization
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="DrugShot"/> class
         /// </summary>
         /// <param name="drug">Drug</param>
-        /// <param name="target">Adult or Child</param>
         /// <param name="dose">Dose as string</param>
         public DrugShot(Drug drug, string dose)
         {
             Drug = drug;
             Dose = dose;
             IsInjected = false;
-            DrugCommand = new Command(ShotAddressed);
-            timeRemaining = Drug.PrepTime;
+            IsIgnored = false;
+            DrugInjectedCommand = new Command(ShotAddressed);
+            DrugIgnoredCommand = new Command(ShotIgnored);
+            _timeRemaining = Drug.PreparationTime;
             UpdateTimeRemainingString();
         }
 
-        /// <summary>
-        /// Empty CTOR.
-        /// </summary>
-        public DrugShot()
-        {
-            timeRemaining = Drug.PrepTime;
-            DrugCommand = new Command(ShotAddressed);
-            IsInjected = false;
-            UpdateTimeRemainingString();
-        }
+        ///// <summary>
+        ///// Empty CTOR.
+        ///// </summary>
+        //public DrugShot()
+        //{
+        //    _timeRemaining = Drug.PreparationTime;
+        //    DrugGivenCommand = new Command(ShotAddressed);
+        //    DrugIgnoredCommand = new Command(ShotIgnored);
+        //    IsIgnored = false;
+        //    IsInjected = false;
+        //    UpdateTimeRemainingString();
+        //}
 
         #endregion
 
+        #region Methods & Events
+        
+        /// <summary>
+        /// Administers the shot and updates <see cref="Drug.TimeOfLatestInjection"/>
+        /// </summary>
         public void ShotAddressed()
         {
             IsInjected = true;
             Drug.TimeOfLatestInjection = DateTime.Now;
         }
 
+        /// <summary>
+        /// Sets the drugshot as ignored
+        /// </summary>
+        public void ShotIgnored()
+        {
+            IsIgnored = true;
+        }
+
+        /// <summary>
+        /// Resets the shot for a new injection 
+        /// </summary>
         public void ResetShot()
         {
             IsInjected = false;
-            TimeRemaining = Drug.PrepTime;
+            TimeRemaining = Drug.PreparationTime;
         }
 
-        public void UpdateTimeRemainingString()
+        /// <summary>
+        /// Updates the notification time-string using the TimeRemaining class property.
+        /// </summary>
+        private void UpdateTimeRemainingString()
         {
             int minutes = TimeRemaining.Minutes;
             int seconds = TimeRemaining.Seconds;
 
+            TimeRemainingString = "";
             if (minutes > 0)
-            {
                 TimeRemainingString = minutes + " min " + seconds + " sek";
-            }
             else
-            {
                 TimeRemainingString = seconds + " sek";
-            }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Event handler for INotifyPropertyChanged.
@@ -207,13 +252,10 @@ namespace CprPrototype.Model
         /// <param name="propertyName">Name of the property changed. Optional</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-                Debug.WriteLine("DrugShotPropertyChanged - " + propertyName);
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            //Debug.WriteLine("OnPropertyChanged Ocurred with - " + propertyName);
         }
 
+        #endregion
     }
 }

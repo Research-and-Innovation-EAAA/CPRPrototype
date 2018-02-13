@@ -10,15 +10,19 @@ namespace CprPrototype.View
         #region Properties 
 
         Label lblName, lblTime;
-        Button btnCommand;
-        StackLayout labelLayout, labelBtnLayout;
+        Button btnInjected, btnIgnore;
+        StackLayout labelLayout, drugCellLayout;
 
         public static readonly BindableProperty NameProperty = BindableProperty.Create(nameof(Name), typeof(string), typeof(DrugCell));
         public static readonly BindableProperty TimeRemainingProperty = BindableProperty.Create(nameof(Time), typeof(string), typeof(DrugCell));
-        public static readonly BindableProperty ButtonCommandProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
+        public static readonly BindableProperty ButtonCommandInjectedProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
+        public static readonly BindableProperty ButtonCommandIgnoreProperty = BindableProperty.Create(nameof(DrugIgnoredCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
 
+        /// <summary>
+        /// Gets or sets the name of the bound value // Ikke god
+        /// </summary>
         public string Name
         {
             get { return (string)GetValue(NameProperty); }
@@ -27,8 +31,14 @@ namespace CprPrototype.View
 
         public ICommand DrugInjectedCommand
         {
-            get { return (ICommand)GetValue(ButtonCommandProperty); }
-            set { SetValue(ButtonCommandProperty, value); }
+            get { return (ICommand)GetValue(ButtonCommandInjectedProperty); }
+            set { SetValue(ButtonCommandInjectedProperty, value); }
+        }
+
+        public ICommand DrugIgnoredCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandIgnoreProperty); }
+            set { SetValue(ButtonCommandIgnoreProperty, value); }
         }
 
         public string Time
@@ -51,32 +61,34 @@ namespace CprPrototype.View
 
         #endregion
 
-        #region Construct
+        #region Constructor & Initialization
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DrugCell"/> class
+        /// </summary>
         public DrugCell()
         {
-            // For example:
-            //var command = new Command((o) => Debug.WriteLine("Command Executed: {0}", o));
-            //var button = new Button
-            //{
-            //    Text = "Hit me to execute the command",
-            //    Command = command,
-            //    CommandParameter = "button0"
-            //};
 
-            // Init Views
-            lblName = new Label();
+            drugCellLayout = new StackLayout
+            {
+                Spacing = 2,
+                Margin = new Thickness(3),
+                Orientation = StackOrientation.Horizontal,
+                BackgroundColor = BackgroundColor
+            };
+
+            //========================================================================
+            // Left side of drugCellLayout:
+            //========================================================================
+
+            lblName = new Label()
+            {
+                FontAttributes = FontAttributes.Bold
+            };
 
             lblTime = new Label
             {
                 TextColor = TextColor
-            };
-
-            btnCommand = new Button
-            {
-                Text = "Giv",
-                WidthRequest = 70,
-                HorizontalOptions = LayoutOptions.End
             };
 
             labelLayout = new StackLayout
@@ -86,30 +98,40 @@ namespace CprPrototype.View
                 Orientation = StackOrientation.Vertical,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 BackgroundColor = BackgroundColor
+
             };
             labelLayout.Children.Add(lblName);
             labelLayout.Children.Add(lblTime);
 
-            labelBtnLayout = new StackLayout
+            drugCellLayout.Children.Add(labelLayout);
+
+            //========================================================================
+            // Right side of drugCellLayout:
+            //========================================================================
+
+            btnInjected = new Button
             {
-                Spacing = 2,
-                Margin = new Thickness(3),
-                Orientation = StackOrientation.Horizontal,
-                BackgroundColor = BackgroundColor
+                Text = "Giv",
+                WidthRequest = 70,
+                HorizontalOptions = LayoutOptions.End
             };
-            labelBtnLayout.Children.Add(labelLayout);
-            labelBtnLayout.Children.Add(btnCommand);
 
-            // Set bindings
-            //lblName.SetBinding(Label.TextProperty, nameof(Name));
-            //lblTime.SetBinding(Label.TextProperty, nameof(Time), BindingMode.OneWay, null, "{0:mm\\:ss}");
-            //btnCommand.SetBinding(Button.CommandProperty, nameof(DrugInjectedCommand));
+            btnIgnore = new Button
+            {
+                Image = "cross.png",
+                WidthRequest = 70,
+                HorizontalOptions = LayoutOptions.End
+            };
+            
+            drugCellLayout.Children.Add(btnInjected);
+            drugCellLayout.Children.Add(btnIgnore);
 
-            View = labelBtnLayout;
+            View = drugCellLayout;
         }
 
-        #endregion
-
+        /// <summary>
+        /// Binds the layout to the code behind, and updates if changes are made to the values
+        /// </summary>
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
@@ -120,10 +142,14 @@ namespace CprPrototype.View
                 lblName.TextColor = TextColor;
                 lblTime.Text = Time;
                 lblTime.TextColor = TextColor;
-                btnCommand.Command = DrugInjectedCommand;
+                btnInjected.Command = DrugInjectedCommand;
+                btnIgnore.Command = DrugIgnoredCommand;
                 labelLayout.BackgroundColor = BackgroundColor;
-                labelBtnLayout.BackgroundColor = BackgroundColor;
+                drugCellLayout.BackgroundColor = BackgroundColor;
             }
         }
+
+        #endregion
+
     }
 }

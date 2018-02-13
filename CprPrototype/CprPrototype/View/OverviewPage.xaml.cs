@@ -1,6 +1,7 @@
 ﻿using CprPrototype.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Collections.Generic;
 
 namespace CprPrototype.View
 {
@@ -13,15 +14,14 @@ namespace CprPrototype.View
         {
             InitializeComponent();
             BindingContext = viewModel;
-
-            DataTemplate template = new DataTemplate(typeof(TextCell));
-            template.SetBinding(TextCell.TextProperty, "Name");
-            template.SetBinding(TextCell.DetailProperty, "Date");
-            template.SetValue(TextCell.TextColorProperty, Color.FromHex("A6CE38"));
-
+            DataTemplate template = new DataTemplate(typeof(ImageCell));
+            template.SetBinding(ImageCell.ImageSourceProperty,"ImageSource");
+            template.SetBinding(ImageCell.TextProperty, "Name");
+            template.SetBinding(ImageCell.DetailProperty, "Date");
+            template.SetValue(ImageCell.TextColorProperty, Color.Black);
             listView.ItemTemplate = template;
             listView.BindingContext = viewModel;
-            listView.ItemsSource = viewModel.History.Records;
+            listView.ItemsSource = viewModel.History.Entries;
         }
     }
 }

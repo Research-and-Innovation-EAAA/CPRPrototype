@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CprPrototype.View.CPRPage"
+             Title="CPR">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout 
+                VerticalOptions="Start"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                Spacing="25"
+                Margin="5, 5, 5, 10">
+                <Label
+                    x:Name="lblTotalElapsedCycles"
+                    Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"
+                    IsVisible="False"/>
+                <Label 
+                    x:Name="lblTotalTime"
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"
+                    IsVisible="False"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Fill">
+                <Label x:Name="lblHeart"
+                       Text="Hjerte"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"
+                       IsVisible="False"/>
+            </StackLayout>
+            <Label x:Name="lblStepDescription" 
+                Text="Fortsæt HLR for 30:2 for"
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand"
+                Margin="10,10,10,0"
+                FontSize="Large"
+                HorizontalTextAlignment="Center"
+                TextColor="Black"
+                   IsVisible="False"/>
+            <Label x:Name="lblStepTime" 
+                Text="{Binding StepTime, StringFormat='{0:%m\\:ss}'}"
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand"
+                Margin="10,0,0,5"
+                Font="Bold, 32"
+                IsVisible="False"
+                HorizontalTextAlignment="Center"
+                TextColor="Black"/>
+            <StackLayout HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         Margin="0,0,0,0"
+                         Spacing="0">
+                <StackLayout HorizontalOptions="Fill">
+                    <Label 
+                        x:Name="lblMedicinReminders" 
+                        Text="Medicin Påmindelser"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"
+                        IsVisible="False"/>
+                </StackLayout>
+                <ListView x:Name="listView"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Fill">
+                <Label x:Name="lblPulse"
+                       Text="Vurder Rytme"
+                       FontSize="Small"
+                       TextColor="White"
+                       FontFamily="Helvetica Neue - Light"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
+                <Button x:Name="btnShockable"
+                    Text="Stødbar"
+                    Clicked="ShockableButton_Clicked"
+                        FontSize="Medium"
+                        FontFamily="Helvetica Neue - Light" 
+                        BackgroundColor="#A2CD54"/>
+                <Button x:Name="btnNShockable"
+                    Text="Ikke-&#10;Stødbar"
+                    Clicked="NShockableButton_Clicked"
+                    FontSize="Medium"
+                        FontFamily="Helvetica Neue - Light "
+                        BackgroundColor="#A2CD54"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

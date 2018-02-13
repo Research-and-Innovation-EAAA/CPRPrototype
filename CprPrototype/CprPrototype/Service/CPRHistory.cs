@@ -10,56 +10,84 @@ namespace CprPrototype.Service
     /// </summary>
     public class CPRHistory
     {
-        private ObservableCollection<CPRHistoryEntry> list = new ObservableCollection<CPRHistoryEntry>();
+        #region Properties
 
-        public ObservableCollection<CPRHistoryEntry> Records
+        public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
+
+        #endregion
+
+        #region Contruction
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CPRHistory"/> class
+        /// </summary>
+        public CPRHistory()
         {
-            get { return list; }
+            Entries = new ObservableCollection<CPRHistoryEntry>();
         }
 
-        public void AddItem(string name, DateTime date)
-        {
-            var item = new CPRHistoryEntry(name, date)
-            {
-                DateTimeString = date.ToString("{0:MM/dd/yy H:mm:ss}")
-            };
+        #endregion
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
-            list.Add(item);
-            
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
-
-            Records.Clear();
-
-            foreach (var i in list)
-            {
-                Records.Add(i);
-            }
-        }
+        #region Methods
 
         /// <summary>
         /// Adds an item the the log of the app.
         /// </summary>
         /// <param name="name"></param>
-        public void AddItem(string name)
+        public void AddItem(string name,string source)
         {
-            var item = new CPRHistoryEntry(name, DateTime.Now);
+            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
-            list.Add(item);
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+            {
+                item
+            };
 
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
                 
-            Records.Clear();
+            Entries.Clear();
 
             foreach (var i in list)
             {
-                Records.Add(i);
+                Entries.Add(i);
+                
             }
         }
+
+        public void AddItem(string name)
+        {
+            CPRHistoryEntry entry = new CPRHistoryEntry(name, DateTime.Now)
+            {
+                Name = name
+            };
+
+            Entries.Add(entry);
+        }
+
+        public void AddItems(string name, string source)
+        {
+            var item = new CPRHistoryEntry(name, DateTime.Now,source);
+            item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
+
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+            {
+                item
+            };
+
+            list.Sort((x, y) => y.Date.CompareTo(x.Date));
+            //list.Reverse();
+                
+            Entries.Clear();
+
+            foreach (var i in list)
+            {
+                Entries.Add(i);
+            }
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -67,31 +95,38 @@ namespace CprPrototype.Service
     /// </summary>
     public class CPRHistoryEntry
     {
+        #region Properties
+
         /// <summary>
-        /// Name of the event occured
+        /// Gets or sets the mame of the event occured
         /// </summary>
-        /// <example>
-        /// Adrenalin
-        /// </example>
         public string Name { get; set; }
+
         /// <summary>
-        /// Time for when the event occured
+        /// Gets or sets the time for when the event occured
         /// </summary>
         public DateTime Date { get; set; }
+
         /// <summary>
-        /// Formatted time string shown in GUI
+        /// Gets or sets the formatted time string shown in GUI
         /// </summary>
         public string DateTimeString { get; set; }
 
+        //
+        public string ImageSource { get; set; }
+
+        public CPRHistoryEntry(string name, DateTime date,string source)
+        {
+            Name = name;
+            Date = date;
+            ImageSource = source;
+        }
         public CPRHistoryEntry(string name, DateTime date)
         {
             Name = name;
             Date = date;
         }
 
-        public CPRHistoryEntry()
-        {
-
-        }
+        #endregion
     }
 }
