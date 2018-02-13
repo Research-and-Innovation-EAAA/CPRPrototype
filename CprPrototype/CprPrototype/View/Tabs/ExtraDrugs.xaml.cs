@@ -11,7 +11,7 @@ namespace CprPrototype.View
     public partial class ExtraDrugs : ContentPage
     {
         private BaseViewModel viewModel = BaseViewModel.Instance;
-        private const string shockGiven = " givet -";
+        private const string shockGiven = " givet";
         private const string imagesource = "icon_medicin.png";
 
         public ExtraDrugs()

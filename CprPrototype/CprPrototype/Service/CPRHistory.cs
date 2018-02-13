@@ -36,29 +36,30 @@ namespace CprPrototype.Service
         /// <param name="name"></param>
         public void AddItem(string name,string source)
         {
-            var item = new CPRHistoryEntry(name + " Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
+            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries);
             list.Add(item);
 
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
                 
-            Records.Clear();
+            Entries.Clear();
 
             foreach (var i in list)
             {
-                Records.Add(i);
+                Entries.Add(i);
+                
             }
         }
 
         public void AddItem(string name)
         {
-            CPRHistoryEntry entry = new CPRHistoryEntry();
+            CPRHistoryEntry entry = new CPRHistoryEntry(name,DateTime.Now);
             entry.Name = name;
 
-            Records.Add(entry);
+            Entries.Add(entry);
         }
 
         public void AddItems(string name, string source)
@@ -114,7 +115,12 @@ namespace CprPrototype.Service
             Date = date;
             ImageSource = source;
         }
-        
+        public CPRHistoryEntry(string name, DateTime date)
+        {
+            Name = name;
+            Date = date;
+        }
+
         #endregion
     }
 }
