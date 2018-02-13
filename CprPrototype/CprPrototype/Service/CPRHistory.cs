@@ -39,8 +39,10 @@ namespace CprPrototype.Service
             var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries);
-            list.Add(item);
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+            {
+                item
+            };
 
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
@@ -56,8 +58,10 @@ namespace CprPrototype.Service
 
         public void AddItem(string name)
         {
-            CPRHistoryEntry entry = new CPRHistoryEntry(name,DateTime.Now);
-            entry.Name = name;
+            CPRHistoryEntry entry = new CPRHistoryEntry(name, DateTime.Now)
+            {
+                Name = name
+            };
 
             Entries.Add(entry);
         }
@@ -67,8 +71,10 @@ namespace CprPrototype.Service
             var item = new CPRHistoryEntry(name, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries);
-            list.Add(item);
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+            {
+                item
+            };
 
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();

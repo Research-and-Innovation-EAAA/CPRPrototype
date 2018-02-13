@@ -19,27 +19,27 @@ namespace CprPrototype.View
             InitializeComponent();
         }
 
-        private void btnAdrenalin_Clicked(object sender, EventArgs e)
+        private void BtnAdrenalin_Clicked(object sender, EventArgs e)
         {
             viewModel.History.AddItem(DrugType.Adrenalin + shockGiven,imagesource);
         }
 
-        private void btnAmiodaron_Clicked(object sender, EventArgs e)
+        private void BtnAmiodaron_Clicked(object sender, EventArgs e)
         {
             viewModel.History.AddItem(DrugType.Amiodaron + shockGiven, imagesource);
         }
 
-        private void btnBikarbonat_Clicked(object sender, EventArgs e)
+        private void BtnBikarbonat_Clicked(object sender, EventArgs e)
         {
             viewModel.History.AddItem(DrugType.Bikarbonat + shockGiven, imagesource);
         }
 
-        private void btnCalcium_Clicked(object sender, EventArgs e)
+        private void BtnCalcium_Clicked(object sender, EventArgs e)
         {
             viewModel.History.AddItem(DrugType.Calcium + shockGiven, imagesource);
         }
 
-        private void btnMagnesium_Clicked(object sender, EventArgs e)
+        private void BtnMagnesium_Clicked(object sender, EventArgs e)
         {
             viewModel.History.AddItem(DrugType.Magnesium + shockGiven, imagesource);
         }
