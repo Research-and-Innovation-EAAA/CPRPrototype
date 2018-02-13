@@ -31,6 +31,7 @@ namespace CprPrototype.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Gets or sets the current step in the algorithm
         /// Current step in the algorithm.
         /// </summary>
         public AlgorithmStep CurrentStep
@@ -51,7 +52,7 @@ namespace CprPrototype.Model
         }
 
         /// <summary>
-        /// Returns the remaining step time.
+        /// Gets or set the remaining step time
         /// </summary>
         public TimeSpan StepTime
         {
@@ -71,17 +72,17 @@ namespace CprPrototype.Model
         }
 
         /// <summary>
-        /// Returns the number of cycles the algorithm went through.
+        /// Gets the number of cycles the algorithm went through.
         /// </summary>
         public int TotalElapsedCycles { get { return totalElapsedCycles; } }
 
         /// <summary>
-        /// Returns the first step in the algorithm.
+        /// Gets the first step in the algorithm.
         /// </summary>
         public AlgorithmStep FirstStep { get { return _firstStep; } }
 
         /// <summary>
-        /// Returns the starting Date and Time for current
+        /// Gets the starting Date and Time for current
         /// resuscitation process.
         /// </summary>
         public DateTime? StartTime { get { return _startTime; } }
@@ -91,7 +92,7 @@ namespace CprPrototype.Model
         #region Construction & Initialization
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="AlgorithmBase"/> class
         /// </summary>
         public AlgorithmBase()
         {

@@ -14,27 +14,27 @@ namespace CprPrototype.Model
         #region Properties
 
         /// <summary>
-        /// Name of the Step.
+        /// Gets or sets the name of the <see cref="AlgorithmStep"/>.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Description of the Step.
+        /// Gets or sets the description of the <see cref="AlgorithmStep"/>.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Previous Step.
+        /// Gets or sets the previous <see cref="AlgorithmStep"/>.
         /// </summary>
         public AlgorithmStep PreviousStep { get; set; }
 
         /// <summary>
-        /// Next Step.
+        /// Gets or sets the nest <see cref="AlgorithmStep"/>
         /// </summary>
         public AlgorithmStep NextStep { get; set; }
 
         /// <summary>
-        /// Represents the style of the assessed rythm either shockable or non-shockable.
+        /// Gets or sets the <see cref="AlgorithmStep"/>'s <see cref="Model.RythmStyle"/>
         /// </summary>
         public RythmStyle RythmStyle { get; set; }
 
@@ -47,20 +47,11 @@ namespace CprPrototype.Model
         /// </summary>
         /// <param name="name">Name of the step</param>
         /// <param name="description">Description of the step</param>
-
         public AlgorithmStep(string name, string description)
         {
             Name = name;
             Description = description;
         }
-
-        ///// <summary>
-        ///// CTOR.
-        ///// </summary>
-        //public AlgorithmStep()
-        //{
-        //    // Empty
-        //}
 
         /// <summary>
         /// IDisposible implementation.
