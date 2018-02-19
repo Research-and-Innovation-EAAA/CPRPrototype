@@ -416,7 +416,7 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public void EndAlgorithm()
         {
-            tempHistoryList.Add(History);
+           
             History.Entries.Clear();
             Timer.stopTimer();
             _timerStarted = false;

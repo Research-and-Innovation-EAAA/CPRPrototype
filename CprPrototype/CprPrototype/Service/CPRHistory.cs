@@ -20,11 +20,11 @@ namespace CprPrototype.Service
         [MaxLength(20)]
         public string HitoryName { get; set; }
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<CPRHistoryEntry> Entries { get; set; }
+        //[OneToMany(CascadeOperations = CascadeOperation.All)]
+        //public List<CPRHistoryEntry> Entries { get; set; }
 
         [Ignore]
-        public ObservableCollection<CPRHistoryEntry> SortedEntries { get; private set; }
+        public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
 
         #endregion
 
@@ -35,7 +35,8 @@ namespace CprPrototype.Service
         /// </summary>
         public CPRHistory()
         {
-            SortedEntries = new ObservableCollection<CPRHistoryEntry>();
+           
+            Entries = new ObservableCollection<CPRHistoryEntry>();
         }
 
         #endregion
@@ -51,7 +52,7 @@ namespace CprPrototype.Service
             var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(SortedEntries)
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
             {
                 item
             };
@@ -59,11 +60,11 @@ namespace CprPrototype.Service
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
                 
-            SortedEntries.Clear();
+            Entries.Clear();
 
             foreach (var i in list)
             {
-                SortedEntries.Add(i);
+                Entries.Add(i);
                 
             }
         }
@@ -75,7 +76,7 @@ namespace CprPrototype.Service
                 Name = name
             };
 
-            SortedEntries.Add(entry);
+            Entries.Add(entry);
         }
 
         public void AddItems(string name, string source)
@@ -83,7 +84,7 @@ namespace CprPrototype.Service
             var item = new CPRHistoryEntry(name, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(SortedEntries)
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
             {
                 item
             };
@@ -91,11 +92,11 @@ namespace CprPrototype.Service
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
                 
-            SortedEntries.Clear();
+            Entries.Clear();
 
             foreach (var i in list)
             {
-                SortedEntries.Add(i);
+                Entries.Add(i);
             }
         }
 
