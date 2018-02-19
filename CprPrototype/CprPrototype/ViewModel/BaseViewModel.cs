@@ -39,6 +39,7 @@ namespace CprPrototype.ViewModel
         public bool _doneIsAvailable;
         public bool _logAvailable = true;
         private bool _enableDisableUI = true;
+        private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
         //public event EventHandler TimerElapsed;
 
@@ -415,6 +416,7 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public void EndAlgorithm()
         {
+            tempHistoryList.Add(History);
             History.Entries.Clear();
             Timer.stopTimer();
             _timerStarted = false;
