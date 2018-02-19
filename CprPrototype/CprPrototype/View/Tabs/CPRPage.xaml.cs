@@ -1,5 +1,7 @@
-﻿using CprPrototype.ViewModel;
+﻿using CprPrototype.Database;
+using CprPrototype.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -13,10 +15,12 @@ namespace CprPrototype.View
         #region Properties
 
         private BaseViewModel _viewModel = BaseViewModel.Instance;
+        private DatabaseHelper _databaseHelper = DatabaseHelper.Instance;
 
         private const string actionSheetTitle = "STØD GIVET?";
         private const string shockGiven = "GIVET";
         private const string shockNotGiven = "IKKE-GIVET";
+
         
         #endregion
 
@@ -102,6 +106,8 @@ namespace CprPrototype.View
                 EnableUI();
             }
 
+            DatabaseTest();
+
             _viewModel.History.AddItem("Rytme vurderet - Stødbar");
 
 
@@ -134,6 +140,58 @@ namespace CprPrototype.View
             RefreshStepTime();
         }
 
+
+        private async void DatabaseTest()
+        {
+            var db = _databaseHelper.DBConnection;
+            // Create tables:
+            //await db.CreateTableAsync<Service.CPRHistory>();
+            //await db.CreateTableAsync<Service.CPRHistoryEntry>();
+
+            await _databaseHelper.CreateTablesAsync();
+
+            // Create CPRHistory:
+            var firstHistory = new Service.CPRHistory();
+            var secondHistory = new Service.CPRHistory();
+            //_databaseHelper.InsertCPRHistory(firstHistory);
+
+            await _databaseHelper.InsertCPRHistory(firstHistory);
+            await _databaseHelper.InsertCPRHistory(secondHistory);
+
+            // Create CPRHistoryEntries:
+            Service.CPRHistoryEntry entry1 = new Service.CPRHistoryEntry { Name = "Dummy1", CPRHistoryId = firstHistory.Id};
+            Service.CPRHistoryEntry entry2 = new Service.CPRHistoryEntry { Name = "Dummy2", CPRHistoryId = firstHistory.Id };
+            Service.CPRHistoryEntry entry3 = new Service.CPRHistoryEntry { Name = "Dummy3", CPRHistoryId = firstHistory.Id };
+
+            await _databaseHelper.InsertCPREntry(entry1);
+            await _databaseHelper.InsertCPREntry(entry2);
+            await _databaseHelper.InsertCPREntry(entry3);
+
+            //await db.InsertAsync(entry1);
+            //await db.InsertAsync(entry2);
+            //await db.InsertAsync(entry3);
+
+
+            Service.CPRHistoryEntry entry4 = new Service.CPRHistoryEntry { Name = "Dummy4", CPRHistoryId = secondHistory.Id };
+            Service.CPRHistoryEntry entry5 = new Service.CPRHistoryEntry { Name = "Dummy5", CPRHistoryId = secondHistory.Id };
+            Service.CPRHistoryEntry entry6 = new Service.CPRHistoryEntry { Name = "Dummy6", CPRHistoryId = secondHistory.Id };
+
+            await _databaseHelper.InsertCPREntry(entry4);
+            await _databaseHelper.InsertCPREntry(entry5);
+            await _databaseHelper.InsertCPREntry(entry6);
+
+            var temp = await _databaseHelper.GetEntriesConnectedToCPRHistory(firstHistory.Id);
+
+            List<Service.CPRHistoryEntry> list = await _databaseHelper.GetAllEntriesFromCPRHistoryAsync();
+
+
+            Debug.WriteLine(list.Capacity);
+
+            foreach (var entry in list)
+            {
+                Debug.WriteLine(entry.Name);
+            }
+        }
         #endregion
     }
 }

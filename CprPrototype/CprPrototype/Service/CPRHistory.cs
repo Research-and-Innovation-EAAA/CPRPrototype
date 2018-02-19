@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -12,7 +14,17 @@ namespace CprPrototype.Service
     {
         #region Properties
 
-        public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        [MaxLength(20)]
+        public string HitoryName { get; set; }
+
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<CPRHistoryEntry> Entries { get; set; }
+
+        [Ignore]
+        public ObservableCollection<CPRHistoryEntry> SortedEntries { get; private set; }
 
         #endregion
 
@@ -23,7 +35,7 @@ namespace CprPrototype.Service
         /// </summary>
         public CPRHistory()
         {
-            Entries = new ObservableCollection<CPRHistoryEntry>();
+            SortedEntries = new ObservableCollection<CPRHistoryEntry>();
         }
 
         #endregion
@@ -39,7 +51,7 @@ namespace CprPrototype.Service
             var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(SortedEntries)
             {
                 item
             };
@@ -47,11 +59,11 @@ namespace CprPrototype.Service
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
                 
-            Entries.Clear();
+            SortedEntries.Clear();
 
             foreach (var i in list)
             {
-                Entries.Add(i);
+                SortedEntries.Add(i);
                 
             }
         }
@@ -63,7 +75,7 @@ namespace CprPrototype.Service
                 Name = name
             };
 
-            Entries.Add(entry);
+            SortedEntries.Add(entry);
         }
 
         public void AddItems(string name, string source)
@@ -71,7 +83,7 @@ namespace CprPrototype.Service
             var item = new CPRHistoryEntry(name, DateTime.Now,source);
             item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(SortedEntries)
             {
                 item
             };
@@ -79,11 +91,11 @@ namespace CprPrototype.Service
             list.Sort((x, y) => y.Date.CompareTo(x.Date));
             //list.Reverse();
                 
-            Entries.Clear();
+            SortedEntries.Clear();
 
             foreach (var i in list)
             {
-                Entries.Add(i);
+                SortedEntries.Add(i);
             }
         }
 
@@ -96,6 +108,14 @@ namespace CprPrototype.Service
     public class CPRHistoryEntry
     {
         #region Properties
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        [ForeignKey(typeof(CPRHistory))]
+        public int CPRHistoryId { get; set; }
+
+        [ManyToOne]
+        public CPRHistory CPRHistory { get; set; }
 
         /// <summary>
         /// Gets or sets the mame of the event occured
@@ -114,6 +134,11 @@ namespace CprPrototype.Service
 
         //
         public string ImageSource { get; set; }
+
+        public CPRHistoryEntry()
+        {
+
+        }
 
         public CPRHistoryEntry(string name, DateTime date,string source)
         {

@@ -21,7 +21,12 @@ namespace CprPrototype.View
             template.SetValue(ImageCell.TextColorProperty, Color.Black);
             listView.ItemTemplate = template;
             listView.BindingContext = viewModel;
-            listView.ItemsSource = viewModel.History.SortedEntries;
+            listView.ItemsSource = viewModel.History.Entries;
+        }
+
+        private async void BtnDBSave_Clicked(object sender, System.EventArgs e)
+        {
+            await App.Database.InsertCPRHistoryAsync(viewModel.History);
         }
     }
 }
