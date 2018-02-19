@@ -50,6 +50,9 @@
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="View\LogPage.xaml.cs">
+      <DependentUpon>LogPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Tabs\CausePage.xaml.cs">
       <DependentUpon>CausePage.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Graphics\icon_watermelon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\LogPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

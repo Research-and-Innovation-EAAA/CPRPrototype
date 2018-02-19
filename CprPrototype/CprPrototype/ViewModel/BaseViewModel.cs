@@ -27,15 +27,19 @@ namespace CprPrototype.ViewModel
         private static readonly object _padlock = new object(); // Object used to make singleton thread-safe
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
-        private List<bool> _listofPressed = new List<bool>();
+
         private AlgorithmStep _currentPosition;
         private TimeSpan _totalTime, _stepTime;
         private int _totalElapsedCycles;
-        
+
         private const int CRITICAL_ALERT_TIME = 10;
         private bool _timerStarted = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public bool _doneIsAvailable;
+        public bool _logAvailable = true;
+        private bool _enableDisableUI = true;
+
         //public event EventHandler TimerElapsed;
 
 
@@ -82,14 +86,6 @@ namespace CprPrototype.ViewModel
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        public List<bool> ChoosedShockableNonShockable
-        {
-            get { return _listofPressed; }
         }
 
         /// <summary>
@@ -371,7 +367,83 @@ namespace CprPrototype.ViewModel
                 }
             }
         }
-        
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
+        /// </summary>
+        public bool DoneIsAvailable
+        {
+            set
+            {
+                _doneIsAvailable = value;
+                OnPropertyChanged(nameof(DoneIsAvailable));
+            }
+            get
+            {
+                return _doneIsAvailable;
+            }
+        }
+
+
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
+        /// </summary>
+        public bool LogIsAvailable
+        {
+            set
+            {
+                _logAvailable = value;
+                OnPropertyChanged(nameof(LogIsAvailable));
+            }
+            get
+            {
+                return _logAvailable;
+            }
+        }
+
+        /// <summary>
+        /// This method notifies a specific notify object to change its properties.
+        /// fx buttons going from nonvisible to visible.
+        /// </summary>
+        protected void OnPropertyChanged(string n)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler(this, new PropertyChangedEventArgs(n));
+        }
+
+        /// <summary>
+        /// This method ends the algorithm
+        /// </summary>
+        public void EndAlgorithm()
+        {
+            History.Entries.Clear();
+            Timer.stopTimer();
+            _timerStarted = false;
+            TotalTime = TimeSpan.Zero;
+            TotalElapsedCycles = 0;
+            StepTime = TimeSpan.Zero;
+            NotificationQueue.Clear();
+            AlgorithmBase = new AlgorithmBase();
+            CurrentPosition = AlgorithmBase.CurrentStep;
+            EnableDisableUI = false;
+            LogIsAvailable = true;
+            DoneIsAvailable = false;
+        }
+
+        /// <summary>
+        /// Enabling or disabling UI content on the homepage.
+        /// </summary>
+        public bool EnableDisableUI
+        {
+            set
+            {
+                _enableDisableUI = value;
+                OnPropertyChanged(nameof(EnableDisableUI));
+            }
+            get
+            {
+                return _enableDisableUI;
+            }
+        }
         #endregion
     }
 }

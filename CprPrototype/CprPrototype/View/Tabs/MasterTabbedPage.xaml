@@ -3,7 +3,7 @@
             xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:local="clr-namespace:CprPrototype.View;assembly=CprPrototype"
-            x:Class="CprPrototype.View.MasterTabbedPage">
+            x:Class="CprPrototype.View.MasterTabbedPage" >
   <!--Pages can be added as references or inline-->
     <local:CPRPage/>
     <local:OverviewPage/>
