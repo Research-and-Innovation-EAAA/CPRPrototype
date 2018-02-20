@@ -25,9 +25,9 @@ namespace CprPrototype.View
             listView.BindingContext = viewModel;
             listView.ItemsSource = viewModel.History.Entries;
 
-            btnlog.SetBinding(IsVisibleProperty, nameof(viewModel.LogIsAvailable));
-            btnRUC.SetBinding(IsVisibleProperty, nameof(viewModel.DoneIsAvailable));
-            btnDoed.SetBinding(IsVisibleProperty, nameof(viewModel.DoneIsAvailable));
+            btnlog.SetBinding(IsVisibleProperty, nameof(viewModel.IsLogAvailable));
+            btnRUC.SetBinding(IsVisibleProperty, nameof(viewModel.IsDoneAvailable));
+            btnDoed.SetBinding(IsVisibleProperty, nameof(viewModel.IsDoneAvailable));
         }
         public void BtnRUC_Clicked(object sender, EventArgs e)
         {

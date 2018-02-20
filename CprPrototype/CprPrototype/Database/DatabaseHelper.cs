@@ -11,13 +11,15 @@ using Xamarin.Forms;
 
 namespace CprPrototype.Database
 {
-
+    /// <summary>
+    /// Provides a means for the PCL to interact with the underlying SQLite database 
+    /// </summary>
     public class DatabaseHelper
     {
 
         #region Properties
 
-        public static DatabaseHelper _databaseHelper;
+        private static DatabaseHelper _databaseHelper;
         private const string _sqliteDBName = "CPRHistories.db3";
         private SQLiteAsyncConnection _dbConnection;
 
@@ -55,6 +57,7 @@ namespace CprPrototype.Database
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Creates the tables for <see cref="CPRHistory"/> & <see cref="CPRHistoryEntry"/>
         /// </summary>
@@ -70,7 +73,7 @@ namespace CprPrototype.Database
         /// </summary>
         /// <param name="newEntry">the new <see cref="CPRHistory"/> to add</param>
         /// <returns></returns>
-        public async Task InsertCPRHistory(CPRHistory newEntry)
+        public async Task InsertCPRHistoryAsync(CPRHistory newEntry)
         {
             await DBConnection.InsertAsync(newEntry);
         }
@@ -80,69 +83,46 @@ namespace CprPrototype.Database
         /// </summary>
         /// <param name="newEntry">the new <see cref="CPRHistoryEntry"/> to add</param>
         /// <returns></returns>
-        public async Task InsertCPREntry(CPRHistoryEntry newEntry)
+        public async Task InsertCPREntryAsync(CPRHistoryEntry newEntry)
         {
             await DBConnection.InsertAsync(newEntry);
         }
 
         /// <summary>
-        /// 
+        /// PREREQUISITE - All th
+        /// Inserts a list of <see cref="CPRHistoryEntry"/>'s into the database
         /// </summary>
-        /// <param name="historyId"></param>
+        /// <param name="incommingList">List of <see cref="CPRHistoryEntry"/></param>
         /// <returns></returns>
-        public async Task<List<CPRHistoryEntry>> GetEntriesConnectedToCPRHistory(int historyId = 0)
+        public async Task InsertListOfEntries(List<CPRHistoryEntry> incommingList)
+        {
+            await DBConnection.InsertAllAsync(incommingList);
+        }
+
+        /// <summary>
+        /// Gets all the <see cref="CPRHistory"/> instances
+        /// </summary>
+        /// <param name="inputHistoryID">The <see cref="CPRHistory"/> that we want to get the <see cref="CPRHistoryEntry"/>'s from </param>
+        /// <returns>A list ordered by <see cref="DateTime"/> of <see cref="CPRHistoryEntry"/>'s</returns>
+        public async Task<List<CPRHistory>> GetCPRHistoriesAsync()
+        {
+            var query = DBConnection.Table<CPRHistory>();
+            List<CPRHistory> resultList = await query.ToListAsync();
+            resultList.Sort((x, y) => DateTime.Compare(x.AttemptFinished, y.AttemptFinished));
+            return resultList;
+        }
+
+        /// <summary>
+        /// Gets all the connected <see cref="CPRHistoryEntry"/>'s that are connected to the specified <see cref="CPRHistory"/> instance
+        /// </summary>
+        /// <param name="inputHistoryID">The <see cref="CPRHistory"/> that we want to get the <see cref="CPRHistoryEntry"/>'s from </param>
+        /// <returns>A list ordered by <see cref="DateTime"/> of <see cref="CPRHistoryEntry"/>'s</returns>
+        public async Task<List<CPRHistoryEntry>> GetEntriesConnectedToCPRHistoryAsync(int historyId = 0)
         {
             var query = DBConnection.Table<CPRHistoryEntry>();
             List<CPRHistoryEntry> resultList = await query.Where(i => i.CPRHistoryId == historyId).ToListAsync();
             resultList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
             return resultList;
-        }
-        
-        /// <summary>
-        /// Gets a table printout 
-        /// </summary>
-        /// <param name="tableName">The name of the table, by default it's the class name</param>
-        public void GetCPRHistoryEntryTable()
-        {
-            var temp = DBConnection.Table<CPRHistoryEntry>();
-            // var tableCount = DBConnection.ExecuteAsync("SELECT * FROM sqlite_master WHERE type = 'table' AND name = '?'", tableName);
-            // Debug.WriteLine("Result: " + tableCount);
-        }
-
-        public void GetCPRHistoryTable()
-        {
-            var temp = DBConnection.Table<CPRHistory>();
-        }
-
-
-
-        /// <summary>
-        /// Gets all the connected <see cref="CPRHistoryEntry"/> that are connected to the specified <see cref="CPRHistory"/> instance
-        /// </summary>
-        /// <param name="inputHistoryID">The <see cref="CPRHistory"/> that we want to get the <see cref="CPRHistoryEntry"/>'s from </param>
-        /// <returns>A list ordered by <see cref="DateTime"/> of <see cref="CPRHistoryEntry"/>'s</returns>
-        public async Task<List<CPRHistoryEntry>> GetAllEntriesFromCPRHistoryAsync(int inputHistoryID = 0)
-        {
-            var query = DBConnection.Table<CPRHistoryEntry>();
-
-            //await query.ToListAsync().ContinueWith((t) =>
-            //{
-            //    foreach (var entry in t.Result)
-            //        Debug.WriteLine("CPREntry: " + entry.Name, " ID: " + entry.Id);
-            //});
-
-            List<CPRHistoryEntry> resultList = await query.Where(i => i.CPRHistoryId == inputHistoryID).ToListAsync();
-            resultList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
-
-            Debug.WriteLine("Sorting tester");
-
-            return resultList;
-
-        }
-
-        public async Task<int> GetCountFromTableCPRHistory()
-        {
-            return await DBConnection.ExecuteAsync("SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata' AND name != 'sqlite_sequence'");
         }
 
         #endregion
