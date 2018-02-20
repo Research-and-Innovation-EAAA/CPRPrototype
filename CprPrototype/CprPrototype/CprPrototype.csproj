@@ -52,6 +52,9 @@
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="View\LogDetailPage.xaml.cs">
+      <DependentUpon>LogDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LogPage.xaml.cs">
       <DependentUpon>LogPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +181,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="View\LogPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\LogDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
