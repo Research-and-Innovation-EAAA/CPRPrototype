@@ -26,10 +26,11 @@ namespace CprPrototype.Database
         /// <summary>
         /// Gets the Database Connection, and makes one if not initialized
         /// </summary>
-        public SQLiteAsyncConnection DBConnection {
+        public SQLiteAsyncConnection DBConnection
+        {
             get
             {
-                if(_dbConnection == null)
+                if (_dbConnection == null)
                 {
                     var path = DependencyService.Get<IFileHelper>().GetLocalFilePath(_sqliteDBName);
                     _dbConnection = new SQLiteAsyncConnection(path);
@@ -37,7 +38,7 @@ namespace CprPrototype.Database
                 return _dbConnection;
             }
         }
-        
+
         /// <summary>
         /// Gets the current instance of the databaseHelper, implements the singleton pattern
         /// </summary>
@@ -55,6 +56,7 @@ namespace CprPrototype.Database
         }
 
         #endregion
+
 
         #region Methods
 
@@ -123,6 +125,16 @@ namespace CprPrototype.Database
             List<CPRHistoryEntry> resultList = await query.Where(i => i.CPRHistoryId == historyId).ToListAsync();
             resultList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
             return resultList;
+        }
+
+        /// <summary>
+        /// Updates the CPRHistory
+        /// </summary>
+        /// <param name="oldCPRHistory">the old CPRHistory</param>
+        /// <returns></returns>
+        public async Task UpdateCPRHistory(CPRHistory oldCPRHistory)
+        {
+            await DBConnection.UpdateAsync(oldCPRHistory);
         }
 
         #endregion

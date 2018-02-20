@@ -214,7 +214,11 @@ namespace CprPrototype.ViewModel
         /// </summary>
         protected BaseViewModel()
         {
-            History = new CPRHistory();
+            History = new CPRHistory
+            {
+                AttemptStarted = DateTime.Now,
+                HistoryName = "Dummy: " + DateTime.Now
+            };
             Timer = DependencyService.Get<IAdvancedTimer>();
         }
 
@@ -328,11 +332,11 @@ namespace CprPrototype.ViewModel
         {
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.png");
+                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.svg");
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
+                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.svg");
             }
         }
 
@@ -383,7 +387,7 @@ namespace CprPrototype.ViewModel
                 }
             }
         }
-        
+
         /// <summary>
         /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
         /// </summary>
@@ -446,7 +450,7 @@ namespace CprPrototype.ViewModel
         }
 
 
-        
+
         #endregion
     }
 }

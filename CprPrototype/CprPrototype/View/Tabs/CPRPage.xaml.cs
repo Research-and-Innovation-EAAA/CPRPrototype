@@ -94,7 +94,7 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private async void ShockableButton_Clicked(object sender, EventArgs e)
         {
-            DatabaseTest();
+         
             _viewModel.History.AddItem("Rytme vurderet - Stødbar");
 
             var answer = await CheckShockGivenActionSheet();

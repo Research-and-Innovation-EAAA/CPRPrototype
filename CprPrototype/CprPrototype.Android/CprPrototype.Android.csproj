@@ -229,6 +229,10 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_medicin.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\drawable\icon_nonshockable.svg" />
+    <Content Include="Resources\drawable\icon_shockable.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

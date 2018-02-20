@@ -20,6 +20,13 @@ namespace CprPrototype.Service
         [MaxLength(40)]
         public string HistoryName { get; set; }
 
+        public int CPRHistoryTotalCycles { set; get; }
+
+        /// <summary>
+        /// Gets and sets the date and time for the resuscitation attempt is started.
+        /// </summary>
+        public DateTime AttemptStarted { get; set; }
+
         /// <summary>
         /// Gets and sets the date and time for the resuscitation attempt is finished
         /// </summary>
@@ -37,7 +44,6 @@ namespace CprPrototype.Service
         /// </summary>
         public CPRHistory()
         {
-           
             Entries = new ObservableCollection<CPRHistoryEntry>();
         }
 
