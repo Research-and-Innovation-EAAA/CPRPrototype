@@ -34,13 +34,12 @@ namespace CprPrototype.ViewModel
 
         private const int CRITICAL_ALERT_TIME = 10;
         private bool _timerStarted = false;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public bool _doneIsAvailable;
-        public bool _logAvailable = true;
+        public bool _isDoneAvailable;
+        public bool _isLogAvailable = true;
         private bool _enableDisableUI = true;
         private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
+        public event PropertyChangedEventHandler PropertyChanged;
         //public event EventHandler TimerElapsed;
 
 
@@ -189,6 +188,22 @@ namespace CprPrototype.ViewModel
         /// Gets the Algorithm model.
         /// </summary>
         public AlgorithmBase AlgorithmBase { get; private set; }
+
+        /// <summary>
+        /// Enabling or disabling UI content on the homepage.
+        /// </summary>
+        public bool EnableDisableUI
+        {
+            set
+            {
+                _enableDisableUI = value;
+                OnPropertyChanged(nameof(EnableDisableUI));
+            }
+            get
+            {
+                return _enableDisableUI;
+            }
+        }
 
         #endregion
 
@@ -368,36 +383,36 @@ namespace CprPrototype.ViewModel
                 }
             }
         }
+        
         /// <summary>
         /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
         /// </summary>
-        public bool DoneIsAvailable
+        public bool IsDoneAvailable
         {
             set
             {
-                _doneIsAvailable = value;
-                OnPropertyChanged(nameof(DoneIsAvailable));
+                _isDoneAvailable = value;
+                OnPropertyChanged(nameof(IsDoneAvailable));
             }
             get
             {
-                return _doneIsAvailable;
+                return _isDoneAvailable;
             }
         }
-
 
         /// <summary>
         /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
         /// </summary>
-        public bool LogIsAvailable
+        public bool IsLogAvailable
         {
             set
             {
-                _logAvailable = value;
-                OnPropertyChanged(nameof(LogIsAvailable));
+                _isLogAvailable = value;
+                OnPropertyChanged(nameof(IsLogAvailable));
             }
             get
             {
-                return _logAvailable;
+                return _isLogAvailable;
             }
         }
 
@@ -416,7 +431,6 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public void EndAlgorithm()
         {
-           
             History.Entries.Clear();
             Timer.stopTimer();
             _timerStarted = false;
@@ -427,25 +441,12 @@ namespace CprPrototype.ViewModel
             AlgorithmBase = new AlgorithmBase();
             CurrentPosition = AlgorithmBase.CurrentStep;
             EnableDisableUI = false;
-            LogIsAvailable = true;
-            DoneIsAvailable = false;
+            IsLogAvailable = true;
+            IsDoneAvailable = false;
         }
 
-        /// <summary>
-        /// Enabling or disabling UI content on the homepage.
-        /// </summary>
-        public bool EnableDisableUI
-        {
-            set
-            {
-                _enableDisableUI = value;
-                OnPropertyChanged(nameof(EnableDisableUI));
-            }
-            get
-            {
-                return _enableDisableUI;
-            }
-        }
+
+        
         #endregion
     }
 }

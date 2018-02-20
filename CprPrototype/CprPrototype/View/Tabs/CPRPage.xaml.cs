@@ -98,8 +98,8 @@ namespace CprPrototype.View
             _viewModel.History.AddItem("Rytme vurderet - Stødbar");
 
             var answer = await CheckShockGivenActionSheet();
-            _viewModel.DoneIsAvailable = true;
-            _viewModel.LogIsAvailable = false;
+            _viewModel.IsDoneAvailable = true;
+            _viewModel.IsLogAvailable = false;
             _viewModel.EnableDisableUI = true;
             _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
             _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
@@ -118,8 +118,8 @@ namespace CprPrototype.View
             _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar");
 
             var answer = await CheckShockGivenActionSheet();
-            _viewModel.DoneIsAvailable = true;
-            _viewModel.LogIsAvailable = false;
+            _viewModel.IsDoneAvailable = true;
+            _viewModel.IsLogAvailable = false;
             _viewModel.EnableDisableUI = true;
             _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
             _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
@@ -127,57 +127,39 @@ namespace CprPrototype.View
             RefreshStepTime();
         }
 
-
+        // Tester method for database, which should be deleted upon deployment
         private async void DatabaseTest()
         {
             var db = _databaseHelper.DBConnection;
             // Create tables:
-            //await db.CreateTableAsync<Service.CPRHistory>();
-            //await db.CreateTableAsync<Service.CPRHistoryEntry>();
-
             await _databaseHelper.CreateTablesAsync();
 
             // Create CPRHistory:
             var firstHistory = new Service.CPRHistory();
             var secondHistory = new Service.CPRHistory();
-            //_databaseHelper.InsertCPRHistory(firstHistory);
 
-            await _databaseHelper.InsertCPRHistory(firstHistory);
-            await _databaseHelper.InsertCPRHistory(secondHistory);
+            await _databaseHelper.InsertCPRHistoryAsync(firstHistory);
+            await _databaseHelper.InsertCPRHistoryAsync(secondHistory);
 
             // Create CPRHistoryEntries:
             Service.CPRHistoryEntry entry1 = new Service.CPRHistoryEntry { Name = "Dummy1", CPRHistoryId = firstHistory.Id};
             Service.CPRHistoryEntry entry2 = new Service.CPRHistoryEntry { Name = "Dummy2", CPRHistoryId = firstHistory.Id };
             Service.CPRHistoryEntry entry3 = new Service.CPRHistoryEntry { Name = "Dummy3", CPRHistoryId = firstHistory.Id };
 
-            await _databaseHelper.InsertCPREntry(entry1);
-            await _databaseHelper.InsertCPREntry(entry2);
-            await _databaseHelper.InsertCPREntry(entry3);
-
-            //await db.InsertAsync(entry1);
-            //await db.InsertAsync(entry2);
-            //await db.InsertAsync(entry3);
-
+            await _databaseHelper.InsertCPREntryAsync(entry1);
+            await _databaseHelper.InsertCPREntryAsync(entry2);
+            await _databaseHelper.InsertCPREntryAsync(entry3);
 
             Service.CPRHistoryEntry entry4 = new Service.CPRHistoryEntry { Name = "Dummy4", CPRHistoryId = secondHistory.Id };
             Service.CPRHistoryEntry entry5 = new Service.CPRHistoryEntry { Name = "Dummy5", CPRHistoryId = secondHistory.Id };
             Service.CPRHistoryEntry entry6 = new Service.CPRHistoryEntry { Name = "Dummy6", CPRHistoryId = secondHistory.Id };
 
-            await _databaseHelper.InsertCPREntry(entry4);
-            await _databaseHelper.InsertCPREntry(entry5);
-            await _databaseHelper.InsertCPREntry(entry6);
+            await _databaseHelper.InsertCPREntryAsync(entry4);
+            await _databaseHelper.InsertCPREntryAsync(entry5);
+            await _databaseHelper.InsertCPREntryAsync(entry6);
 
-            var temp = await _databaseHelper.GetEntriesConnectedToCPRHistory(firstHistory.Id);
+            var temp = await _databaseHelper.GetEntriesConnectedToCPRHistoryAsync(firstHistory.Id);
 
-            List<Service.CPRHistoryEntry> list = await _databaseHelper.GetAllEntriesFromCPRHistoryAsync();
-
-
-            Debug.WriteLine(list.Capacity);
-
-            foreach (var entry in list)
-            {
-                Debug.WriteLine(entry.Name);
-            }
         }
         #endregion
     }

@@ -17,11 +17,13 @@ namespace CprPrototype.Service
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        [MaxLength(20)]
-        public string HitoryName { get; set; }
+        [MaxLength(40)]
+        public string HistoryName { get; set; }
 
-        //[OneToMany(CascadeOperations = CascadeOperation.All)]
-        //public List<CPRHistoryEntry> Entries { get; set; }
+        /// <summary>
+        /// Gets and sets the date and time for the resuscitation attempt is finished
+        /// </summary>
+        public DateTime AttemptFinished { get; set; }
 
         [Ignore]
         public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
