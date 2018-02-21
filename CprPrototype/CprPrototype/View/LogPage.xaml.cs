@@ -18,6 +18,7 @@ namespace CprPrototype.View
             DataTemplate template = new DataTemplate(typeof(TextCell));
             template.SetBinding(TextCell.TextProperty, "HistoryName");
             template.SetBinding(TextCell.DetailProperty, "CPRHistoryTotalCycles");
+            template.SetValue(TextCell.TextColorProperty,Color.Black);
             loglist.ItemTemplate = template;
             loglist.BindingContext = _viewmodel;
 

@@ -217,7 +217,6 @@ namespace CprPrototype.ViewModel
             History = new CPRHistory
             {
                 AttemptStarted = DateTime.Now,
-                HistoryName = "Dummy: " + DateTime.Now
             };
             Timer = DependencyService.Get<IAdvancedTimer>();
         }
