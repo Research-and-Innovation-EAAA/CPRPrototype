@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
 using CprPrototype;
+using CprPrototype.Service;
 using System;
 using System.Threading.Tasks;
 
@@ -51,7 +52,16 @@ namespace CprPrototype.View
             _viewModel.History.CPRHistoryTotalCycles = _viewModel.TotalElapsedCycles;
             _viewModel.History.AttemptFinished = DateTime.Now;
             await _database.InsertCPRHistoryAsync(_viewModel.History);
-            var temp = _viewModel.History;
+
+            // Insert Entries into DB
+            List<CPRHistoryEntry> updatedList = new List<CPRHistoryEntry>(_viewModel.History.Entries);
+            foreach (var item in updatedList)
+            {
+                item.CPRHistoryId = _viewModel.History.Id;
+            }
+
+            await _database.InsertListOfEntries(updatedList); 
+
         }
     }
 }

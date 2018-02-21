@@ -41,10 +41,6 @@ namespace CprPrototype.View
             loglist.ItemsSource = await _database.GetCPRHistoriesAsync();
         }
 
-        private async Task Find()
-        {
-
-        }
 
         /// <summary>
         /// Handler for when an item is selected on the listview. Handles both selection/deselection
@@ -60,6 +56,7 @@ namespace CprPrototype.View
 
             var temp = e.SelectedItem as Service.CPRHistory;
             int intTemp = temp.Id;
+            // Insert call for all connected to CPRHIstory here.
 
             App.Current.MainPage = new LogDetailPage(intTemp);
 
