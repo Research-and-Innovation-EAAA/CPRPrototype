@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
 using CprPrototype;
+using CprPrototype.Service;
 using System;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace CprPrototype.View
         public OverviewPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+
             BindingContext = _viewModel;
             DataTemplate template = new DataTemplate(typeof(ImageCell));
             template.SetBinding(ImageCell.ImageSourceProperty, "ImageSource");
@@ -42,9 +45,9 @@ namespace CprPrototype.View
             await ConnectToDB();
             _viewModel.EndAlgorithm();
         }
-        public void GoToLogPage(object sender, EventArgs e)
+        public async void GoToLogPage(object sender, EventArgs e)
         {
-            App.Current.MainPage = new LogPage();
+            await Navigation.PushAsync(new LogPage());
         }
         private async Task ConnectToDB()
         {
@@ -53,7 +56,16 @@ namespace CprPrototype.View
             _viewModel.History.AttemptFinished = DateTime.Now;
             _viewModel.History.HistoryName = _viewModel.History.AttemptStarted.Date.ToString("dd/MM/yy ") + " " + _viewModel.History.AttemptStarted.ToString(" HH:mm") + " - " + _viewModel.History.AttemptFinished.ToString("HH:mm");
             await _database.InsertCPRHistoryAsync(_viewModel.History);
-            var temp = _viewModel.History;
+
+            // Insert Entries into DB
+            List<CPRHistoryEntry> updatedList = new List<CPRHistoryEntry>(_viewModel.History.Entries);
+            foreach (var item in updatedList)
+            {
+                item.CPRHistoryId = _viewModel.History.Id;
+            }
+
+            await _database.InsertListOfEntries(updatedList); 
+
         }
     }
 }
