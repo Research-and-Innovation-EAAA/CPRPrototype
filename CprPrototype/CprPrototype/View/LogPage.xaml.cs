@@ -21,6 +21,7 @@ namespace CprPrototype.View
         public LogPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
 
             BindingContext = _viewmodel;
             DataTemplate template = new DataTemplate(typeof(TextCell));
@@ -47,7 +48,7 @@ namespace CprPrototype.View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public async void  OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if(e.SelectedItem == null) // Do nothing on deselect
             {
@@ -58,7 +59,7 @@ namespace CprPrototype.View
             int intTemp = temp.Id;
             // Insert call for all connected to CPRHIstory here.
 
-            App.Current.MainPage = new LogDetailPage(intTemp);
+            await Navigation.PushAsync(new LogDetailPage(intTemp));
 
         }
 

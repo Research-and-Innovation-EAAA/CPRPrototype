@@ -18,6 +18,8 @@ namespace CprPrototype.View
         public OverviewPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+
             BindingContext = _viewModel;
             DataTemplate template = new DataTemplate(typeof(ImageCell));
             template.SetBinding(ImageCell.ImageSourceProperty, "ImageSource");
@@ -42,9 +44,9 @@ namespace CprPrototype.View
         {
             _viewModel.EndAlgorithm();
         }
-        public void GoToLogPage(object sender, EventArgs e)
+        public async void GoToLogPage(object sender, EventArgs e)
         {
-            App.Current.MainPage = new LogPage();
+            await Navigation.PushAsync(new LogPage());
         }
         private async Task ConnectToDB()
         {

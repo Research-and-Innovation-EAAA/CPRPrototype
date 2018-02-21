@@ -30,6 +30,7 @@ namespace CprPrototype.View
         public LogDetailPage(int incomingId)
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
 
             BindingContext = _viewModel;
             DataTemplate template = new DataTemplate(typeof(ImageCell));

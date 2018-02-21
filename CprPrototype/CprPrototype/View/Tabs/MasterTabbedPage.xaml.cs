@@ -11,6 +11,8 @@ namespace CprPrototype.View
         {
             InitializeComponent();
             BarBackgroundColor = Color.FromHex("#004578");
+
+            NavigationPage.SetHasNavigationBar(this, false);
         } 
     }
 }
