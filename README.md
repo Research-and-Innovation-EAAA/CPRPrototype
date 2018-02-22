@@ -98,6 +98,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments (TODO)
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+Ikons provided by:
+Icon made by [ocha] from www.flaticon.com
