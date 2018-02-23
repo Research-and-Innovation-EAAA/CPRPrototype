@@ -150,11 +150,11 @@ namespace CprPrototype.Service
 
         }
 
-        public CPRHistoryEntry(string name, DateTime date, string source)
+        public CPRHistoryEntry(string name, DateTime date, string imageSource)
         {
             Name = name;
             Date = date;
-            ImageSource = source;
+            ImageSource = imageSource;
         }
         public CPRHistoryEntry(string name, DateTime date)
         {
