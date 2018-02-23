@@ -166,6 +166,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Graphics\freepik_icons\cardiogram.svg" />
+    <Content Include="Graphics\freepik_icons\syringe.svg" />
     <Content Include="Graphics\Icons from AppLab\icon_nonshockable.png" />
     <Content Include="Graphics\Icons from AppLab\icon_shockable.png" />
     <Content Include="Graphics\Icons from AppLab\svg format\icon_nonshockable.svg" />

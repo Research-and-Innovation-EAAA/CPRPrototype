@@ -338,7 +338,7 @@ namespace CprPrototype.ViewModel
                 History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.svg");
             }
         }
-
+        
         /// <summary>
         /// Occures when the timer ticks
         /// </summary>
