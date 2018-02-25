@@ -27,13 +27,17 @@ namespace CprPrototype.ViewModel
         private static readonly object _padlock = new object(); // Object used to make singleton thread-safe
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
-        private List<bool> _listofPressed = new List<bool>();
+
         private AlgorithmStep _currentPosition;
         private TimeSpan _totalTime, _stepTime;
         private int _totalElapsedCycles;
-        
+
         private const int CRITICAL_ALERT_TIME = 10;
         private bool _timerStarted = false;
+        public bool _isDoneAvailable;
+        public bool _isLogAvailable = true;
+        private bool _enableDisableUI = true;
+        private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         //public event EventHandler TimerElapsed;
@@ -82,14 +86,6 @@ namespace CprPrototype.ViewModel
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        public List<bool> ChoosedShockableNonShockable
-        {
-            get { return _listofPressed; }
         }
 
         /// <summary>
@@ -193,6 +189,22 @@ namespace CprPrototype.ViewModel
         /// </summary>
         public AlgorithmBase AlgorithmBase { get; private set; }
 
+        /// <summary>
+        /// Enabling or disabling UI content on the homepage.
+        /// </summary>
+        public bool EnableDisableUI
+        {
+            set
+            {
+                _enableDisableUI = value;
+                OnPropertyChanged(nameof(EnableDisableUI));
+            }
+            get
+            {
+                return _enableDisableUI;
+            }
+        }
+
         #endregion
 
         #region Construction & Initialization
@@ -202,7 +214,10 @@ namespace CprPrototype.ViewModel
         /// </summary>
         protected BaseViewModel()
         {
-            History = new CPRHistory();
+            History = new CPRHistory
+            {
+                AttemptStarted = DateTime.Now,
+            };
             Timer = DependencyService.Get<IAdvancedTimer>();
         }
 
@@ -316,14 +331,14 @@ namespace CprPrototype.ViewModel
         {
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.png");
+                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.svg");
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
+                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.svg");
             }
         }
-
+        
         /// <summary>
         /// Occures when the timer ticks
         /// </summary>
@@ -371,7 +386,70 @@ namespace CprPrototype.ViewModel
                 }
             }
         }
-        
+
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
+        /// </summary>
+        public bool IsDoneAvailable
+        {
+            set
+            {
+                _isDoneAvailable = value;
+                OnPropertyChanged(nameof(IsDoneAvailable));
+            }
+            get
+            {
+                return _isDoneAvailable;
+            }
+        }
+
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
+        /// </summary>
+        public bool IsLogAvailable
+        {
+            set
+            {
+                _isLogAvailable = value;
+                OnPropertyChanged(nameof(IsLogAvailable));
+            }
+            get
+            {
+                return _isLogAvailable;
+            }
+        }
+
+        /// <summary>
+        /// This method notifies a specific notify object to change its properties.
+        /// fx buttons going from nonvisible to visible.
+        /// </summary>
+        protected void OnPropertyChanged(string n)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            handler(this, new PropertyChangedEventArgs(n));
+        }
+
+        /// <summary>
+        /// This method ends the algorithm
+        /// </summary>
+        public void EndAlgorithm()
+        {
+            History.Entries.Clear();
+            Timer.stopTimer();
+            _timerStarted = false;
+            TotalTime = TimeSpan.Zero;
+            TotalElapsedCycles = 0;
+            StepTime = TimeSpan.Zero;
+            NotificationQueue.Clear();
+            AlgorithmBase = new AlgorithmBase();
+            CurrentPosition = AlgorithmBase.CurrentStep;
+            EnableDisableUI = false;
+            IsLogAvailable = true;
+            IsDoneAvailable = false;
+        }
+
+
+
         #endregion
     }
 }

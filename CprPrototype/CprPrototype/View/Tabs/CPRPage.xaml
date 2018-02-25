@@ -18,7 +18,8 @@
                     HorizontalOptions="Fill"
                     Margin="-3"
                     FontSize="Large"
-                    IsVisible="False"/>
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Light"/>
                 <Label 
                     x:Name="lblTotalTime"
                     Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
@@ -26,7 +27,8 @@
                     HorizontalOptions="Fill"
                     Margin="-3"
                     FontSize="Large"
-                    IsVisible="False"/>
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
@@ -35,7 +37,8 @@
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
-                       IsVisible="False"/>
+                       IsVisible="False"
+                       FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
             <Label x:Name="lblStepDescription" 
                 Text="Fortsæt HLR for 30:2 for"
@@ -45,7 +48,8 @@
                 FontSize="Large"
                 HorizontalTextAlignment="Center"
                 TextColor="Black"
-                   IsVisible="False"/>
+                   IsVisible="False"
+                   FontFamily="Helvetica Neue-Light"/>
             <Label x:Name="lblStepTime" 
                 Text="{Binding StepTime, StringFormat='{0:%m\\:ss}'}"
                 VerticalOptions="Center" 
@@ -54,7 +58,8 @@
                 Font="Bold, 32"
                 IsVisible="False"
                 HorizontalTextAlignment="Center"
-                TextColor="Black"/>
+                TextColor="Black"
+                   FontFamily="HelveticaNeue-Light"/>
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
                          Margin="0,0,0,0"
@@ -67,7 +72,8 @@
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
-                        IsVisible="False"/>
+                        IsVisible="False"
+                        FontFamily="HelveticaNeue-Light"/>
                 </StackLayout>
                 <ListView x:Name="listView"/>
             </StackLayout>
@@ -76,7 +82,7 @@
                        Text="Vurder Rytme"
                        FontSize="Small"
                        TextColor="White"
-                       FontFamily="Helvetica Neue - Light"
+                       FontFamily="HelveticaNeue-Light"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"/>
             </StackLayout>
@@ -85,13 +91,13 @@
                     Text="Stødbar"
                     Clicked="ShockableButton_Clicked"
                         FontSize="Medium"
-                        FontFamily="Helvetica Neue - Light" 
+                        FontFamily="HelveticaNeue-Light" 
                         BackgroundColor="#A2CD54"/>
                 <Button x:Name="btnNShockable"
                     Text="Ikke-&#10;Stødbar"
                     Clicked="NShockableButton_Clicked"
                     FontSize="Medium"
-                        FontFamily="Helvetica Neue - Light "
+                        FontFamily="HelveticaNeue-Light "
                         BackgroundColor="#A2CD54"/>
             </StackLayout>
         </StackLayout>

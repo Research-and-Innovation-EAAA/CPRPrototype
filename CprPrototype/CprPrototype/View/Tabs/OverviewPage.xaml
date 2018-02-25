@@ -16,15 +16,13 @@
                     VerticalOptions="Start" 
                     HorizontalOptions="Fill"
                     Margin="5"
-                    FontSize="Large"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontSize="Large"/>
                 <Label
                     Text="{Binding Cycles, StringFormat='{0} Cykler'}"
                     VerticalOptions="Start"
                     HorizontalOptions="Fill"
                     Margin="5"
-                    FontSize="Large"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontSize="Large"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
@@ -35,37 +33,19 @@
                        FontSize="Small"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
-                       BackgroundColor="#00447B"
-                           FontFamily="HelveticaNeue-Light"/>
+                       BackgroundColor="#00447B"/>
                 </StackLayout>
                 <ListView x:Name="listView"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
-            <StackLayout HorizontalOptions="Fill">
-                <Label Text="Handling"
-                       FontSize="Small"
-                       TextColor="White"
-                       HorizontalTextAlignment="Center"
-                       BackgroundColor="#00447B"
-                       FontFamily="HelveticaNeue-Light"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="80">
-                <Button x:Name="btnRUC"
-                    Text="RUC" WidthRequest="150"
-                        Clicked="BtnRUC_Clicked"
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
+                <Button x:Name="btnDBSave"
+                    Text="Stødbar"
+                    Clicked="BtnDBSave_Clicked"
                         FontSize="Medium"
-                        FontFamily="HelveticaNeue-Light" 
-                        BackgroundColor="#A2CD54" />
-                <Button
-                    x:Name="btnDoed"
-                    Text="DØD" WidthRequest="150"
-                    Clicked="BtnDoed_Clicked"
-                    FontSize="Medium"
-                        FontFamily="HelveticaNeue-Light"
-                        BackgroundColor="#D13F3D"/>
-                <Button x:Name="btnlog" Text="Vis log" FontFamily="HelveticaNeue-Light"
-                        Clicked="GoToLogPage"/>
+                        FontFamily="Helvetica Neue - Light" 
+                        BackgroundColor="#A2CD54"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
