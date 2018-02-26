@@ -1,8 +1,6 @@
 ﻿using CprPrototype.Database;
 using CprPrototype.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -58,6 +56,15 @@ namespace CprPrototype.View
             lblStepDescription.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblStepTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
+
+            // Device Handeling:
+
+            //switch(Device.RuntimePlatform)
+            //{
+            //    case Device.iOS:
+            //        Padding = new Thickness(0, 20, 0, 0);
+            //        break;
+            //}
         }
 
         #endregion
@@ -107,12 +114,15 @@ namespace CprPrototype.View
             try
             {
 
-                if (_viewModel.TotalElapsedCycles == 0)
+                if (_viewModel.TotalElapsedCycles != 0)
+                {
+                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "syringe.png");
+                }
+                else
                 {
                     _viewModel.History.AttemptStarted = DateTime.Now;
+                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar");
                 }
-                //DatabaseTest();
-                _viewModel.History.AddItem("Rytme vurderet - Stødbar", "syringe.png");
 
                 var answer = await CheckShockGivenActionSheet();
                 _viewModel.IsDoneAvailable = true;
@@ -148,12 +158,15 @@ namespace CprPrototype.View
 
             try
             {
-                if (_viewModel.TotalElapsedCycles == 0)
+                if (_viewModel.TotalElapsedCycles != 0)
+                {
+                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "syringe.png");
+                }
+                else
                 {
                     _viewModel.History.AttemptStarted = DateTime.Now;
+                    _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
                 }
-                _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "syringe.png");
-
                 var answer = await CheckShockGivenActionSheet();
                 _viewModel.IsDoneAvailable = true;
                 _viewModel.IsLogAvailable = false;

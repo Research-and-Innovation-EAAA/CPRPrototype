@@ -205,6 +205,38 @@ namespace CprPrototype.ViewModel
             }
         }
 
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
+        /// </summary>
+        public bool IsDoneAvailable
+        {
+            set
+            {
+                _isDoneAvailable = value;
+                OnPropertyChanged(nameof(IsDoneAvailable));
+            }
+            get
+            {
+                return _isDoneAvailable;
+            }
+        }
+
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
+        /// </summary>
+        public bool IsLogAvailable
+        {
+            set
+            {
+                _isLogAvailable = value;
+                OnPropertyChanged(nameof(IsLogAvailable));
+            }
+            get
+            {
+                return _isLogAvailable;
+            }
+        }
+
         #endregion
 
         #region Construction & Initialization
@@ -388,38 +420,6 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
-        /// </summary>
-        public bool IsDoneAvailable
-        {
-            set
-            {
-                _isDoneAvailable = value;
-                OnPropertyChanged(nameof(IsDoneAvailable));
-            }
-            get
-            {
-                return _isDoneAvailable;
-            }
-        }
-
-        /// <summary>
-        /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
-        /// </summary>
-        public bool IsLogAvailable
-        {
-            set
-            {
-                _isLogAvailable = value;
-                OnPropertyChanged(nameof(IsLogAvailable));
-            }
-            get
-            {
-                return _isLogAvailable;
-            }
-        }
-
-        /// <summary>
         /// This method notifies a specific notify object to change its properties.
         /// fx buttons going from nonvisible to visible.
         /// </summary>
@@ -447,8 +447,6 @@ namespace CprPrototype.ViewModel
             IsLogAvailable = true;
             IsDoneAvailable = false;
         }
-
-
 
         #endregion
     }

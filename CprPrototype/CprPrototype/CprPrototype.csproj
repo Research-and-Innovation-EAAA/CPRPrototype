@@ -71,7 +71,7 @@
     <Compile Include="View\Tabs\MasterTabbedPage.xaml.cs">
       <DependentUpon>MasterTabbedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\OverviewPage.xaml.cs">
+    <Compile Include="View\Tabs\OverviewPage.xaml.cs">
       <DependentUpon>OverviewPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -145,7 +145,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\OverviewPage.xaml">
+    <EmbeddedResource Include="View\Tabs\OverviewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.OverviewPage"
-             Title="Oversigt">
+             Title="Historik">
     <ContentPage.Content>
         <StackLayout>
             <StackLayout 
@@ -16,13 +16,15 @@
                     VerticalOptions="Start" 
                     HorizontalOptions="Fill"
                     Margin="5"
-                    FontSize="Large"/>
+                    FontSize="Large"
+                    FontFamily="HelveticaNeue-Light"/>
                 <Label
                     Text="{Binding Cycles, StringFormat='{0} Cykler'}"
                     VerticalOptions="Start"
                     HorizontalOptions="Fill"
                     Margin="5"
-                    FontSize="Large"/>
+                    FontSize="Large"
+                    FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
@@ -33,19 +35,37 @@
                        FontSize="Small"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
-                       BackgroundColor="#00447B"/>
+                       BackgroundColor="#00447B"
+                           FontFamily="HelveticaNeue-Light"/>
                 </StackLayout>
                 <ListView x:Name="listView"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
-                <Button x:Name="btnDBSave"
-                    Text="Stødbar"
-                    Clicked="BtnDBSave_Clicked"
+            <StackLayout HorizontalOptions="Fill">
+                <Label Text="Handling"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"
+                       FontFamily="HelveticaNeue-Light"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="80">
+                <Button x:Name="btnRUC"
+                    Text="RUC" WidthRequest="150"
+                        Clicked="BtnRUC_Clicked"
                         FontSize="Medium"
-                        FontFamily="Helvetica Neue - Light" 
-                        BackgroundColor="#A2CD54"/>
+                        FontFamily="HelveticaNeue-Light" 
+                        BackgroundColor="#A2CD54" />
+                <Button x:Name="btnDoed"
+                    Text="DØD" WidthRequest="150"
+                    Clicked="BtnDoed_Clicked"
+                    FontSize="Medium"
+                        FontFamily="HelveticaNeue-Light"
+                        BackgroundColor="#D13F3D"/>
+                <Button x:Name="btnlog" Text="Vis Historikker" FontFamily="HelveticaNeue-Light"
+                        Clicked="GoToLogPage"
+                        HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
