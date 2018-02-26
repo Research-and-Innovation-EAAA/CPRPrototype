@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CprPrototype.Helpers;
+using CprPrototype.iOS.Helpers;
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(FileHelper))]
 namespace CprPrototype.iOS.Helpers
 {
     class FileHelper : IFileHelper
@@ -14,7 +17,14 @@ namespace CprPrototype.iOS.Helpers
         public string GetLocalFilePath(string filename)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            return Path.Combine(path, filename);
+            string libFolder = Path.Combine(path, "..", "Library", "Databases");
+
+            if(!Directory.Exists(libFolder))
+            {
+                Directory.CreateDirectory(libFolder);
+            }
+
+            return Path.Combine(libFolder, filename);
         }
     }
 }
