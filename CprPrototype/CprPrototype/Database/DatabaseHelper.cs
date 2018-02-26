@@ -108,10 +108,17 @@ namespace CprPrototype.Database
         /// <returns>A list ordered by <see cref="DateTime"/> of <see cref="CPRHistoryEntry"/>'s</returns>
         public async Task<List<CPRHistory>> GetCPRHistoriesAsync()
         {
-            var query = DBConnection.Table<CPRHistory>();
-            List<CPRHistory> resultList = await query.ToListAsync();
-            resultList.Sort((x, y) => DateTime.Compare(x.AttemptFinished, y.AttemptFinished));
-            return resultList;
+            try
+            {
+                var query = DBConnection.Table<CPRHistory>();
+                List<CPRHistory> resultList = await query.ToListAsync();
+                resultList.Sort((x, y) => DateTime.Compare(x.AttemptFinished, y.AttemptFinished));
+                return resultList;
+            }
+            catch (SQLiteException)
+            {
+                return null;
+            }
         }
 
         /// <summary>

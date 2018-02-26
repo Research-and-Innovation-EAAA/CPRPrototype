@@ -1,8 +1,6 @@
 ﻿using CprPrototype.Database;
 using CprPrototype.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,6 +18,9 @@ namespace CprPrototype.View
         private const string actionSheetTitle = "STØD GIVET?";
         private const string shockGiven = "GIVET";
         private const string shockNotGiven = "IKKE-GIVET";
+
+        private object _syncLock = new object();
+        bool _isInCall = false;
 
         #endregion
 
@@ -55,6 +56,15 @@ namespace CprPrototype.View
             lblStepDescription.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblStepTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
+
+            // Device Handeling:
+
+            //switch(Device.RuntimePlatform)
+            //{
+            //    case Device.iOS:
+            //        Padding = new Thickness(0, 20, 0, 0);
+            //        break;
+            //}
         }
 
         #endregion
@@ -94,17 +104,42 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private async void ShockableButton_Clicked(object sender, EventArgs e)
         {
-            //DatabaseTest();
-            _viewModel.History.AddItem("Rytme vurderet - Stødbar");
+            lock (_syncLock)
+            {
+                if (_isInCall)
+                    return;
+                _isInCall = true;
+            }
 
-            var answer = await CheckShockGivenActionSheet();
-            _viewModel.IsDoneAvailable = true;
-            _viewModel.IsLogAvailable = false;
-            _viewModel.EnableDisableUI = true;
-            _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
-            _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
-            _viewModel.AdvanceAlgorithm(answer);
-            RefreshStepTime();
+            try
+            {
+
+                if (_viewModel.TotalElapsedCycles != 0)
+                {
+                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "syringe.png");
+                }
+                else
+                {
+                    _viewModel.History.AttemptStarted = DateTime.Now;
+                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar");
+                }
+
+                var answer = await CheckShockGivenActionSheet();
+                _viewModel.IsDoneAvailable = true;
+                _viewModel.IsLogAvailable = false;
+                _viewModel.EnableDisableUI = true;
+                _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
+                _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
+                _viewModel.AdvanceAlgorithm(answer);
+                RefreshStepTime();
+            }
+            finally
+            {
+                lock (_syncLock)
+                {
+                    _isInCall = false;
+                }
+            }
         }
 
         /// <summary>
@@ -114,18 +149,46 @@ namespace CprPrototype.View
         /// <param name="e">Args</param>
         private async void NShockableButton_Clicked(object sender, EventArgs e)
         {
+            lock (_syncLock)
+            {
+                if (_isInCall)
+                    return;
+                _isInCall = true;
+            }
 
-            _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar");
-
-            var answer = await CheckShockGivenActionSheet();
-            _viewModel.IsDoneAvailable = true;
-            _viewModel.IsLogAvailable = false;
-            _viewModel.EnableDisableUI = true;
-            _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
-            _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
-            _viewModel.AdvanceAlgorithm(answer);
-            RefreshStepTime();
+            try
+            {
+                if (_viewModel.TotalElapsedCycles != 0)
+                {
+                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "syringe.png");
+                }
+                else
+                {
+                    _viewModel.History.AttemptStarted = DateTime.Now;
+                    _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
+                }
+                var answer = await CheckShockGivenActionSheet();
+                _viewModel.IsDoneAvailable = true;
+                _viewModel.IsLogAvailable = false;
+                _viewModel.EnableDisableUI = true;
+                _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
+                _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
+                _viewModel.AdvanceAlgorithm(answer);
+                RefreshStepTime();
+            }
+            finally
+            {
+                lock (_syncLock)
+                {
+                    _isInCall = false;
+                }
+            }
         }
+
+        //private void RemoveNotifications()
+        //{
+        //    _viewModel.AlgorithmBase.RemoveDrugsFromQueue(_viewModel.NotificationQueue);
+        //}
 
         // Tester method for database, which should be deleted upon deployment
         private async void DatabaseTest()
@@ -142,7 +205,7 @@ namespace CprPrototype.View
             await _databaseHelper.InsertCPRHistoryAsync(secondHistory);
 
             // Create CPRHistoryEntries:
-            Service.CPRHistoryEntry entry1 = new Service.CPRHistoryEntry { Name = "Dummy1", CPRHistoryId = firstHistory.Id};
+            Service.CPRHistoryEntry entry1 = new Service.CPRHistoryEntry { Name = "Dummy1", CPRHistoryId = firstHistory.Id };
             Service.CPRHistoryEntry entry2 = new Service.CPRHistoryEntry { Name = "Dummy2", CPRHistoryId = firstHistory.Id };
             Service.CPRHistoryEntry entry3 = new Service.CPRHistoryEntry { Name = "Dummy3", CPRHistoryId = firstHistory.Id };
 
