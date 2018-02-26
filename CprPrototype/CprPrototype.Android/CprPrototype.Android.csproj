@@ -195,7 +195,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
@@ -230,8 +232,11 @@
     <AndroidResource Include="Resources\drawable\icon_medicin.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable\cardiogram.svg" />
     <Content Include="Resources\drawable\icon_nonshockable.svg" />
     <Content Include="Resources\drawable\icon_shockable.svg" />
+    <AndroidResource Include="Resources\drawable\syringe.svg" />
+    <AndroidResource Include="Resources\drawable\syringemedicin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -2,7 +2,6 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Graphics;
-using CprPrototype;
 
 namespace CprPrototype.Droid
 {
@@ -19,6 +18,7 @@ namespace CprPrototype.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             AdvancedTimer.Forms.Plugin.Droid.AdvancedTimerImplementation.Init();
+
             LoadApplication(new App());
         }
     }

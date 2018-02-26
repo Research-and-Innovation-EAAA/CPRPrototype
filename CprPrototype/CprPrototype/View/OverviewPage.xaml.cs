@@ -29,7 +29,7 @@ namespace CprPrototype.View
             listView.ItemTemplate = template;
             listView.BindingContext = _viewModel;
             listView.ItemsSource = _viewModel.History.Entries;
-           
+
 
             btnlog.SetBinding(IsVisibleProperty, nameof(_viewModel.IsLogAvailable));
             btnRUC.SetBinding(IsVisibleProperty, nameof(_viewModel.IsDoneAvailable));
@@ -64,8 +64,7 @@ namespace CprPrototype.View
                 item.CPRHistoryId = _viewModel.History.Id;
             }
 
-            await _database.InsertListOfEntries(updatedList); 
-
+            await _database.InsertListOfEntries(updatedList);
         }
     }
 }
