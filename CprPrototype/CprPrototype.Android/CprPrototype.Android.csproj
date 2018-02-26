@@ -220,10 +220,7 @@
     <AndroidResource Include="Resources\drawable\icon_watermelon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icon_nonshockable.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icon_shockable.png" />
+    <Content Include="Resources\drawable\icon_nonshockable.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\cross.png" />
@@ -232,7 +229,9 @@
     <AndroidResource Include="Resources\drawable\icon_medicin.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable\cpr.png" />
     <Content Include="Resources\drawable\icon_nonshockable.svg" />
+    <AndroidResource Include="Resources\drawable\icon_shockable.png" />
     <Content Include="Resources\drawable\icon_shockable.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -363,11 +363,11 @@ namespace CprPrototype.ViewModel
         {
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.svg");
+                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.png");
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.svg");
+                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
             }
         }
         

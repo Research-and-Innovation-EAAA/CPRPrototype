@@ -121,7 +121,7 @@ namespace CprPrototype.View
                 else
                 {
                     _viewModel.History.AttemptStarted = DateTime.Now;
-                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar");
+                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar","cpr.png");
                 }
 
                 var answer = await CheckShockGivenActionSheet();
