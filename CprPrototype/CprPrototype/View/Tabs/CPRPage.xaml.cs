@@ -56,15 +56,6 @@ namespace CprPrototype.View
             lblStepDescription.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblStepTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
-
-            // Device Handeling:
-
-            //switch(Device.RuntimePlatform)
-            //{
-            //    case Device.iOS:
-            //        Padding = new Thickness(0, 20, 0, 0);
-            //        break;
-            //}
         }
 
         #endregion
