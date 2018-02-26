@@ -19,7 +19,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <JavaMaximumHeapSize />
@@ -230,8 +230,10 @@
     <AndroidResource Include="Resources\drawable\icon_medicin.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\drawable\cardiogram.svg" />
     <Content Include="Resources\drawable\icon_nonshockable.svg" />
     <Content Include="Resources\drawable\icon_shockable.svg" />
+    <AndroidResource Include="Resources\drawable\syringe.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
