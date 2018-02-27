@@ -107,7 +107,7 @@ namespace CprPrototype.View
 
                 if (_viewModel.TotalElapsedCycles != 0)
                 {
-                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "syringe.png");
+                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "cardiogram.png");
                 }
                 else
                 {
@@ -151,7 +151,7 @@ namespace CprPrototype.View
             {
                 if (_viewModel.TotalElapsedCycles != 0)
                 {
-                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "syringe.png");
+                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "cardiogram.png");
                 }
                 else
                 {
