@@ -107,12 +107,12 @@ namespace CprPrototype.View
 
                 if (_viewModel.TotalElapsedCycles != 0)
                 {
-                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "syringe.png");
+                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "cardiogram.png");
                 }
                 else
                 {
                     _viewModel.History.AttemptStarted = DateTime.Now;
-                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar");
+                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar","cpr.png");
                 }
 
                 var answer = await CheckShockGivenActionSheet();
@@ -151,7 +151,7 @@ namespace CprPrototype.View
             {
                 if (_viewModel.TotalElapsedCycles != 0)
                 {
-                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "syringe.png");
+                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "cardiogram.png");
                 }
                 else
                 {

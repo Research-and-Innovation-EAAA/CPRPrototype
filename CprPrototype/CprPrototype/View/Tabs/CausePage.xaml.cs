@@ -26,7 +26,7 @@ namespace CprPrototype.View
             }
             foreach (var b in CaseT)
             {
-                TList.Add(new TextCell { Text = (string)b.ToString(), TextColor = Color.Black });
+                TList.Add(new TextCell { Text = b.ToString(), TextColor = Color.Black });
             }
             sectionH.Add(HList);
             sectionT.Add(TList);
