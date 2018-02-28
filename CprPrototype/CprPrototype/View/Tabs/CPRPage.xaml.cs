@@ -18,6 +18,7 @@ namespace CprPrototype.View
         private const string actionSheetTitle = "STØD GIVET?";
         private const string shockGiven = "GIVET";
         private const string shockNotGiven = "IKKE-GIVET";
+        private const string cancelAction = "ANULLER";
 
         private object _syncLock = new object();
         bool _isInCall = false;
@@ -80,9 +81,9 @@ namespace CprPrototype.View
         {
             string answer = null;
 
-            while (answer == null)
+            while (answer == null && answer != cancelAction)
             {
-                answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven);
+                answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven, cancelAction);
             }
 
             return answer;
@@ -104,25 +105,32 @@ namespace CprPrototype.View
 
             try
             {
+                var answer = await CheckShockGivenActionSheet();
 
-                if (_viewModel.TotalElapsedCycles != 0)
+                if (answer == cancelAction)
                 {
-                    _viewModel.History.AddItem("Rytme vurderet - Stødbar", "cardiogram.png");
+                    return;
                 }
                 else
                 {
-                    _viewModel.History.AttemptStarted = DateTime.Now;
-                    _viewModel.History.AddItem("Genoplivning Startet - Stødbar","cpr.png");
-                }
+                    if (_viewModel.TotalElapsedCycles != 0)
+                    {
+                        _viewModel.History.AddItem("Rytme vurderet - Stødbar", "cardiogram.png");
+                    }
+                    else
+                    {
+                        _viewModel.History.AttemptStarted = DateTime.Now;
+                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "cpr.png");
+                    }
 
-                var answer = await CheckShockGivenActionSheet();
-                _viewModel.IsDoneAvailable = true;
-                _viewModel.IsLogAvailable = false;
-                _viewModel.EnableDisableUI = true;
-                _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
-                _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
-                _viewModel.AdvanceAlgorithm(answer);
-                RefreshStepTime();
+                    _viewModel.IsDoneAvailable = true;
+                    _viewModel.IsLogAvailable = false;
+                    _viewModel.EnableDisableUI = true;
+                    _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
+                    _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
+                    _viewModel.AdvanceAlgorithm(answer);
+                    RefreshStepTime();
+                }
             }
             finally
             {
@@ -149,23 +157,30 @@ namespace CprPrototype.View
 
             try
             {
-                if (_viewModel.TotalElapsedCycles != 0)
+                var answer = await CheckShockGivenActionSheet();
+                if (answer == cancelAction)
                 {
-                    _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "cardiogram.png");
+                    return;
                 }
                 else
                 {
-                    _viewModel.History.AttemptStarted = DateTime.Now;
-                    _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
+                    if (_viewModel.TotalElapsedCycles != 0)
+                    {
+                        _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "cardiogram.png");
+                    }
+                    else
+                    {
+                        _viewModel.History.AttemptStarted = DateTime.Now;
+                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
+                    }
+                    _viewModel.IsDoneAvailable = true;
+                    _viewModel.IsLogAvailable = false;
+                    _viewModel.EnableDisableUI = true;
+                    _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
+                    _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
+                    _viewModel.AdvanceAlgorithm(answer);
+                    RefreshStepTime();
                 }
-                var answer = await CheckShockGivenActionSheet();
-                _viewModel.IsDoneAvailable = true;
-                _viewModel.IsLogAvailable = false;
-                _viewModel.EnableDisableUI = true;
-                _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
-                _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
-                _viewModel.AdvanceAlgorithm(answer);
-                RefreshStepTime();
             }
             finally
             {
