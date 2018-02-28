@@ -97,13 +97,22 @@
                     Clicked="ShockableButton_Clicked"
                         FontSize="Medium"
                         FontFamily="HelveticaNeue-Light" 
-                        BackgroundColor="#A2CD54"/>
+                        BackgroundColor="#A2CD54"
+                        WidthRequest="150">
+                </Button>
                 <Button x:Name="btnNShockable"
-                    Text="Ikke-&#10;Stødbar"
                     Clicked="NShockableButton_Clicked"
                     FontSize="Medium"
                         FontFamily="HelveticaNeue-Light "
-                        BackgroundColor="#A2CD54"/>
+                        BackgroundColor="#A2CD54"
+                        WidthRequest="150">
+                    <Button.Text>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="iOS">Ikke-Stødbar</On>
+                            <On Platform="Android">Ikke-&#10;Stødbar</On>
+                        </OnPlatform>
+                    </Button.Text>
+                </Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
