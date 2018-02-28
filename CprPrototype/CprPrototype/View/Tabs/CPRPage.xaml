@@ -46,7 +46,7 @@
                        FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
             <Label x:Name="lblStepDescription" 
-                Text="Fortsæt HLR for 30:2 for"
+                Text="HLR 2 minutter"
                 VerticalOptions="Center" 
                 HorizontalOptions="CenterAndExpand"
                 Margin="10,10,10,0"
