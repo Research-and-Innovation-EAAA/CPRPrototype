@@ -30,7 +30,15 @@ namespace CprPrototype.View
         public LogDetailPage(int incomingId)
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+            switch(Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    NavigationPage.SetHasNavigationBar(this, true);
+                    break;
+                case Device.Android:
+                    NavigationPage.SetHasNavigationBar(this, false);
+                    break;
+            }
 
             BindingContext = _viewModel;
             DataTemplate template = new DataTemplate(typeof(ImageCell));
