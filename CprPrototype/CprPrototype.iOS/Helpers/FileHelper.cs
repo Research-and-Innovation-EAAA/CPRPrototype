@@ -17,7 +17,7 @@ namespace CprPrototype.iOS.Helpers
         public string GetLocalFilePath(string filename)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string libFolder = Path.Combine(path, "..", "Library", "Databases");
+            string libFolder = Path.Combine(path, "..", "Library");
 
             if(!Directory.Exists(libFolder))
             {
