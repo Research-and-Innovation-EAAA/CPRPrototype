@@ -142,8 +142,7 @@ namespace CprPrototype.Database
             try
             {
                 var query = DBConnection.Table<CPRHistory>();
-                List<CPRHistory> resultList = await query.ToListAsync();
-                resultList.Sort((x, y) => DateTime.Compare(x.AttemptFinished, y.AttemptFinished));
+                List<CPRHistory> resultList = await query.OrderByDescending(x => x.AttemptFinished).ToListAsync();
                 return resultList;
             }
             catch (SQLiteException e)

@@ -65,49 +65,60 @@ namespace CprPrototype.Service
                 item
             };
 
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
-
-            Entries.Clear();
-
-            foreach (var i in list)
-            {
-                Entries.Add(i);
-
-            }
+            UpdateList(list);
         }
 
         public void AddItem(string name)
         {
-            CPRHistoryEntry entry = new CPRHistoryEntry(name, DateTime.Now)
-            {
-                Name = name
-            };
-            entry.DateTimeString = entry.Date.ToString("d/MM/yy  H:mm:ss");
-            Entries.Add(entry);
-        }
-
-        public void AddItems(string name, string source)
-        {
-            var item = new CPRHistoryEntry(name, DateTime.Now, source);
-            item.DateTimeString = item.Date.ToString("d/MM/yy  H:mm:ss");
+            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now);
+            item.DateTimeString = item.Date.ToString("dd/MM/yy  H:mm:ss");
 
             List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
             {
                 item
             };
 
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
+            //entry.DateTimeString = entry.Date.ToString("d/MM/yy  H:mm:ss");
+            //Entries.Add(entry);
+
+            UpdateList(list);
+        }
+
+        private void UpdateList(List<CPRHistoryEntry> incomingList)
+        {
+            incomingList.Sort((x, y) => y.Date.CompareTo(x.Date));
+            incomingList.Reverse();
 
             Entries.Clear();
 
-            foreach (var i in list)
+            foreach (var i in incomingList)
             {
-
                 Entries.Add(i);
+
             }
         }
+
+        //public void AddItems(string name, string source)
+        //{
+        //    var item = new CPRHistoryEntry(name, DateTime.Now, source);
+        //    item.DateTimeString = item.Date.ToString("d/MM/yy  H:mm:ss");
+
+        //    List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
+        //    {
+        //        item
+        //    };
+
+        //    list.Sort((x, y) => y.Date.CompareTo(x.Date));
+        //    //list.Reverse();
+
+        //    Entries.Clear();
+
+        //    foreach (var i in list)
+        //    {
+
+        //        Entries.Add(i);
+        //    }
+        //}
 
         #endregion
     }

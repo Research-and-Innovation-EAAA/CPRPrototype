@@ -81,9 +81,9 @@ namespace CprPrototype.View
         {
             string answer = null;
 
-            while (answer == null && answer != cancelAction)
+            while (answer == null)
             {
-                answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven, cancelAction);
+                answer = await DisplayActionSheet(actionSheetTitle, cancelAction, null, shockGiven, shockNotGiven);
             }
 
             return answer;
