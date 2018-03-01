@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SQLite;
 
 namespace CprPrototype.View
 {
@@ -131,7 +132,7 @@ namespace CprPrototype.View
                     _viewModel.AdvanceAlgorithm(answer);
                     RefreshStepTime();
                 }
-            }
+            } 
             finally
             {
                 lock (_syncLock)

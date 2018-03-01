@@ -52,10 +52,11 @@ namespace CprPrototype.Service
         #region Methods
 
         /// <summary>
-        /// Adds an item the the log of the app.
+        /// Adds an item to the log of the app with an image attached.
         /// </summary>
-        /// <param name="name"></param>
-        public void AddItem(string name, string source)
+        /// <param name="name">Name of the event</param>
+        /// <param name="source">Image sourcepath</param>
+        public void AddItem(string name, string source = null)
         {
             var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now, source);
             item.DateTimeString = item.Date.ToString("dd/MM/yy  H:mm:ss");
@@ -68,27 +69,16 @@ namespace CprPrototype.Service
             UpdateList(list);
         }
 
-        public void AddItem(string name)
-        {
-            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now);
-            item.DateTimeString = item.Date.ToString("dd/MM/yy  H:mm:ss");
-
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
-            {
-                item
-            };
-
-            //entry.DateTimeString = entry.Date.ToString("d/MM/yy  H:mm:ss");
-            //Entries.Add(entry);
-
-            UpdateList(list);
-        }
-
+        /// <summary>
+        /// Helpermethod for ordering the incoming <see cref="CPRHistoryEntry"/>-list, 
+        /// so it will be displayed correctly on screen.
+        /// </summary>
+        /// <param name="incomingList">List to be sorted</param>
         private void UpdateList(List<CPRHistoryEntry> incomingList)
         {
             incomingList.Sort((x, y) => y.Date.CompareTo(x.Date));
             incomingList.Reverse();
-
+            
             Entries.Clear();
 
             foreach (var i in incomingList)
@@ -97,28 +87,6 @@ namespace CprPrototype.Service
 
             }
         }
-
-        //public void AddItems(string name, string source)
-        //{
-        //    var item = new CPRHistoryEntry(name, DateTime.Now, source);
-        //    item.DateTimeString = item.Date.ToString("d/MM/yy  H:mm:ss");
-
-        //    List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
-        //    {
-        //        item
-        //    };
-
-        //    list.Sort((x, y) => y.Date.CompareTo(x.Date));
-        //    //list.Reverse();
-
-        //    Entries.Clear();
-
-        //    foreach (var i in list)
-        //    {
-
-        //        Entries.Add(i);
-        //    }
-        //}
 
         #endregion
     }
