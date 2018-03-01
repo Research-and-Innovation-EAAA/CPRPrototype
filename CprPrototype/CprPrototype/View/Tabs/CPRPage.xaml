@@ -16,24 +16,6 @@
                 Orientation="Horizontal"
                 Spacing="25"
                 Margin="5, 5, 5, 10">
-                <Label
-                    x:Name="lblTotalElapsedCycles"
-                    Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
-                    VerticalOptions="Start"
-                    HorizontalOptions="Fill"
-                    Margin="-3"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Light"/>
-                <Label 
-                    x:Name="lblTotalTime"
-                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
-                    VerticalOptions="Start" 
-                    HorizontalOptions="Fill"
-                    Margin="-3"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
@@ -113,6 +95,27 @@
                         </OnPlatform>
                     </Button.Text>
                 </Button>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="25"
+                Margin="5, 5, 5, 10">
+            <Label
+                    x:Name="lblTotalElapsedCycles"
+                    Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Light"/>
+            <Label 
+                    x:Name="lblTotalTime"
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    FontSize="Large"
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

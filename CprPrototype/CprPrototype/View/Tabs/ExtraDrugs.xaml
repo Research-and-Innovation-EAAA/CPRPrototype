@@ -16,33 +16,44 @@
                 VerticalOptions="FillAndExpand"
                 Text="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)" FontSize="12"
                     Clicked="BtnAdrenalin_Clicked"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontFamily="HelveticaNeue-Light" 
+                    BackgroundColor="#E0E0E0"
+                    TextColor="Black">
+            </Button>
             <Button x:Name="btnAmiodaron"
                 Text="Amiodaron&#10;(300 mg bolus efter 3.stød) &#10; (150 mg bolus efter 5. stød)"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand" FontSize="12"
                     Clicked="BtnAmiodaron_Clicked"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontFamily="HelveticaNeue-Light"
+                    BackgroundColor="#E0E0E0"
+                    TextColor="Black"/>
             <Button x:Name="btnBikarbonat"
                 Text="Bikarbonat&#10;50mg 8,4% (50 mmol) bolus&#10;gentages efter behov"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
                 Clicked="BtnBikarbonat_Clicked" FontSize="12"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontFamily="HelveticaNeue-Light"
+                    BackgroundColor="#E0E0E0"
+                    TextColor="Black"/>
             <Button x:Name="btnCalcium"
                 Text="Calcium&#10;10 ml(50 mmol) 0,5 mmol/ml bolus&#10;gentages ved behov"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
                 Clicked="BtnCalcium_Clicked" 
                     FontSize="12"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontFamily="HelveticaNeue-Light"
+                    BackgroundColor="#E0E0E0"
+                    TextColor="Black"/>
             <Button x:Name="btnMagnesium"
                 Text="Magnesium&#10; 4 ml Magnesiumsulfat/magnesiumklorid &#10; 2 mml/ml over 1-2 min &#10; evt gentages efter 10-15min"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
                 Clicked="BtnMagnesium_Clicked"
                 FontSize="12"
-                    FontFamily="HelveticaNeue-Light"/>
+                    FontFamily="HelveticaNeue-Light"
+                    BackgroundColor="#E0E0E0"
+                    TextColor="Black"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
