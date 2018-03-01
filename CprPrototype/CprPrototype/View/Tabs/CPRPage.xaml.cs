@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SQLite;
 
 namespace CprPrototype.View
 {
@@ -81,9 +82,9 @@ namespace CprPrototype.View
         {
             string answer = null;
 
-            while (answer == null && answer != cancelAction)
+            while (answer == null)
             {
-                answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven, cancelAction);
+                answer = await DisplayActionSheet(actionSheetTitle, cancelAction, null, shockGiven, shockNotGiven);
             }
 
             return answer;
@@ -131,7 +132,7 @@ namespace CprPrototype.View
                     _viewModel.AdvanceAlgorithm(answer);
                     RefreshStepTime();
                 }
-            }
+            } 
             finally
             {
                 lock (_syncLock)

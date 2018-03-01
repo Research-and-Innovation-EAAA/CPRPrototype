@@ -24,7 +24,7 @@ namespace CprPrototype.ViewModel
         #region Properties
 
         private static BaseViewModel _instance;
-        private static readonly object _padlock = new object(); // Object used to make singleton thread-safe
+        private static object _padlock = new object(); // Object used to make singleton thread-safe
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
 
