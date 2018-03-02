@@ -357,7 +357,7 @@ namespace CprPrototype.ViewModel
                 CycleTimer = null;
             }
             TimerCallback timerDelegate = new TimerCallback(StaticNotifyTimerIncremented);
-            CycleTimer = new Timer(timerDelegate, this, 1000, 1000);
+            CycleTimer = new Timer(timerDelegate, this, 100, 1000);
         }
 
         /// <summary>
