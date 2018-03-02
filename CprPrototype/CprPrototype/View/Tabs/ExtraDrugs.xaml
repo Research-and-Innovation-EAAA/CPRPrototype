@@ -14,11 +14,22 @@
             <Button x:Name="btnAdrenalin"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Text="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)" FontSize="12"
+                    FontSize="60"
                     Clicked="BtnAdrenalin_Clicked"
                     FontFamily="HelveticaNeue-Light" 
                     BackgroundColor="#E0E0E0"
                     TextColor="Black">
+                <Button.FontSize>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="12" Android="12">
+                    </OnPlatform>
+                </Button.FontSize>
+                <Button.Text>
+                    <OnPlatform x:TypeArguments="x:String" 
+                                iOS="Adrenalin(1mg bolus hvert 3.-5 min.)" 
+                                Android="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)">
+                        
+                    </OnPlatform>
+                </Button.Text>
             </Button>
             <Button x:Name="btnAmiodaron"
                 Text="Amiodaron&#10;(300 mg bolus efter 3.stød) &#10; (150 mg bolus efter 5. stød)"
