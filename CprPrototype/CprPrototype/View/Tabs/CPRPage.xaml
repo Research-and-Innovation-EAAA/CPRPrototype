@@ -10,22 +10,6 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout 
-                VerticalOptions="Start"
-                HorizontalOptions="CenterAndExpand"
-                Orientation="Horizontal"
-                Spacing="25"
-                Margin="0, 0, 0, 0">
-                <Label x:Name="lblStepDescription" 
-                Text=""
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="0,0,0,0"
-                Font="Bold"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
-            </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
                        Text="Hjertelungeredning"
