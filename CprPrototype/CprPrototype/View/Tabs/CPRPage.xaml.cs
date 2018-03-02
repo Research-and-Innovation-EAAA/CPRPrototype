@@ -108,6 +108,9 @@ namespace CprPrototype.View
             {
                 var answer = await CheckShockGivenActionSheet();
 
+             //   await btnShockable.FadeTo(0, 3000);
+                // btnShockable.IsEnabled = false;
+
                 if (answer == cancelAction)
                 {
                     return;

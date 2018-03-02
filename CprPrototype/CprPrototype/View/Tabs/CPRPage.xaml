@@ -10,13 +10,6 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout 
-                VerticalOptions="Start"
-                HorizontalOptions="CenterAndExpand"
-                Orientation="Horizontal"
-                Spacing="25"
-                Margin="5, 5, 5, 10">
-            </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
                        Text="Hjerte"
