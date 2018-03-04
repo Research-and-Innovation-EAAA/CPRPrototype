@@ -179,30 +179,78 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Default-Portrait.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Default-Portrait%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-40.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-60.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-40%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-40%403x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-60%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-60%403x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-20.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-76.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-76%402x.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-1024.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1242-2208.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\750-1334.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2208-1242.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048-2732.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\640-960.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\640-1136.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\768-1024.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1536-2048.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1024-768.png" />
-    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048-1536.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Default-Portrait.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Default-Portrait%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-40%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-40%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-60%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-60%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-76%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon-1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1242-2208.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\750-1334.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2208-1242.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048-2732.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\640-960.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\640-1136.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\768-1024.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1536-2048.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\1024-768.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\2048-1536.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork%402x" />
