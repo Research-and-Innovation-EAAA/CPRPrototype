@@ -4,7 +4,8 @@
              x:Class="CprPrototype.View.LogPage">
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="loglist" />
+            <Label x:Name="lblEmpty" IsVisible="False"/>
+            <ListView x:Name="loglist" ItemSelected="OnItemSelected" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

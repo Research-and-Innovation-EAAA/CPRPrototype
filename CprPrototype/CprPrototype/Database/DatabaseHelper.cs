@@ -21,7 +21,7 @@ namespace CprPrototype.Database
 
         private static DatabaseHelper _databaseHelper;
         private const string _sqliteDBName = "CPRHistories.db3";
-        private SQLiteAsyncConnection _dbConnection;
+        private static SQLiteAsyncConnection _dbConnection = null;
 
         /// <summary>
         /// Gets the Database Connection, and makes one if not initialized
@@ -57,7 +57,6 @@ namespace CprPrototype.Database
 
         #endregion
 
-
         #region Methods
 
         /// <summary>
@@ -66,8 +65,16 @@ namespace CprPrototype.Database
         /// <returns>Returns a task completed</returns>
         public async Task CreateTablesAsync()
         {
-            await DBConnection.CreateTableAsync<CPRHistory>();
-            await DBConnection.CreateTableAsync<CPRHistoryEntry>();
+            try
+            {
+                await DBConnection.CreateTableAsync<CPRHistory>();
+                await DBConnection.CreateTableAsync<CPRHistoryEntry>();
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: CreateTableAsync");
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -77,7 +84,15 @@ namespace CprPrototype.Database
         /// <returns></returns>
         public async Task InsertCPRHistoryAsync(CPRHistory newEntry)
         {
-            await DBConnection.InsertAsync(newEntry);
+            try
+            {
+                await DBConnection.InsertAsync(newEntry);
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: InsertCPRHistoryAsync");
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -87,7 +102,15 @@ namespace CprPrototype.Database
         /// <returns></returns>
         public async Task InsertCPREntryAsync(CPRHistoryEntry newEntry)
         {
-            await DBConnection.InsertAsync(newEntry);
+            try
+            {
+                await DBConnection.InsertAsync(newEntry);
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: InsertCPREntryAsync");
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -98,7 +121,15 @@ namespace CprPrototype.Database
         /// <returns></returns>
         public async Task InsertListOfEntries(List<CPRHistoryEntry> incommingList)
         {
-            await DBConnection.InsertAllAsync(incommingList);
+            try
+            {
+                await DBConnection.InsertAllAsync(incommingList);
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: InsertListOfEntries");
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -108,10 +139,18 @@ namespace CprPrototype.Database
         /// <returns>A list ordered by <see cref="DateTime"/> of <see cref="CPRHistoryEntry"/>'s</returns>
         public async Task<List<CPRHistory>> GetCPRHistoriesAsync()
         {
-            var query = DBConnection.Table<CPRHistory>();
-            List<CPRHistory> resultList = await query.ToListAsync();
-            resultList.Sort((x, y) => DateTime.Compare(x.AttemptFinished, y.AttemptFinished));
-            return resultList;
+            try
+            {
+                var query = DBConnection.Table<CPRHistory>();
+                List<CPRHistory> resultList = await query.OrderByDescending(x => x.AttemptFinished).ToListAsync();
+                return resultList;
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: GetCPRHistoriesAsync");
+                Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -121,10 +160,19 @@ namespace CprPrototype.Database
         /// <returns>A list ordered by <see cref="DateTime"/> of <see cref="CPRHistoryEntry"/>'s</returns>
         public async Task<List<CPRHistoryEntry>> GetEntriesConnectedToCPRHistoryAsync(int historyId = 0)
         {
-            var query = DBConnection.Table<CPRHistoryEntry>();
-            List<CPRHistoryEntry> resultList = await query.Where(i => i.CPRHistoryId == historyId).ToListAsync();
-            resultList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
-            return resultList;
+            try
+            {
+                var query = DBConnection.Table<CPRHistoryEntry>();
+                List<CPRHistoryEntry> resultList = await query.Where(i => i.CPRHistoryId == historyId).ToListAsync();
+                resultList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
+                return resultList;
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: GetEntriesConnectedToCPRHistoryAsync");
+                Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -134,7 +182,15 @@ namespace CprPrototype.Database
         /// <returns></returns>
         public async Task UpdateCPRHistory(CPRHistory oldCPRHistory)
         {
-            await DBConnection.UpdateAsync(oldCPRHistory);
+            try
+            {
+                await DBConnection.UpdateAsync(oldCPRHistory);
+            }
+            catch (SQLiteException e)
+            {
+                Debug.WriteLine("Exception Thrown in: UpdateCPRHistory");
+                Debug.WriteLine(e.Message);
+            }
         }
 
         #endregion

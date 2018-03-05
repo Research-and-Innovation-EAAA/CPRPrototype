@@ -20,7 +20,7 @@ namespace CprPrototype.Service
         [MaxLength(40)]
         public string HistoryName { get; set; }
 
-        public int CPRHistoryTotalCycles { set; get; }
+        public string CPRHistoryTotalCycles { set; get; }
 
         /// <summary>
         /// Gets and sets the date and time for the resuscitation attempt is started.
@@ -52,59 +52,39 @@ namespace CprPrototype.Service
         #region Methods
 
         /// <summary>
-        /// Adds an item the the log of the app.
+        /// Adds an item to the log of the app with an image attached.
         /// </summary>
-        /// <param name="name"></param>
-        public void AddItem(string name,string source)
+        /// <param name="name">Name of the event</param>
+        /// <param name="source">Image sourcepath</param>
+        public void AddItem(string name, string source = null)
         {
-            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now,source);
-            item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
+            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now, source);
+            item.DateTimeString = item.Date.ToString("dd/MM/yy  H:mm:ss");
 
             List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
             {
                 item
             };
 
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
-                
-            Entries.Clear();
-
-            foreach (var i in list)
-            {
-                Entries.Add(i);
-                
-            }
+            UpdateList(list);
         }
 
-        public void AddItem(string name)
+        /// <summary>
+        /// Helpermethod for ordering the incoming <see cref="CPRHistoryEntry"/>-list, 
+        /// so it will be displayed correctly on screen.
+        /// </summary>
+        /// <param name="incomingList">List to be sorted</param>
+        private void UpdateList(List<CPRHistoryEntry> incomingList)
         {
-            CPRHistoryEntry entry = new CPRHistoryEntry(name, DateTime.Now)
-            {
-                Name = name
-            };
-
-            Entries.Add(entry);
-        }
-
-        public void AddItems(string name, string source)
-        {
-            var item = new CPRHistoryEntry(name, DateTime.Now,source);
-            item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
-
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
-            {
-                item
-            };
-
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
-                
+            incomingList.Sort((x, y) => y.Date.CompareTo(x.Date));
+            incomingList.Reverse();
+            
             Entries.Clear();
 
-            foreach (var i in list)
+            foreach (var i in incomingList)
             {
                 Entries.Add(i);
+
             }
         }
 
@@ -141,7 +121,7 @@ namespace CprPrototype.Service
         /// </summary>
         public string DateTimeString { get; set; }
 
-        //
+        // Need some description
         public string ImageSource { get; set; }
 
         public CPRHistoryEntry()
@@ -149,11 +129,11 @@ namespace CprPrototype.Service
 
         }
 
-        public CPRHistoryEntry(string name, DateTime date,string source)
+        public CPRHistoryEntry(string name, DateTime date, string imageSource)
         {
             Name = name;
             Date = date;
-            ImageSource = source;
+            ImageSource = imageSource;
         }
         public CPRHistoryEntry(string name, DateTime date)
         {
