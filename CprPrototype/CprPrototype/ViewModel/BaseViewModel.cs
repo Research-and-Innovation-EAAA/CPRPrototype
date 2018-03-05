@@ -25,6 +25,7 @@ namespace CprPrototype.ViewModel
 
         private static BaseViewModel _instance;
         private static object _padlock = new object(); // Object used to make singleton thread-safe
+        private bool _isInCall = false;
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
 
@@ -287,55 +288,66 @@ namespace CprPrototype.ViewModel
         /// </summary>
         private void UpdateNotificationTimers()
         {
-            ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
-            foreach (DrugShot shot in NotificationQueue)
+
+            lock (_padlock)
             {
-                // decrements the counter.
-                if (shot.TimeRemaining.TotalSeconds > 0)
-                {
-                    shot.TimeRemaining = shot.TimeRemaining.Subtract(TimeSpan.FromSeconds(1));
-                }
-
-                // Checks if the "giv" button has been clicked.
-                if (shot.IsInjected)
-                {
-                    shot.ShotAddressed();
-                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
-                    AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
-                }
-                else if (shot.IsIgnored) // Checks if the drug has been ignored
-                {
-                    shot.ShotIgnored();
-                    AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
-                }
-
-                list.Add(shot);
+                if (_isInCall)
+                    return;
+                _isInCall = true;
             }
-
-            // To avoid overflow of notifications
-            NotificationQueue.Clear();
-
-            foreach (var item in list)
+            try
             {
-                NotificationQueue.Add(item);
-
-                // Notify when we change from 'prep' drug to 'give' drug
-                if (item.TimeRemaining.TotalSeconds == 120)
+                if (NotificationQueue.Count != 0)
                 {
-                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-                    this.PlayMp3File(1);
+                    for (int i = 0; i < NotificationQueue.Count; i++)
+                    {
+                        var shot = NotificationQueue[i];
+                        // decrements the counter.
+                        if (shot.TimeRemaining.TotalSeconds > 0)
+                        {
+                            shot.TimeRemaining = shot.TimeRemaining.Subtract(TimeSpan.FromSeconds(1));
+                        }
+
+                        // Checks if the "giv" button has been clicked.
+                        if (shot.IsInjected)
+                        {
+                            shot.ShotAddressed();
+                            History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
+                            AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
+                        }
+                        else if (shot.IsIgnored) // Checks if the drug has been ignored
+                        {
+                            shot.ShotIgnored();
+                            AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
+                        }
+
+                        // Notify when we change from 'prep' drug to 'give' drug
+                        if (shot.TimeRemaining.TotalSeconds == 120)
+                        {
+                            CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                            this.PlayMp3File(1);
+                        }
+
+                        // Notify constantly when drug timer is nearly done
+                        if (shot.TimeRemaining.TotalSeconds < 16)
+                        {
+                            CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                            this.PlayMp3File(2);
+                        }
+                    }
                 }
-
-                // Notify constantly when drug timer is nearly done
-                if (item.TimeRemaining.TotalSeconds < 16)
+            }
+            finally
+            {
+                lock (_padlock)
                 {
-                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-                    this.PlayMp3File(2);
+                    _isInCall = false;
                 }
             }
         }
 
-        private void PlayMp3File(int number) {
+        private void PlayMp3File(int number)
+        {
             var audioPlayer = DependencyService.Get<IAudio>();
             if (audioPlayer != null)
                 audioPlayer.PlayMp3File(number);
@@ -375,7 +387,7 @@ namespace CprPrototype.ViewModel
                 History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
             }
         }
-        
+
         /// <summary>
         /// Occures when the timer ticks
         /// </summary>
@@ -385,8 +397,9 @@ namespace CprPrototype.ViewModel
         /// </remarks>
         /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
-        private static void StaticNotifyTimerIncremented(object sender) {
-            BaseViewModel baseViewModel = (BaseViewModel) sender;
+        private static void StaticNotifyTimerIncremented(object sender)
+        {
+            BaseViewModel baseViewModel = (BaseViewModel)sender;
             baseViewModel.NotifyTimerIncremented();
         }
         private void NotifyTimerIncremented()

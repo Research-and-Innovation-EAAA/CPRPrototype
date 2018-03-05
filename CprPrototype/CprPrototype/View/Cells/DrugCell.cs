@@ -14,7 +14,7 @@ namespace CprPrototype.View
         StackLayout labelLayout, drugCellLayout;
 
         public static readonly BindableProperty NameProperty = BindableProperty.Create(nameof(Name), typeof(string), typeof(DrugCell));
-        public static readonly BindableProperty TimeRemainingProperty = BindableProperty.Create(nameof(Time), typeof(string), typeof(DrugCell));
+        public static readonly BindableProperty TimeRemainingStringProperty = BindableProperty.Create(nameof(TimeRemainingString), typeof(string), typeof(DrugCell), null, propertyChanged: OnTimeRemainingStringChanged);
         public static readonly BindableProperty ButtonCommandInjectedProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty ButtonCommandIgnoreProperty = BindableProperty.Create(nameof(DrugIgnoredCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray);
@@ -41,10 +41,10 @@ namespace CprPrototype.View
             set { SetValue(ButtonCommandIgnoreProperty, value); }
         }
 
-        public string Time
+        public string TimeRemainingString
         {
-            get { return (string)GetValue(TimeRemainingProperty); }
-            set { SetValue(TimeRemainingProperty, value); }
+            get { return (string)GetValue(TimeRemainingStringProperty); }
+            set { SetValue(TimeRemainingStringProperty, value); }
         }
 
         public Color TextColor
@@ -140,13 +140,19 @@ namespace CprPrototype.View
             {
                 lblName.Text = Name;
                 lblName.TextColor = TextColor;
-                lblTime.Text = Time;
+                lblTime.Text = TimeRemainingString;
                 lblTime.TextColor = TextColor;
                 btnInjected.Command = DrugInjectedCommand;
                 btnIgnore.Command = DrugIgnoredCommand;
                 labelLayout.BackgroundColor = BackgroundColor;
                 drugCellLayout.BackgroundColor = BackgroundColor;
             }
+        }
+
+        static void OnTimeRemainingStringChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var drugCell = bindable as DrugCell;
+            drugCell.lblTime.Text = (string)newValue;
         }
 
         #endregion
