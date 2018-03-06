@@ -3,6 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.ExtraDrugs"
              Title="Medicin">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_injection.png" Android="icon_injection.png">
+        </OnPlatform>
+    </ContentPage.Icon>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0, 20, 0, 0">
+        </OnPlatform>
+    </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout
             Spacing="10">
@@ -10,29 +20,34 @@
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
                 Text="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)" FontSize="12"
-                    Clicked="btnAdrenalin_Clicked"/>
+                    Clicked="BtnAdrenalin_Clicked"
+                    FontFamily="HelveticaNeue-Light"/>
             <Button x:Name="btnAmiodaron"
                 Text="Amiodaron&#10;(300 mg bolus efter 3.stød) &#10; (150 mg bolus efter 5. stød)"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand" FontSize="12"
-                    Clicked="btnAmiodaron_Clicked"/>
+                    Clicked="BtnAmiodaron_Clicked"
+                    FontFamily="HelveticaNeue-Light"/>
             <Button x:Name="btnBikarbonat"
                 Text="Bikarbonat&#10;50mg 8,4% (50 mmol) bolus&#10;gentages efter behov"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Clicked="btnBikarbonat_Clicked" FontSize="12"/>
+                Clicked="BtnBikarbonat_Clicked" FontSize="12"
+                    FontFamily="HelveticaNeue-Light"/>
             <Button x:Name="btnCalcium"
                 Text="Calcium&#10;10 ml(50 mmol) 0,5 mmol/ml bolus&#10;gentages ved behov"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Clicked="btnCalcium_Clicked" 
-                    FontSize="12"/>
+                Clicked="BtnCalcium_Clicked" 
+                    FontSize="12"
+                    FontFamily="HelveticaNeue-Light"/>
             <Button x:Name="btnMagnesium"
                 Text="Magnesium&#10; 4 ml Magnesiumsulfat/magnesiumklorid &#10; 2 mml/ml over 1-2 min &#10; evt gentages efter 10-15min"
                 Margin="10, 0, 10, 0"
                 VerticalOptions="FillAndExpand"
-                Clicked="btnMagnesium_Clicked"
-                FontSize="12"/>
+                Clicked="BtnMagnesium_Clicked"
+                FontSize="12"
+                    FontFamily="HelveticaNeue-Light"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

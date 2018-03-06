@@ -3,36 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CPRPage"
              Title="CPR">
+    <ContentPage.Icon>
+    <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_cpr.png" Android="icon_cpr.png">
+    </OnPlatform>
+    </ContentPage.Icon>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0, 20, 0, 0">
+        </OnPlatform>
+    </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout 
-                VerticalOptions="Start"
-                HorizontalOptions="CenterAndExpand"
-                Orientation="Horizontal"
-                Spacing="25"
-                Margin="5, 5, 5, 10">
-                <Label
-                    x:Name="lblTotalElapsedCycles"
-                    Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
-                    VerticalOptions="Start"
-                    HorizontalOptions="Fill"
-                    Margin="-3"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Light"/>
-                <Label 
-                    x:Name="lblTotalTime"
-                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
-                    VerticalOptions="Start" 
-                    HorizontalOptions="Fill"
-                    Margin="-3"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Light"/>
-            </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
-                       Text="Hjerte"
+                       Text="Hjertelungeredning"
                        FontSize="Small"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
@@ -40,26 +25,19 @@
                        IsVisible="False"
                        FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
-            <Label x:Name="lblStepDescription" 
-                Text="Fortsæt HLR for 30:2 for"
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="10,10,10,0"
-                FontSize="Large"
-                HorizontalTextAlignment="Center"
-                TextColor="Black"
-                   IsVisible="False"
-                   FontFamily="Helvetica Neue-Light"/>
-            <Label x:Name="lblStepTime" 
-                Text="{Binding StepTime, StringFormat='{0:%m\\:ss}'}"
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="10,0,0,5"
-                Font="Bold, 32"
-                IsVisible="False"
-                HorizontalTextAlignment="Center"
-                TextColor="Black"
-                   FontFamily="HelveticaNeue-Light"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand"
+                Margin="5, 15, 5, 15">
+                <Label 
+                    x:Name="lblTotalTime"
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="-3"
+                    Font="Bold"
+                    FontSize="Large"
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Bold"/>
+            </StackLayout>
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
                          Margin="0,0,0,0"
@@ -67,7 +45,7 @@
                 <StackLayout HorizontalOptions="Fill">
                     <Label 
                         x:Name="lblMedicinReminders" 
-                        Text="Medicin Påmindelser"
+                        Text="Medicinpåmindelser"
                        FontSize="Small"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
@@ -86,19 +64,58 @@
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20"
+                Margin="5, 15, 5, 15">
+                <Label
+                    x:Name="lblTotalElapsedCycles"
+                    Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
+                    VerticalOptions="Start"
+                    Margin="-3"
+                    HorizontalOptions="CenterAndExpand"
+                    Font="Bold"
+                    FontSize="Large"
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Bold"/>
+                <Label x:Name="lblStepTime" 
+                Text="{Binding StepTime, StringFormat='{0:mm\\:ss}'}"
+                VerticalOptions="Start"
+                    Margin="-3"
+                    HorizontalOptions="CenterAndExpand"
+                    Font="Bold"
+                    FontSize="Large"
+                    IsVisible="False"
+                    FontFamily="HelveticaNeue-Bold"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100"
+                Margin="5, 5, 5, 15">
                 <Button x:Name="btnShockable"
-                    Text="Stødbar"
-                    Clicked="ShockableButton_Clicked"
-                        FontSize="Medium"
-                        FontFamily="HelveticaNeue-Light" 
-                        BackgroundColor="#A2CD54"/>
+                        Clicked="ShockableButton_Clicked"
+                        Font="Bold"
+                        FontSize="Large"
+                        FontFamily="HelveticaNeue-Bold"
+                        BackgroundColor="#A2CD54"
+                        WidthRequest="150">
+                    <Button.Text>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="iOS">Stødbar</On>
+                            <On Platform="Android">Stødbar</On>
+                        </OnPlatform>
+                    </Button.Text>
+                </Button>
                 <Button x:Name="btnNShockable"
-                    Text="Ikke-&#10;Stødbar"
-                    Clicked="NShockableButton_Clicked"
-                    FontSize="Medium"
-                        FontFamily="HelveticaNeue-Light "
-                        BackgroundColor="#A2CD54"/>
+                        Clicked="NShockableButton_Clicked"
+                        Font="Bold"
+                        FontSize="Large"
+                        FontFamily="HelveticaNeue-Bold"
+                        BackgroundColor="#A2CD54"
+                        WidthRequest="150">
+                    <Button.Text>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="iOS">Ikke-Stødbar</On>
+                            <On Platform="Android">Ikke-&#10;Stødbar</On>
+                        </OnPlatform>
+                    </Button.Text>
+                </Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

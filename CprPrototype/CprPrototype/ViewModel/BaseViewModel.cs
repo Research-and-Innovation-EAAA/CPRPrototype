@@ -1,5 +1,4 @@
-﻿using AdvancedTimer.Forms.Plugin.Abstractions;
-using CprPrototype.Model;
+﻿using CprPrototype.Model;
 using CprPrototype.Service;
 using Plugin.Vibrate;
 using System;
@@ -9,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
+using System.Threading;
 
 namespace CprPrototype.ViewModel
 {
@@ -24,7 +24,8 @@ namespace CprPrototype.ViewModel
         #region Properties
 
         private static BaseViewModel _instance;
-        private static readonly object _padlock = new object(); // Object used to make singleton thread-safe
+        private static object _padlock = new object(); // Object used to make singleton thread-safe
+        private bool _isInCall = false;
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
 
@@ -33,7 +34,6 @@ namespace CprPrototype.ViewModel
         private int _totalElapsedCycles;
 
         private const int CRITICAL_ALERT_TIME = 10;
-        private bool _timerStarted = false;
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
         private bool _enableDisableUI = true;
@@ -182,7 +182,7 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// Gets the Timer object.
         /// </summary>
-        public IAdvancedTimer Timer { get; set; }
+        public System.Threading.Timer CycleTimer { get; set; }
 
         /// <summary>
         /// Gets the Algorithm model.
@@ -205,6 +205,38 @@ namespace CprPrototype.ViewModel
             }
         }
 
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
+        /// </summary>
+        public bool IsDoneAvailable
+        {
+            set
+            {
+                _isDoneAvailable = value;
+                OnPropertyChanged(nameof(IsDoneAvailable));
+            }
+            get
+            {
+                return _isDoneAvailable;
+            }
+        }
+
+        /// <summary>
+        /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
+        /// </summary>
+        public bool IsLogAvailable
+        {
+            set
+            {
+                _isLogAvailable = value;
+                OnPropertyChanged(nameof(IsLogAvailable));
+            }
+            get
+            {
+                return _isLogAvailable;
+            }
+        }
+
         #endregion
 
         #region Construction & Initialization
@@ -218,7 +250,6 @@ namespace CprPrototype.ViewModel
             {
                 AttemptStarted = DateTime.Now,
             };
-            Timer = DependencyService.Get<IAdvancedTimer>();
         }
 
         /// <summary>
@@ -247,7 +278,7 @@ namespace CprPrototype.ViewModel
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
-                    DependencyService.Get<IAudio>().PlayMp3File(2);
+                    this.PlayMp3File(2);
                 }
             }
         }
@@ -257,52 +288,69 @@ namespace CprPrototype.ViewModel
         /// </summary>
         private void UpdateNotificationTimers()
         {
-            ObservableCollection<DrugShot> list = new ObservableCollection<DrugShot>();
-            foreach (DrugShot shot in NotificationQueue)
+
+            lock (_padlock)
             {
-                // decrements the counter.
-                if (shot.TimeRemaining.TotalSeconds > 0)
-                {
-                    shot.TimeRemaining = shot.TimeRemaining.Subtract(TimeSpan.FromSeconds(1));
-                }
-
-                // Checks if the "giv" button has been clicked.
-                if (shot.IsInjected)
-                {
-                    shot.ShotAddressed();
-                    History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
-                    AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
-                }
-                else if (shot.IsIgnored) // Checks if the drug has been ignored
-                {
-                    shot.ShotIgnored();
-                    AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
-                }
-
-                list.Add(shot);
+                if (_isInCall)
+                    return;
+                _isInCall = true;
             }
-
-            // To avoid overflow of notifications
-            NotificationQueue.Clear();
-
-            foreach (var item in list)
+            try
             {
-                NotificationQueue.Add(item);
-
-                // Notify when we change from 'prep' drug to 'give' drug
-                if (item.TimeRemaining.TotalSeconds == 120)
+                if (NotificationQueue.Count != 0)
                 {
-                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-                    DependencyService.Get<IAudio>().PlayMp3File(1);
-                }
+                    for (int i = 0; i < NotificationQueue.Count; i++)
+                    {
+                        var shot = NotificationQueue[i];
+                        // decrements the counter.
+                        if (shot.TimeRemaining.TotalSeconds > 0)
+                        {
+                            shot.TimeRemaining = shot.TimeRemaining.Subtract(TimeSpan.FromSeconds(1));
+                        }
 
-                // Notify constantly when drug timer is nearly done
-                if (item.TimeRemaining.TotalSeconds < 16)
-                {
-                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-                    DependencyService.Get<IAudio>().PlayMp3File(2);
+                        // Checks if the "giv" button has been clicked.
+                        if (shot.IsInjected)
+                        {
+                            shot.ShotAddressed();
+                            History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
+                            AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
+                        }
+                        else if (shot.IsIgnored) // Checks if the drug has been ignored
+                        {
+                            shot.ShotIgnored();
+                            AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
+                        }
+
+                        // Notify when we change from 'prep' drug to 'give' drug
+                        if (shot.TimeRemaining.TotalSeconds == 120)
+                        {
+                            CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                            this.PlayMp3File(1);
+                        }
+
+                        // Notify constantly when drug timer is nearly done
+                        if (shot.TimeRemaining.TotalSeconds < 16)
+                        {
+                            CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
+                            this.PlayMp3File(2);
+                        }
+                    }
                 }
             }
+            finally
+            {
+                lock (_padlock)
+                {
+                    _isInCall = false;
+                }
+            }
+        }
+
+        private void PlayMp3File(int number)
+        {
+            var audioPlayer = DependencyService.Get<IAudio>();
+            if (audioPlayer != null)
+                audioPlayer.PlayMp3File(number);
         }
 
         /// <summary>
@@ -311,16 +359,17 @@ namespace CprPrototype.ViewModel
         /// <param name="answer">Is the input string, which is the same as the name on the button as the user has pushed</param>
         public void AdvanceAlgorithm(string answer)
         {
-            if (!_timerStarted)
-            {
-                _timerStarted = true;
-                Timer.initTimer(1000, NotifyTimerIncremented, true);
-                Timer.startTimer();
-            }
-
             AddAlertSheetAnswerToHistory(answer);
             AlgorithmBase.AdvanceOneStep();
             CurrentPosition = AlgorithmBase.CurrentStep;
+
+            if (CycleTimer != null)
+            {
+                CycleTimer.Dispose();
+                CycleTimer = null;
+            }
+            TimerCallback timerDelegate = new TimerCallback(StaticNotifyTimerIncremented);
+            CycleTimer = new Timer(timerDelegate, this, 100, 1000);
         }
 
         /// <summary>
@@ -331,14 +380,14 @@ namespace CprPrototype.ViewModel
         {
             if (answer.Equals("GIVET"))
             {
-                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.svg");
+                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.png");
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.svg");
+                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
             }
         }
-        
+
         /// <summary>
         /// Occures when the timer ticks
         /// </summary>
@@ -348,7 +397,12 @@ namespace CprPrototype.ViewModel
         /// </remarks>
         /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
-        private void NotifyTimerIncremented(object sender, EventArgs e)
+        private static void StaticNotifyTimerIncremented(object sender)
+        {
+            BaseViewModel baseViewModel = (BaseViewModel)sender;
+            baseViewModel.NotifyTimerIncremented();
+        }
+        private void NotifyTimerIncremented()
         {
             // Update Total Time
             TotalTime = TimeSpan.FromSeconds(DateTime.Now.Subtract(AlgorithmBase.StartTime.Value).TotalSeconds);
@@ -388,38 +442,6 @@ namespace CprPrototype.ViewModel
         }
 
         /// <summary>
-        /// bool properties for handling visible and nonvisible buttons on overview. sets RUC and Doed buttons visibility to true.
-        /// </summary>
-        public bool IsDoneAvailable
-        {
-            set
-            {
-                _isDoneAvailable = value;
-                OnPropertyChanged(nameof(IsDoneAvailable));
-            }
-            get
-            {
-                return _isDoneAvailable;
-            }
-        }
-
-        /// <summary>
-        /// bool properties for handling visible and nonvisible buttons on overview. sets log button to false
-        /// </summary>
-        public bool IsLogAvailable
-        {
-            set
-            {
-                _isLogAvailable = value;
-                OnPropertyChanged(nameof(IsLogAvailable));
-            }
-            get
-            {
-                return _isLogAvailable;
-            }
-        }
-
-        /// <summary>
         /// This method notifies a specific notify object to change its properties.
         /// fx buttons going from nonvisible to visible.
         /// </summary>
@@ -435,8 +457,8 @@ namespace CprPrototype.ViewModel
         public void EndAlgorithm()
         {
             History.Entries.Clear();
-            Timer.stopTimer();
-            _timerStarted = false;
+            CycleTimer.Dispose();
+            CycleTimer = null;
             TotalTime = TimeSpan.Zero;
             TotalElapsedCycles = 0;
             StepTime = TimeSpan.Zero;
@@ -447,8 +469,6 @@ namespace CprPrototype.ViewModel
             IsLogAvailable = true;
             IsDoneAvailable = false;
         }
-
-
 
         #endregion
     }
