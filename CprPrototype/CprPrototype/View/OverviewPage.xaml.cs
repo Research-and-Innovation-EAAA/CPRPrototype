@@ -12,18 +12,8 @@ namespace CprPrototype.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OverviewPage : ContentPage
     {
-        #region Properties
-
-
         private BaseViewModel _viewModel = BaseViewModel.Instance;
         private Database.DatabaseHelper _database = Database.DatabaseHelper.Instance;
-
-        private object _synclock = new object();
-        bool _isInCall = false;
-
-        #endregion
-
-        #region Contructor
 
         public OverviewPage()
         {
@@ -45,16 +35,21 @@ namespace CprPrototype.View
             btnRUC.SetBinding(IsVisibleProperty, nameof(_viewModel.IsDoneAvailable));
             btnDoed.SetBinding(IsVisibleProperty, nameof(_viewModel.IsDoneAvailable));
         }
-
-        #endregion
-
-        #region Methods & Events
-
-        /// <summary>
-        /// Inserts a <see cref="CPRHistory"/> into the database.
-        /// </summary>
-        /// <returns></returns>
-        private async Task InsertCPRHistoryIntoDB()
+        public async void BtnRUC_Clicked(object sender, EventArgs e)
+        {
+            await ConnectToDB();
+            _viewModel.EndAlgorithm();
+        }
+        public async void BtnDoed_Clicked(object sender, EventArgs e)
+        {
+            await ConnectToDB();
+            _viewModel.EndAlgorithm();
+        }
+        public async void GoToLogPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LogPage());
+        }
+        private async Task ConnectToDB()
         {
             await _database.CreateTablesAsync();
             _viewModel.History.CPRHistoryTotalCycles = "Antal cyklusser: " + _viewModel.TotalElapsedCycles;
@@ -70,78 +65,6 @@ namespace CprPrototype.View
             }
 
             await _database.InsertListOfEntries(updatedList);
-
         }
-        
-        /// <summary>
-        /// Occures when the user pushes the RUC button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void BtnRUC_Clicked(object sender, EventArgs e)
-        {
-            lock (_synclock)
-            {
-                if (_isInCall)
-                    return;
-                _isInCall = true;
-            }
-
-            try
-            {
-
-                await InsertCPRHistoryIntoDB();
-                _viewModel.EndAlgorithm();
-            }
-            finally
-            {
-                lock(_synclock)
-                {
-                    _isInCall = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Occures when the user declares the patient dead.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void BtnDoed_Clicked(object sender, EventArgs e)
-        {
-            lock (_synclock)
-            {
-                if (_isInCall)
-                    return;
-                _isInCall = true;
-            }
-
-            try
-            {
-
-            await InsertCPRHistoryIntoDB();
-            _viewModel.EndAlgorithm();
-            }
-            finally
-            {
-                lock (_synclock)
-                {
-                    _isInCall = false;
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Occures when the user pushes the log-button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void GoToLogPage(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new LogPage());
-        }
-
-        #endregion
     }
 }

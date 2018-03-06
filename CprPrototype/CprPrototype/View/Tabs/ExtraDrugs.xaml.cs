@@ -21,7 +21,7 @@ namespace CprPrototype.View
 
         private void BtnAdrenalin_Clicked(object sender, EventArgs e)
         {
-            viewModel.History.AddItem(DrugType.Adrenalin + shockGiven,imagesource);
+            viewModel.History.AddItem(DrugType.Adrenalin + shockGiven, imagesource);
         }
 
         private void BtnAmiodaron_Clicked(object sender, EventArgs e)

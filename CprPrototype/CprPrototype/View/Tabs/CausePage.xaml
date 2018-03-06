@@ -3,6 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CausePage"
              Title="Årsager">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_reasons.png" Android="icon_reasons.png">
+        </OnPlatform>
+    </ContentPage.Icon>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0, 20, 0, 0">
+        </OnPlatform>
+    </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Årsager" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>

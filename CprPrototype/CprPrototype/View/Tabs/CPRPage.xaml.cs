@@ -1,11 +1,10 @@
 ﻿using CprPrototype.Database;
 using CprPrototype.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SQLite;
 
 namespace CprPrototype.View
 {
@@ -20,6 +19,7 @@ namespace CprPrototype.View
         private const string actionSheetTitle = "STØD GIVET?";
         private const string shockGiven = "GIVET";
         private const string shockNotGiven = "IKKE-GIVET";
+        private const string cancelAction = "ANULLER";
 
         private object _syncLock = new object();
         bool _isInCall = false;
@@ -36,7 +36,7 @@ namespace CprPrototype.View
             // ListView
             DataTemplate template = new DataTemplate(typeof(DrugCell));
             template.SetBinding(DrugCell.NameProperty, "DrugDoseString");
-            template.SetBinding(DrugCell.TimeRemainingProperty, "TimeRemainingString");
+            template.SetBinding(DrugCell.TimeRemainingStringProperty, "TimeRemainingString");
             template.SetBinding(DrugCell.ButtonCommandInjectedProperty, "DrugInjectedCommand");
             template.SetBinding(DrugCell.ButtonCommandIgnoreProperty, "DrugIgnoredCommand");
             template.SetBinding(DrugCell.TextColorProperty, "TextColor");
@@ -55,9 +55,9 @@ namespace CprPrototype.View
             lblTotalElapsedCycles.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblTotalTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblHeart.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
-            lblStepDescription.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblStepTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
+           
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace CprPrototype.View
 
             while (answer == null)
             {
-                answer = await DisplayActionSheet(actionSheetTitle, null, null, shockGiven, shockNotGiven);
+                answer = await DisplayActionSheet(actionSheetTitle, cancelAction, null, shockGiven, shockNotGiven);
             }
 
             return answer;
@@ -106,23 +106,33 @@ namespace CprPrototype.View
 
             try
             {
-
-                if (_viewModel.TotalElapsedCycles == 0)
-                {
-                    _viewModel.History.AttemptStarted = DateTime.Now;
-                }
-                //DatabaseTest();
-                _viewModel.History.AddItem("Rytme vurderet - Stødbar", "syringe.png");
-
                 var answer = await CheckShockGivenActionSheet();
-                _viewModel.IsDoneAvailable = true;
-                _viewModel.IsLogAvailable = false;
-                _viewModel.EnableDisableUI = true;
-                _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
-                _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
-                _viewModel.AdvanceAlgorithm(answer);
-                RefreshStepTime();
-            }
+
+                if (answer == cancelAction)
+                {
+                    return;
+                }
+                else
+                {
+                    if (_viewModel.TotalElapsedCycles != 0)
+                    {
+                        _viewModel.History.AddItem("Rytme vurderet - Stødbar", "cardiogram.png");
+                    }
+                    else
+                    {
+                        _viewModel.History.AttemptStarted = DateTime.Now;
+                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "icon_reasons.png");
+                    }
+
+                    _viewModel.IsDoneAvailable = true;
+                    _viewModel.IsLogAvailable = false;
+                    _viewModel.EnableDisableUI = true;
+                    _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.Shockable);
+                    _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.Shockable);
+                    _viewModel.AdvanceAlgorithm(answer);
+                    RefreshStepTime();
+                }
+            } 
             finally
             {
                 lock (_syncLock)
@@ -148,20 +158,30 @@ namespace CprPrototype.View
 
             try
             {
-                if (_viewModel.TotalElapsedCycles == 0)
-                {
-                    _viewModel.History.AttemptStarted = DateTime.Now;
-                }
-                _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "syringe.png");
-
                 var answer = await CheckShockGivenActionSheet();
-                _viewModel.IsDoneAvailable = true;
-                _viewModel.IsLogAvailable = false;
-                _viewModel.EnableDisableUI = true;
-                _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
-                _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
-                _viewModel.AdvanceAlgorithm(answer);
-                RefreshStepTime();
+                if (answer == cancelAction)
+                {
+                    return;
+                }
+                else
+                {
+                    if (_viewModel.TotalElapsedCycles != 0)
+                    {
+                        _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "cardiogram.png");
+                    }
+                    else
+                    {
+                        _viewModel.History.AttemptStarted = DateTime.Now;
+                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
+                    }
+                    _viewModel.IsDoneAvailable = true;
+                    _viewModel.IsLogAvailable = false;
+                    _viewModel.EnableDisableUI = true;
+                    _viewModel.AlgorithmBase.BeginSequence(Model.RythmStyle.NonShockable);
+                    _viewModel.AlgorithmBase.AddDrugsToQueue(_viewModel.NotificationQueue, Model.RythmStyle.NonShockable);
+                    _viewModel.AdvanceAlgorithm(answer);
+                    RefreshStepTime();
+                }
             }
             finally
             {
@@ -170,46 +190,6 @@ namespace CprPrototype.View
                     _isInCall = false;
                 }
             }
-        }
-
-        //private void RemoveNotifications()
-        //{
-        //    _viewModel.AlgorithmBase.RemoveDrugsFromQueue(_viewModel.NotificationQueue);
-        //}
-
-        // Tester method for database, which should be deleted upon deployment
-        private async void DatabaseTest()
-        {
-            var db = _databaseHelper.DBConnection;
-            // Create tables:
-            await _databaseHelper.CreateTablesAsync();
-
-            // Create CPRHistory:
-            var firstHistory = new Service.CPRHistory();
-            var secondHistory = new Service.CPRHistory();
-
-            await _databaseHelper.InsertCPRHistoryAsync(firstHistory);
-            await _databaseHelper.InsertCPRHistoryAsync(secondHistory);
-
-            // Create CPRHistoryEntries:
-            Service.CPRHistoryEntry entry1 = new Service.CPRHistoryEntry { Name = "Dummy1", CPRHistoryId = firstHistory.Id };
-            Service.CPRHistoryEntry entry2 = new Service.CPRHistoryEntry { Name = "Dummy2", CPRHistoryId = firstHistory.Id };
-            Service.CPRHistoryEntry entry3 = new Service.CPRHistoryEntry { Name = "Dummy3", CPRHistoryId = firstHistory.Id };
-
-            await _databaseHelper.InsertCPREntryAsync(entry1);
-            await _databaseHelper.InsertCPREntryAsync(entry2);
-            await _databaseHelper.InsertCPREntryAsync(entry3);
-
-            Service.CPRHistoryEntry entry4 = new Service.CPRHistoryEntry { Name = "Dummy4", CPRHistoryId = secondHistory.Id };
-            Service.CPRHistoryEntry entry5 = new Service.CPRHistoryEntry { Name = "Dummy5", CPRHistoryId = secondHistory.Id };
-            Service.CPRHistoryEntry entry6 = new Service.CPRHistoryEntry { Name = "Dummy6", CPRHistoryId = secondHistory.Id };
-
-            await _databaseHelper.InsertCPREntryAsync(entry4);
-            await _databaseHelper.InsertCPREntryAsync(entry5);
-            await _databaseHelper.InsertCPREntryAsync(entry6);
-
-            var temp = await _databaseHelper.GetEntriesConnectedToCPRHistoryAsync(firstHistory.Id);
-
         }
         #endregion
     }

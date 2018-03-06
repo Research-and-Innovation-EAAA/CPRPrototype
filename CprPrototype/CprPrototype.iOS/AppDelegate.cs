@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using HockeyApp.iOS;
 using UIKit;
 
 namespace CprPrototype.iOS
@@ -24,6 +25,13 @@ namespace CprPrototype.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             AdvancedTimer.Forms.Plugin.iOS.AdvancedTimerImplementation.Init();
+
+            //Hockey app crash collection
+            var manager = BITHockeyManager.SharedHockeyManager;
+            manager.Configure("3274483b9b9e46b0a8e6daec120fa0e7");
+            manager.StartManager();
+            manager.Authenticator.AuthenticateInstallation(); // This line is obsolete in crash only builds
+
 
             LoadApplication(new App());
 
