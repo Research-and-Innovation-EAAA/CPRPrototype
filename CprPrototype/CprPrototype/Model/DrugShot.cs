@@ -188,19 +188,6 @@ namespace CprPrototype.Model
             UpdateTimeRemainingString();
         }
 
-        ///// <summary>
-        ///// Empty CTOR.
-        ///// </summary>
-        //public DrugShot()
-        //{
-        //    _timeRemaining = Drug.PreparationTime;
-        //    DrugGivenCommand = new Command(ShotAddressed);
-        //    DrugIgnoredCommand = new Command(ShotIgnored);
-        //    IsIgnored = false;
-        //    IsInjected = false;
-        //    UpdateTimeRemainingString();
-        //}
-
         #endregion
 
         #region Methods & Events

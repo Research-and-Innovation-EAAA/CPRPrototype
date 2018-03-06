@@ -202,8 +202,9 @@ namespace CprPrototype.Model
         {
             if (_drugsCollection != null && _drugsCollection.Count > 0)
             {
-                foreach (DrugShot shot in notificationQueue)
+                for (int i = 0; i < notificationQueue.Count; i++)
                 {
+                    var shot = notificationQueue[i];
                     var drug = _drugsCollection.Find(x => x.DrugType == shot.Drug.DrugType);
 
                     if (shot.IsInjected || shot.IsIgnored)
