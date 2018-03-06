@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace CprPrototype.View
@@ -13,6 +11,7 @@ namespace CprPrototype.View
         Button btnInjected, btnIgnore;
         StackLayout labelLayout, drugCellLayout;
 
+        // Bindable properties connected to the different elements in the DrugCell
         public static readonly BindableProperty NameProperty = BindableProperty.Create(nameof(Name), typeof(string), typeof(DrugCell));
         public static readonly BindableProperty TimeRemainingStringProperty = BindableProperty.Create(nameof(TimeRemainingString), typeof(string), typeof(DrugCell), null, propertyChanged: OnTimeRemainingStringChanged);
         public static readonly BindableProperty ButtonCommandInjectedProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
@@ -21,7 +20,7 @@ namespace CprPrototype.View
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
 
         /// <summary>
-        /// Gets or sets the name of the bound value // Ikke god
+        /// Gets or sets the Name connected with the BindableProperty (ex. DrugDoseString)
         /// </summary>
         public string Name
         {
@@ -29,24 +28,36 @@ namespace CprPrototype.View
             set { SetValue(NameProperty, value); }
         }
 
-        public ICommand DrugInjectedCommand
-        {
-            get { return (ICommand)GetValue(ButtonCommandInjectedProperty); }
-            set { SetValue(ButtonCommandInjectedProperty, value); }
-        }
-
-        public ICommand DrugIgnoredCommand
-        {
-            get { return (ICommand)GetValue(ButtonCommandIgnoreProperty); }
-            set { SetValue(ButtonCommandIgnoreProperty, value); }
-        }
-
+        /// <summary>
+        /// Gets or sets the Time remaining connected to the the BindableProperty (ex. TimeRemainingString)
+        /// </summary>
         public string TimeRemainingString
         {
             get { return (string)GetValue(TimeRemainingStringProperty); }
             set { SetValue(TimeRemainingStringProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the ICommand value connected to BindableProperty 
+        /// </summary>
+        public ICommand DrugInjectedCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandInjectedProperty); }
+            set { SetValue(ButtonCommandInjectedProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the ICommand value connected to BindableProperty
+        /// </summary>
+        public ICommand DrugIgnoredCommand
+        {
+            get { return (ICommand)GetValue(ButtonCommandIgnoreProperty); }
+            set { SetValue(ButtonCommandIgnoreProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Textcolor connected to BindableProperty
+        /// </summary>
         public Color TextColor
         {
             get { return (Color)GetValue(TextColorProperty); }
@@ -66,6 +77,8 @@ namespace CprPrototype.View
         /// <summary>
         /// Initializes a new instance of the <see cref="DrugCell"/> class
         /// </summary>
+        /// <remarks>
+        /// {PWM} - Do notice that the construction of the viewcell could also be done in xaml.</remarks>
         public DrugCell()
         {
 
@@ -128,6 +141,9 @@ namespace CprPrototype.View
 
             View = drugCellLayout;
         }
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// Binds the layout to the code behind, and updates if changes are made to the values
@@ -149,6 +165,15 @@ namespace CprPrototype.View
             }
         }
 
+        /// <summary>
+        /// Occures when the timeRemainingString is changed
+        /// </summary>
+        /// <remarks>
+        /// {PWM} - This is done for each instance of the drugcell created.
+        /// </remarks>
+        /// <param name="bindable">The <see cref="DrugCell"/> itself.</param>
+        /// <param name="oldValue">The value the <see cref="DrugCell"/> holds on eventcall.</param>
+        /// <param name="newValue">The new value that triggered the eventcall.</param>
         static void OnTimeRemainingStringChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var drugCell = bindable as DrugCell;
