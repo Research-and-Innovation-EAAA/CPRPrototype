@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CPRPage"
              Title="CPR">
+    <ContentPage.Icon>
+    <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_cpr.png" Android="icon_cpr.png">
+    </OnPlatform>
+    </ContentPage.Icon>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="0, 20, 0, 0">
@@ -10,22 +15,6 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout 
-                VerticalOptions="Start"
-                HorizontalOptions="CenterAndExpand"
-                Orientation="Horizontal"
-                Spacing="25"
-                Margin="0, 0, 0, 0">
-                <Label x:Name="lblStepDescription" 
-                Text=""
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="0,0,0,0"
-                Font="Bold"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
-            </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
                        Text="Hjertelungeredning"

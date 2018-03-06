@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.OverviewPage"
              Title="Historik">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_log.png" Android="icon_log.png">
+        </OnPlatform>
+    </ContentPage.Icon>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="0, 20, 0, 0">
@@ -70,7 +75,15 @@
                         BackgroundColor="#D13F3D"/>
                 <Button x:Name="btnlog" Text="Vis Historikker" FontFamily="HelveticaNeue-Light"
                         Clicked="GoToLogPage"
-                        HorizontalOptions="CenterAndExpand"/>
+                         
+                        HorizontalOptions="CenterAndExpand"
+                        BackgroundColor="#E0E0E0">
+                    <Button.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double"
+                    iOS="200">
+                        </OnPlatform>
+                    </Button.WidthRequest>
+                </Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

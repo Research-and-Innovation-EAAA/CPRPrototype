@@ -175,6 +175,14 @@
     <Content Include="Graphics\icon_medicin.png" />
     <Content Include="Graphics\icon_nonshockable.png" />
     <Content Include="Graphics\icon_shockable.png" />
+    <Content Include="Graphics\TabIcons\ca. 30x30\icon_cpr.png" />
+    <Content Include="Graphics\TabIcons\ca. 30x30\icon_injection.png" />
+    <Content Include="Graphics\TabIcons\ca. 30x30\icon_log.png" />
+    <Content Include="Graphics\TabIcons\ca. 30x30\icon_reasons.png" />
+    <Content Include="Graphics\TabIcons\cpr-2.png" />
+    <Content Include="Graphics\TabIcons\injection.png" />
+    <Content Include="Graphics\TabIcons\log.png" />
+    <Content Include="Graphics\TabIcons\reasons.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics\icon_watermelon.png">
@@ -193,6 +201,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

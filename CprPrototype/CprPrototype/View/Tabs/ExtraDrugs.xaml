@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.ExtraDrugs"
              Title="Medicin">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_injection.png" Android="icon_injection.png">
+        </OnPlatform>
+    </ContentPage.Icon>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="0, 20, 0, 0">
@@ -25,9 +30,8 @@
                 </Button.FontSize>
                 <Button.Text>
                     <OnPlatform x:TypeArguments="x:String" 
-                                iOS="Adrenalin(1mg bolus hvert 3.-5 min.)" 
+                                iOS="Adrenalin" 
                                 Android="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)">
-                        
                     </OnPlatform>
                 </Button.Text>
             </Button>
