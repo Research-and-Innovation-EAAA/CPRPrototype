@@ -36,7 +36,7 @@ namespace CprPrototype.View
             // ListView
             DataTemplate template = new DataTemplate(typeof(DrugCell));
             template.SetBinding(DrugCell.NameProperty, "DrugDoseString");
-            template.SetBinding(DrugCell.TimeRemainingProperty, "TimeRemainingString");
+            template.SetBinding(DrugCell.TimeRemainingStringProperty, "TimeRemainingString");
             template.SetBinding(DrugCell.ButtonCommandInjectedProperty, "DrugInjectedCommand");
             template.SetBinding(DrugCell.ButtonCommandIgnoreProperty, "DrugIgnoredCommand");
             template.SetBinding(DrugCell.TextColorProperty, "TextColor");
@@ -107,9 +107,6 @@ namespace CprPrototype.View
             try
             {
                 var answer = await CheckShockGivenActionSheet();
-
-             //   await btnShockable.FadeTo(0, 3000);
-                // btnShockable.IsEnabled = false;
 
                 if (answer == cancelAction)
                 {
@@ -193,46 +190,6 @@ namespace CprPrototype.View
                     _isInCall = false;
                 }
             }
-        }
-
-        //private void RemoveNotifications()
-        //{
-        //    _viewModel.AlgorithmBase.RemoveDrugsFromQueue(_viewModel.NotificationQueue);
-        //}
-
-        // Tester method for database, which should be deleted upon deployment
-        private async void DatabaseTest()
-        {
-            var db = _databaseHelper.DBConnection;
-            // Create tables:
-            await _databaseHelper.CreateTablesAsync();
-
-            // Create CPRHistory:
-            var firstHistory = new Service.CPRHistory();
-            var secondHistory = new Service.CPRHistory();
-
-            await _databaseHelper.InsertCPRHistoryAsync(firstHistory);
-            await _databaseHelper.InsertCPRHistoryAsync(secondHistory);
-
-            // Create CPRHistoryEntries:
-            Service.CPRHistoryEntry entry1 = new Service.CPRHistoryEntry { Name = "Dummy1", CPRHistoryId = firstHistory.Id };
-            Service.CPRHistoryEntry entry2 = new Service.CPRHistoryEntry { Name = "Dummy2", CPRHistoryId = firstHistory.Id };
-            Service.CPRHistoryEntry entry3 = new Service.CPRHistoryEntry { Name = "Dummy3", CPRHistoryId = firstHistory.Id };
-
-            await _databaseHelper.InsertCPREntryAsync(entry1);
-            await _databaseHelper.InsertCPREntryAsync(entry2);
-            await _databaseHelper.InsertCPREntryAsync(entry3);
-
-            Service.CPRHistoryEntry entry4 = new Service.CPRHistoryEntry { Name = "Dummy4", CPRHistoryId = secondHistory.Id };
-            Service.CPRHistoryEntry entry5 = new Service.CPRHistoryEntry { Name = "Dummy5", CPRHistoryId = secondHistory.Id };
-            Service.CPRHistoryEntry entry6 = new Service.CPRHistoryEntry { Name = "Dummy6", CPRHistoryId = secondHistory.Id };
-
-            await _databaseHelper.InsertCPREntryAsync(entry4);
-            await _databaseHelper.InsertCPREntryAsync(entry5);
-            await _databaseHelper.InsertCPREntryAsync(entry6);
-
-            var temp = await _databaseHelper.GetEntriesConnectedToCPRHistoryAsync(firstHistory.Id);
-
         }
         #endregion
     }
