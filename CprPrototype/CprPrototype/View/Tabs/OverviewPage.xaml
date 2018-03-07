@@ -66,16 +66,29 @@
                         Clicked="BtnROSC_Clicked"
                         FontSize="Medium"
                         FontFamily="HelveticaNeue-Light" 
-                        BackgroundColor="#A2CD54" />
+                        BackgroundColor="#A2CD54">
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
+                </Button>
                 <Button x:Name="btnDoed"
                     Text="DØD" WidthRequest="150"
                     Clicked="BtnDoed_Clicked"
                     FontSize="Medium"
                         FontFamily="HelveticaNeue-Light"
-                        BackgroundColor="#D13F3D"/>
+                        BackgroundColor="#D13F3D">
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
+                </Button>
                 <Button x:Name="btnlog" Text="Vis Historikker" FontFamily="HelveticaNeue-Light"
                         Clicked="GoToLogPage"
-                         
                         HorizontalOptions="CenterAndExpand"
                         BackgroundColor="#E0E0E0">
                     <Button.WidthRequest>
