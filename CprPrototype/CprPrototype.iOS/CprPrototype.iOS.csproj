@@ -268,10 +268,16 @@
     <ITunesArtwork Include="iTunesArtwork%402x" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\cross.png" />
+    <BundleResource Include="Resources\cardiogram.png" />
     <Content Include="Resources\icon_cpr.png" />
     <Content Include="Resources\icon_injection.png" />
     <Content Include="Resources\icon_log.png" />
+    <BundleResource Include="Resources\icon_nonshockable.png" />
+    <BundleResource Include="Resources\icon_medicin.png" />
+    <BundleResource Include="Resources\icon_performcpr.png" />
     <Content Include="Resources\icon_reasons.png" />
+    <BundleResource Include="Resources\icon_shockable.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

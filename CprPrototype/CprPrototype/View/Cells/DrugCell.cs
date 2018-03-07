@@ -122,20 +122,21 @@ namespace CprPrototype.View
             // Right side of drugCellLayout:
             //========================================================================
 
-            btnInjected = new Button
-            {
-                Text = "Giv",
-                WidthRequest = 70,
-                HorizontalOptions = LayoutOptions.End
-            };
+            btnInjected = new Button();
+            btnInjected.Text = "Giv";
+            btnInjected.WidthRequest = 70;
+            btnInjected.HorizontalOptions = LayoutOptions.End;
+            if (Device.RuntimePlatform == Device.iOS) { btnInjected.BackgroundColor = Color.FromHex("#E0E0E0");
+                btnInjected.TextColor = Color.Black;
+            }
 
-            btnIgnore = new Button
-            {
-                Image = "cross.png",
-                WidthRequest = 70,
-                HorizontalOptions = LayoutOptions.End
-            };
-            
+
+            btnIgnore = new Button();
+            btnIgnore.Image = "cross.png";
+            btnIgnore.WidthRequest = 70;
+            btnIgnore.HorizontalOptions = LayoutOptions.End;
+            if (Device.RuntimePlatform == Device.iOS) { btnIgnore.BackgroundColor = Color.FromHex("#E0E0E0"); btnIgnore.TextColor = Color.Black; }
+
             drugCellLayout.Children.Add(btnInjected);
             drugCellLayout.Children.Add(btnIgnore);
 

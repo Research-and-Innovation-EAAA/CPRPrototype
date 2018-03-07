@@ -83,6 +83,11 @@
                     iOS="200">
                         </OnPlatform>
                     </Button.WidthRequest>
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color"
+                    iOS="Black">
+                        </OnPlatform>
+                    </Button.TextColor>
                 </Button>
             </StackLayout>
         </StackLayout>
