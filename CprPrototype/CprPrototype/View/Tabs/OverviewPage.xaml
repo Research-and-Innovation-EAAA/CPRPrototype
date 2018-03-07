@@ -61,7 +61,7 @@
                        FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="80">
-                <Button x:Name="btnRUC"
+                <Button x:Name="btnROSC"
                     Text="ROSC" WidthRequest="150"
                         Clicked="BtnRUC_Clicked"
                         FontSize="Medium"
