@@ -35,6 +35,11 @@ namespace CprPrototype.Service
         [Ignore]
         public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
 
+        /// <summary>
+        /// Gets and set the imagesource connected to the <see cref="CPRHistory"/> 
+        /// </summary>
+        public string ImageSource { get; set; }
+        
         #endregion
 
         #region Contruction

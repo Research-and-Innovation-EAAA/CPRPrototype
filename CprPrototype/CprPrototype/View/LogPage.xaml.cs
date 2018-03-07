@@ -32,10 +32,11 @@ namespace CprPrototype.View
             }
 
             BindingContext = _viewmodel;
-            DataTemplate template = new DataTemplate(typeof(TextCell));
-            template.SetBinding(TextCell.TextProperty, "HistoryName");
-            template.SetBinding(TextCell.DetailProperty, "CPRHistoryTotalCycles");
-            template.SetValue(TextCell.TextColorProperty,Color.Black);
+            DataTemplate template = new DataTemplate(typeof(ImageCell));
+            template.SetBinding(ImageCell.ImageSourceProperty,"ImageSource");
+            template.SetBinding(ImageCell.TextProperty, "HistoryName");
+            template.SetBinding(ImageCell.DetailProperty, "CPRHistoryTotalCycles");
+            template.SetValue(ImageCell.TextColorProperty,Color.Black);
             loglist.ItemTemplate = template;
             loglist.BindingContext = _viewmodel;
 

@@ -16,6 +16,7 @@ namespace CprPrototype.Model
         
         private TimeSpan _timeRemaining;
         private string _timeRemainingString;
+        private Color _backgroundColor;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -67,19 +68,35 @@ namespace CprPrototype.Model
         {
             get
             {
-                //Success Color
+                ////Success Color
                 if (IsInjected)
-                    return Color.FromHex("A6CE38");
+                    _backgroundColor = Color.FromHex("A6CE38");
 
-                // Default Color
-                if (_timeRemaining.TotalSeconds > 120)
-                    return Color.LightGray;
+                //// Default Color
+                else if (_timeRemaining.TotalSeconds > 120)
+                    _backgroundColor = Color.LightGray;
 
                 // Warning Color
                 else if (TimeRemaining.TotalSeconds > 15 && TimeRemaining.TotalSeconds <= 120)
-                    return Color.FromHex("#f1c40f");
+                    _backgroundColor = Color.FromHex("#F1C40F");
                 else
-                    return Color.FromHex("#e74c3c");
+                    _backgroundColor = Color.FromHex("#E74C3C");
+
+                return _backgroundColor;
+            }
+            set
+            {
+                if (_backgroundColor != value)
+                {
+                    _backgroundColor = value;
+
+                    if (PropertyChanged != null)
+                    {
+                        OnPropertyChanged("BackgroundColor");
+                    }
+                }
+
+
             }
         }
 

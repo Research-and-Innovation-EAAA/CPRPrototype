@@ -16,7 +16,7 @@ namespace CprPrototype.View
         public static readonly BindableProperty TimeRemainingStringProperty = BindableProperty.Create(nameof(TimeRemainingString), typeof(string), typeof(DrugCell), null, propertyChanged: OnTimeRemainingStringChanged);
         public static readonly BindableProperty ButtonCommandInjectedProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty ButtonCommandIgnoreProperty = BindableProperty.Create(nameof(DrugIgnoredCommand), typeof(ICommand), typeof(DrugCell));
-        public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray);
+        public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray, propertyChanged: OnBackgroundColorChanged);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
 
         /// <summary>
@@ -128,6 +128,8 @@ namespace CprPrototype.View
                 WidthRequest = 70,
                 HorizontalOptions = LayoutOptions.End
             };
+            if (Device.RuntimePlatform == Device.iOS) { btnInjected.BackgroundColor = Color.FromHex("#E0E0E0"); btnInjected.TextColor = Color.Black;}
+
 
             btnIgnore = new Button
             {
@@ -135,7 +137,8 @@ namespace CprPrototype.View
                 WidthRequest = 70,
                 HorizontalOptions = LayoutOptions.End
             };
-            
+            if (Device.RuntimePlatform == Device.iOS) { btnIgnore.BackgroundColor = Color.FromHex("#E0E0E0"); btnIgnore.TextColor = Color.Black; }
+
             drugCellLayout.Children.Add(btnInjected);
             drugCellLayout.Children.Add(btnIgnore);
 
@@ -178,6 +181,13 @@ namespace CprPrototype.View
         {
             var drugCell = bindable as DrugCell;
             drugCell.lblTime.Text = (string)newValue;
+        }
+
+        static void OnBackgroundColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var drugCell = bindable as DrugCell;
+            drugCell.drugCellLayout.BackgroundColor = (Color)newValue;
+            drugCell.labelLayout.BackgroundColor = (Color)newValue;
         }
 
         #endregion

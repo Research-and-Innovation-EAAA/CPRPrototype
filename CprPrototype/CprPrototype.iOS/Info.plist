@@ -27,12 +27,19 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.yourcompany.CprPrototype</string>
 	<key>CFBundleVersion</key>
-	<string>1.8</string>
+	<string>1.9</string>
 	<key>CFBundleName</key>
 	<string>CprPrototype</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Document Type 1</string>
+		</dict>
+	</array>
 	<key>XSLaunchImageAssets</key>
-	<string>Assets.xcassets/LaunchImage.launchimage</string>
+	<string>Resources/Assets.xcassets/LaunchImage.launchimage</string>
 </dict>
 </plist>

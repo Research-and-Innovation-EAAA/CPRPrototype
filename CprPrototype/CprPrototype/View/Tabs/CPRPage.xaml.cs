@@ -55,9 +55,9 @@ namespace CprPrototype.View
             lblTotalElapsedCycles.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblTotalTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblHeart.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
-            lblStepDescription.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblStepTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
+           
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace CprPrototype.View
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "cpr.png");
+                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "icon_performcpr.png");
                     }
 
                     _viewModel.IsDoneAvailable = true;
@@ -172,7 +172,7 @@ namespace CprPrototype.View
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
+                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar","icon_performcpr.png");
                     }
                     _viewModel.IsDoneAvailable = true;
                     _viewModel.IsLogAvailable = false;

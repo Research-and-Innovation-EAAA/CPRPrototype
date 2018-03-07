@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -109,10 +112,6 @@
     <Content Include="MainActivity.cs.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CprPrototype\CprPrototype.Android\CprPrototype.Android.csproj">
-      <Project>{7cd57095-e2b3-40c9-9b98-3ce044668696}</Project>
-      <Name>CprPrototype.Android</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CprPrototype\CprPrototype\CprPrototype.csproj">
       <Project>{d1b3b31b-d915-4c06-bd95-a7583540c03b}</Project>
       <Name>CprPrototype</Name>

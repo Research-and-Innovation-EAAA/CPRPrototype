@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CPRPage"
              Title="CPR">
+    <ContentPage.Icon>
+    <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_cpr.png" Android="icon_cpr.png">
+    </OnPlatform>
+    </ContentPage.Icon>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="0, 20, 0, 0">
@@ -10,22 +15,6 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout 
-                VerticalOptions="Start"
-                HorizontalOptions="CenterAndExpand"
-                Orientation="Horizontal"
-                Spacing="25"
-                Margin="0, 0, 0, 0">
-                <Label x:Name="lblStepDescription" 
-                Text=""
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="0,0,0,0"
-                Font="Bold"
-                    FontSize="Large"
-                    IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
-            </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
                        Text="Hjertelungeredning"
@@ -47,7 +36,8 @@
                     Font="Bold"
                     FontSize="Large"
                     IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
+                    FontFamily="HelveticaNeue-Bold"
+                    TextColor="Black"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
@@ -86,7 +76,8 @@
                     Font="Bold"
                     FontSize="Large"
                     IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
+                    FontFamily="HelveticaNeue-Bold"
+                    TextColor="Black"/>
                 <Label x:Name="lblStepTime" 
                 Text="{Binding StepTime, StringFormat='{0:mm\\:ss}'}"
                 VerticalOptions="Start"
@@ -95,7 +86,8 @@
                     Font="Bold"
                     FontSize="Large"
                     IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
+                    FontFamily="HelveticaNeue-Bold"
+                    TextColor="Black"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100"
                 Margin="5, 5, 5, 15">
@@ -112,6 +104,12 @@
                             <On Platform="Android">Stødbar</On>
                         </OnPlatform>
                     </Button.Text>
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
                 </Button>
                 <Button x:Name="btnNShockable"
                         Clicked="NShockableButton_Clicked"
@@ -126,6 +124,12 @@
                             <On Platform="Android">Ikke-&#10;Stødbar</On>
                         </OnPlatform>
                     </Button.Text>
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
                 </Button>
             </StackLayout>
         </StackLayout>
