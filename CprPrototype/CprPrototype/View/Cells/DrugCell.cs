@@ -12,7 +12,7 @@ namespace CprPrototype.View
         StackLayout labelLayout, drugCellLayout;
 
         // Bindable properties connected to the different elements in the DrugCell
-        public static readonly BindableProperty NameProperty = BindableProperty.Create(nameof(Name), typeof(string), typeof(DrugCell));
+        public static readonly BindableProperty NameProperty = BindableProperty.Create(nameof(Name), typeof(string), typeof(DrugCell), null, propertyChanged: OnDrugDoseStringChanged);
         public static readonly BindableProperty TimeRemainingStringProperty = BindableProperty.Create(nameof(TimeRemainingString), typeof(string), typeof(DrugCell), null, propertyChanged: OnTimeRemainingStringChanged);
         public static readonly BindableProperty ButtonCommandInjectedProperty = BindableProperty.Create(nameof(DrugInjectedCommand), typeof(ICommand), typeof(DrugCell));
         public static readonly BindableProperty ButtonCommandIgnoreProperty = BindableProperty.Create(nameof(DrugIgnoredCommand), typeof(ICommand), typeof(DrugCell));
@@ -166,6 +166,12 @@ namespace CprPrototype.View
                 labelLayout.BackgroundColor = BackgroundColor;
                 drugCellLayout.BackgroundColor = BackgroundColor;
             }
+        }
+
+        static void OnDrugDoseStringChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var drugCell = bindable as DrugCell;
+            drugCell.lblName.Text = (string)newValue;
         }
 
         /// <summary>

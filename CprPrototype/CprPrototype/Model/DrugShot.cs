@@ -15,7 +15,7 @@ namespace CprPrototype.Model
         #region Properties
         
         private TimeSpan _timeRemaining;
-        private string _timeRemainingString;
+        private string _timeRemainingString, _drugDoseString;
         private Color _backgroundColor;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -135,6 +135,18 @@ namespace CprPrototype.Model
                         return DrugType.Magnesium.ToString() + " " + Dose;
                     default:
                         return string.Empty;
+                }
+            }
+            set
+            {
+                if (_drugDoseString != value)
+                {
+                    _drugDoseString = value;
+
+                    if (PropertyChanged != null)
+                    {
+                        OnPropertyChanged("DrugDoseString");
+                    }
                 }
             }
         }

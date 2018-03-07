@@ -329,6 +329,7 @@ namespace CprPrototype.ViewModel
                         if (shot.TimeRemaining.TotalSeconds == 120)
                         {
                             shot.BackgroundColor = Color.FromHex("#f1c40f");
+                            shot.DrugDoseString = "Test";
                             CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                             PlayMp3File(1);
                         }
