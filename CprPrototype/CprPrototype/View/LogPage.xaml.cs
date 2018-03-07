@@ -33,7 +33,7 @@ namespace CprPrototype.View
 
             BindingContext = _viewmodel;
             DataTemplate template = new DataTemplate(typeof(ImageCell));
-            template.SetBinding(ImageCell.ImageSourceProperty, "");
+            template.SetBinding(ImageCell.ImageSourceProperty,"ImageSource");
             template.SetBinding(ImageCell.TextProperty, "HistoryName");
             template.SetBinding(ImageCell.DetailProperty, "CPRHistoryTotalCycles");
             template.SetValue(ImageCell.TextColorProperty,Color.Black);

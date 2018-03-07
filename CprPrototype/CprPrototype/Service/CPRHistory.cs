@@ -35,6 +35,7 @@ namespace CprPrototype.Service
         [Ignore]
         public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
 
+        public string ImageSource { set; get; }
         #endregion
 
         #region Contruction

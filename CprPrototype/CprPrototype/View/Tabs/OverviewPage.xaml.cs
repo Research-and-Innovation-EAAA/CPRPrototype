@@ -90,7 +90,7 @@ namespace CprPrototype.View
             try
             {
                 _viewModel.History.AddItem("Genoplivning Afsluttet - Patient ROSC","icon_alive.png");
-
+                _viewModel.History.ImageSource = "icon_alive.png";
                 await InsertCPRHistoryIntoDB();
                 _viewModel.EndAlgorithm();
             }
@@ -120,7 +120,7 @@ namespace CprPrototype.View
             try
             {
                 _viewModel.History.AddItem("Genoplivning Afsluttet - Patient DØD","icon_dead.png");
-
+                _viewModel.History.ImageSource = "icon_dead.png";
                 await InsertCPRHistoryIntoDB();
                 _viewModel.EndAlgorithm();
             }
