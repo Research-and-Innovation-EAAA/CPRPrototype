@@ -281,7 +281,7 @@ namespace CprPrototype.ViewModel
 
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
-                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
+                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                     this.PlayMp3File(2);
                 }
             }
@@ -328,6 +328,7 @@ namespace CprPrototype.ViewModel
                         // Notify when we change from 'prep' drug to 'give' drug
                         if (shot.TimeRemaining.TotalSeconds == 120)
                         {
+                            shot.BackgroundColor = Color.FromHex("#f1c40f");
                             CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                             PlayMp3File(1);
                         }
@@ -335,6 +336,7 @@ namespace CprPrototype.ViewModel
                         // Notify constantly when drug timer is nearly done
                         if (shot.TimeRemaining.TotalSeconds < 16)
                         {
+                            shot.BackgroundColor = Color.FromHex("#E74C3C");
                             CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                             PlayMp3File(2);
                         }
