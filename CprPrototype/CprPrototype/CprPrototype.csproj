@@ -179,6 +179,8 @@
     <Content Include="Graphics\Icons from AppLab\icon_shockable.png" />
     <Content Include="Graphics\Icons from AppLab\svg format\icon_nonshockable.svg" />
     <Content Include="Graphics\Icons from AppLab\svg format\icon_shockable.svg" />
+    <Content Include="Graphics\icon_alive.png" />
+    <Content Include="Graphics\icon_dead.png" />
     <Content Include="Graphics\icon_medicin.png" />
     <Content Include="Graphics\icon_nonshockable.png" />
     <Content Include="Graphics\icon_shockable.png" />

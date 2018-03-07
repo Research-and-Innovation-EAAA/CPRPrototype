@@ -276,7 +276,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\cross.png" />
     <BundleResource Include="Resources\cardiogram.png" />
+    <BundleResource Include="Resources\icon_alive.png" />
     <Content Include="Resources\icon_cpr.png" />
+    <BundleResource Include="Resources\icon_dead.png" />
     <Content Include="Resources\icon_injection.png" />
     <Content Include="Resources\icon_log.png" />
     <BundleResource Include="Resources\icon_nonshockable.png" />

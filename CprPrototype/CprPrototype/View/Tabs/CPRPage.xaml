@@ -36,7 +36,8 @@
                     Font="Bold"
                     FontSize="Large"
                     IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
+                    FontFamily="HelveticaNeue-Bold"
+                    TextColor="Black"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
@@ -75,7 +76,8 @@
                     Font="Bold"
                     FontSize="Large"
                     IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
+                    FontFamily="HelveticaNeue-Bold"
+                    TextColor="Black"/>
                 <Label x:Name="lblStepTime" 
                 Text="{Binding StepTime, StringFormat='{0:mm\\:ss}'}"
                 VerticalOptions="Start"
@@ -84,7 +86,8 @@
                     Font="Bold"
                     FontSize="Large"
                     IsVisible="False"
-                    FontFamily="HelveticaNeue-Bold"/>
+                    FontFamily="HelveticaNeue-Bold"
+                    TextColor="Black"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100"
                 Margin="5, 5, 5, 15">
@@ -101,6 +104,12 @@
                             <On Platform="Android">Stødbar</On>
                         </OnPlatform>
                     </Button.Text>
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
                 </Button>
                 <Button x:Name="btnNShockable"
                         Clicked="NShockableButton_Clicked"
@@ -115,6 +124,12 @@
                             <On Platform="Android">Ikke-&#10;Stødbar</On>
                         </OnPlatform>
                     </Button.Text>
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
                 </Button>
             </StackLayout>
         </StackLayout>
