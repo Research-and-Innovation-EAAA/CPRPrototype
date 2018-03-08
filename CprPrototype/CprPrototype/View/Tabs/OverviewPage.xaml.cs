@@ -42,7 +42,7 @@ namespace CprPrototype.View
 
 
             btnlog.SetBinding(IsVisibleProperty, nameof(_viewModel.IsLogAvailable));
-            btnRUC.SetBinding(IsVisibleProperty, nameof(_viewModel.IsDoneAvailable));
+            btnROSC.SetBinding(IsVisibleProperty, nameof(_viewModel.IsDoneAvailable));
             btnDoed.SetBinding(IsVisibleProperty, nameof(_viewModel.IsDoneAvailable));
         }
 
@@ -78,7 +78,7 @@ namespace CprPrototype.View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void BtnRUC_Clicked(object sender, EventArgs e)
+        public async void BtnROSC_Clicked(object sender, EventArgs e)
         {
             lock (_synclock)
             {
@@ -89,8 +89,8 @@ namespace CprPrototype.View
 
             try
             {
-                _viewModel.History.AddItem("Genoplivning Afsluttet - Patient RUC");
-
+                _viewModel.History.AddItem("Genoplivning Afsluttet - Patient ROSC","icon_alive.png");
+                _viewModel.History.ImageSource = "icon_alive.png";
                 await InsertCPRHistoryIntoDB();
                 _viewModel.EndAlgorithm();
             }
@@ -119,8 +119,8 @@ namespace CprPrototype.View
 
             try
             {
-                _viewModel.History.AddItem("Genoplivning Afsluttet - Patient DØD");
-
+                _viewModel.History.AddItem("Genoplivning Afsluttet - Patient DØD","icon_dead.png");
+                _viewModel.History.ImageSource = "icon_dead.png";
                 await InsertCPRHistoryIntoDB();
                 _viewModel.EndAlgorithm();
             }

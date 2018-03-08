@@ -9,6 +9,10 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using System.Threading;
+using Plugin.SimpleAudioPlayer;
+using Plugin.SimpleAudioPlayer.Abstractions;
+using System.IO;
+using System.Reflection;
 
 namespace CprPrototype.ViewModel
 {
@@ -277,7 +281,7 @@ namespace CprPrototype.ViewModel
 
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
-                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(1));
+                    CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                     this.PlayMp3File(2);
                 }
             }
@@ -324,15 +328,18 @@ namespace CprPrototype.ViewModel
                         // Notify when we change from 'prep' drug to 'give' drug
                         if (shot.TimeRemaining.TotalSeconds == 120)
                         {
+                            shot.BackgroundColor = Color.FromHex("#f1c40f");
+                            shot.DrugDoseString = "Test";
                             CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-                            this.PlayMp3File(1);
+                            PlayMp3File(1);
                         }
 
                         // Notify constantly when drug timer is nearly done
                         if (shot.TimeRemaining.TotalSeconds < 16)
                         {
+                            shot.BackgroundColor = Color.FromHex("#E74C3C");
                             CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
-                            this.PlayMp3File(2);
+                            PlayMp3File(2);
                         }
                     }
                 }
@@ -346,11 +353,28 @@ namespace CprPrototype.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets and playes an mp3-file from Audio.
+        /// </summary>
+        /// <remarks>
+        /// {PWM} - Remember to mark the file as "Embedded Property" in file properties
+        /// </remarks>
+        /// <param name="number">number indicating which beep needs to be played.</param>
         private void PlayMp3File(int number)
         {
-            var audioPlayer = DependencyService.Get<IAudio>();
-            if (audioPlayer != null)
-                audioPlayer.PlayMp3File(number);
+
+            var assembly = typeof(App).GetTypeInfo().Assembly;
+            Stream stream;
+
+            if (number == 1)
+                stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".Audio.beep1.mp3");
+            else
+                stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".Audio.beep2.mp3");
+            
+            var player = CrossSimpleAudioPlayer.Current;
+            player.Load(stream);
+
+            player.Play();
         }
 
         /// <summary>
