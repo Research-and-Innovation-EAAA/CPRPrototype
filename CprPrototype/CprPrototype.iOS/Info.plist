@@ -27,7 +27,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.yourcompany.CprPrototype</string>
 	<key>CFBundleVersion</key>
-	<string>1.8</string>
+	<string>1.9</string>
 	<key>CFBundleName</key>
 	<string>CprPrototype</string>
 	<key>XSAppIconAssets</key>

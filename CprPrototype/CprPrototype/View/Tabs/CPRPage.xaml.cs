@@ -121,7 +121,7 @@ namespace CprPrototype.View
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "icon_reasons.png");
+                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "icon_performcpr.png");
                     }
 
                     _viewModel.IsDoneAvailable = true;
@@ -172,7 +172,7 @@ namespace CprPrototype.View
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar");
+                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar","icon_performcpr.png");
                     }
                     _viewModel.IsDoneAvailable = true;
                     _viewModel.IsLogAvailable = false;
