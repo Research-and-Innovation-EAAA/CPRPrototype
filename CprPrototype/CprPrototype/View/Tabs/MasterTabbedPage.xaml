@@ -9,4 +9,5 @@
     <local:OverviewPage/>
     <local:ExtraDrugs/>
     <local:CausePage/>
+    <local:TestPage/>
 </TabbedPage>

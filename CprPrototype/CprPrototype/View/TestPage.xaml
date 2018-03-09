@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CprPrototype.View.TestPage"
+             Title="TestPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Ekstra Medicin" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>
+            <ListView x:Name="lstDrugs"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

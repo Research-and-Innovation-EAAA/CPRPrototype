@@ -30,7 +30,7 @@
                 </Button.FontSize>
                 <Button.Text>
                     <OnPlatform x:TypeArguments="x:String" 
-                                iOS="Adrenalin" 
+                                iOS="Adrenalin\n Hello" 
                                 Android="Adrenalin&#10;(1mg bolus hvert 3.-5 min.)">
                     </OnPlatform>
                 </Button.Text>
