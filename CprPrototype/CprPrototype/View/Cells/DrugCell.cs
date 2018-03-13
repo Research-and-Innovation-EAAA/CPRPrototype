@@ -19,14 +19,6 @@ namespace CprPrototype.View
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray, propertyChanged: OnBackgroundColorChanged);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
 
-        // for Extra Drugs
-        public static readonly BindableProperty LabelTextProperty = BindableProperty.Create(nameof(Tlabel), typeof(string), typeof(DrugCell));
-        public Label Tlabel = new Label
-        {
-            Text = "Halloo",TextColor = Color.Black
-        };
-
-
         /// <summary>
         /// Gets or sets the Name connected with the BindableProperty (ex. DrugDoseString)
         /// </summary>
