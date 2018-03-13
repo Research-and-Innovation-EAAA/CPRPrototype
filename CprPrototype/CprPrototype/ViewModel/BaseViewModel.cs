@@ -41,9 +41,13 @@ namespace CprPrototype.ViewModel
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
         private bool _enableDisableUI = true;
+        private bool _isInCriticalTime = true;
         private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public EventHandler<TimeEventArgs> CriticalTimeChanged;
+
         //public event EventHandler TimerElapsed;
 
 
@@ -186,7 +190,7 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// Gets the Timer object.
         /// </summary>
-        public System.Threading.Timer CycleTimer { get; set; }
+        public Timer CycleTimer { get; set; }
 
         /// <summary>
         /// Gets the Algorithm model.
@@ -241,6 +245,19 @@ namespace CprPrototype.ViewModel
             }
         }
 
+        public bool IsInCriticalTime
+        {
+            set
+            {
+                _isInCriticalTime = value;
+                OnPropertyChanged(nameof(IsInCriticalTime));
+            }
+            get
+            {
+                return _isInCriticalTime;
+            }
+        }
+
         #endregion
 
         #region Construction & Initialization
@@ -281,6 +298,8 @@ namespace CprPrototype.ViewModel
 
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
+                    _isInCriticalTime = true;
+                    OnCriticalTimeChanged(IsInCriticalTime);
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                     this.PlayMp3File(2);
                 }
@@ -370,7 +389,7 @@ namespace CprPrototype.ViewModel
                 stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".Audio.beep1.mp3");
             else
                 stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".Audio.beep2.mp3");
-            
+
             var player = CrossSimpleAudioPlayer.Current;
             player.Load(stream);
 
@@ -426,6 +445,7 @@ namespace CprPrototype.ViewModel
             BaseViewModel baseViewModel = (BaseViewModel)sender;
             baseViewModel.NotifyTimerIncremented();
         }
+
         private void NotifyTimerIncremented()
         {
             // Update Total Time
@@ -469,10 +489,18 @@ namespace CprPrototype.ViewModel
         /// This method notifies a specific notify object to change its properties.
         /// fx buttons going from nonvisible to visible.
         /// </summary>
-        protected void OnPropertyChanged(string n)
+        protected virtual void OnPropertyChanged(string n)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             handler(this, new PropertyChangedEventArgs(n));
+        }
+
+        protected virtual void OnCriticalTimeChanged(bool isInCriticalTime)
+        {
+            if (CriticalTimeChanged != null)
+            {
+                CriticalTimeChanged(this, new TimeEventArgs() { IsInCriticalTime = isInCriticalTime });
+            }
         }
 
         /// <summary>
@@ -495,5 +523,13 @@ namespace CprPrototype.ViewModel
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// This class enables us to send custom event arguments in OnCriticalTimeChanged eventhandler
+    /// </summary>
+    public class TimeEventArgs : EventArgs
+    {
+        public bool IsInCriticalTime { get; set; }
     }
 }

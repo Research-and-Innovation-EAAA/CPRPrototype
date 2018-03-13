@@ -255,11 +255,13 @@ namespace CprPrototype.Model
             int minutes = TimeRemaining.Minutes;
             int seconds = TimeRemaining.Seconds;
 
-            TimeRemainingString = "";
+            string localTimeRemainingString = "";
             if (minutes > 0)
-                TimeRemainingString = minutes + " min " + seconds + " sek";
+                localTimeRemainingString = minutes + " min " + seconds + " sek";
             else
-                TimeRemainingString = seconds + " sek";
+                localTimeRemainingString = seconds + " sek";
+
+            TimeRemainingString = localTimeRemainingString;
         }
 
         /// <summary>

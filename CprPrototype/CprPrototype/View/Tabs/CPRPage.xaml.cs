@@ -57,7 +57,9 @@ namespace CprPrototype.View
             lblHeart.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblStepTime.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
-           
+
+            _viewModel.CriticalTimeChanged += this.OnCriticalTimeChanged;
+
         }
 
         #endregion
@@ -106,6 +108,8 @@ namespace CprPrototype.View
 
             try
             {
+                _viewModel.IsInCriticalTime = false;
+                lowerBlock.AbortAnimation("colorchange");
                 var answer = await CheckShockGivenActionSheet();
 
                 if (answer == cancelAction)
@@ -132,7 +136,7 @@ namespace CprPrototype.View
                     _viewModel.AdvanceAlgorithm(answer);
                     RefreshStepTime();
                 }
-            } 
+            }
             finally
             {
                 lock (_syncLock)
@@ -158,6 +162,8 @@ namespace CprPrototype.View
 
             try
             {
+
+                lowerBlock.AbortAnimation("colorchange");
                 var answer = await CheckShockGivenActionSheet();
                 if (answer == cancelAction)
                 {
@@ -172,7 +178,7 @@ namespace CprPrototype.View
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar","icon_performcpr.png");
+                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar", "icon_performcpr.png");
                     }
                     _viewModel.IsDoneAvailable = true;
                     _viewModel.IsLogAvailable = false;
@@ -190,6 +196,41 @@ namespace CprPrototype.View
                     _isInCall = false;
                 }
             }
+        }
+
+        public void OnCriticalTimeChanged(object source, TimeEventArgs args)
+        {
+            if (args.IsInCriticalTime)
+                BlinkingBackgroundAnimation();
+            else
+                lowerBlock.AbortAnimation("colorchange");
+        }
+
+        void BlinkingBackgroundAnimation()
+        {
+            var isBackgroundColored = false;
+
+            lowerBlock.Animate(
+                "colorchange",
+                x =>
+                {
+                    if (!isBackgroundColored)
+                        lowerBlock.BackgroundColor = Color.Green;
+                    else
+                        lowerBlock.BackgroundColor = Color.Default;
+
+                },
+                length: 1000,
+                finished: delegate (double d, bool b)
+                {
+                    lowerBlock.BackgroundColor = Color.Default;
+                },
+                repeat: () =>
+                {
+                    isBackgroundColored = !isBackgroundColored;
+                    return true;
+                }
+            );
         }
         #endregion
     }
