@@ -24,11 +24,11 @@ namespace CprPrototype.View
             lstDrugs.ItemsSource = vm.Exdrugs;
 		}
 
-        async void Button_Clicked(object sender, EventArgs e)
+        void Button_Clicked(object sender, EventArgs e)
         {
             Button temp = (Button)sender;
             var pt = temp.Parent;
-            
+
             var label = pt.FindByName<Label>("lblname");
 
 
