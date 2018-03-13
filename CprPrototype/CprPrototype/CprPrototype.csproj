@@ -51,6 +51,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />
+    <Compile Include="View\ExDrugs.cs" />
+    <Compile Include="View\ExtraDrugsModel.cs" />
     <Compile Include="View\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
