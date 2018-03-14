@@ -41,7 +41,7 @@ namespace CprPrototype.ViewModel
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
         private bool _enableDisableUI = true;
-        private bool _isInCriticalTime = true;
+        private bool _isInCriticalTime = false;
         private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -298,8 +298,11 @@ namespace CprPrototype.ViewModel
 
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
-                    _isInCriticalTime = true;
-                    OnCriticalTimeChanged(IsInCriticalTime);
+                    if (!_isInCriticalTime)
+                    {
+                        _isInCriticalTime = true;
+                        OnCriticalTimeChanged(IsInCriticalTime);
+                    }
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                     this.PlayMp3File(2);
                 }

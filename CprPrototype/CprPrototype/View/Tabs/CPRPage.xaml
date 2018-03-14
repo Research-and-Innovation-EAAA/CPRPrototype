@@ -49,23 +49,23 @@
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
-                        IsVisible="False"
-                        FontFamily="HelveticaNeue-Light"/>
+                        FontFamily="HelveticaNeue-Light"
+                        IsVisible="False"/>
                 </StackLayout>
-                <ListView x:Name="listView"/>
-            </StackLayout>
-            <StackLayout HorizontalOptions="Fill">
-                <Label x:Name="lblPulse"
-                       Text="Vurder Rytme"
-                       FontSize="Small"
-                       TextColor="White"
-                       FontFamily="HelveticaNeue-Light"
-                       HorizontalTextAlignment="Center"
-                       BackgroundColor="#00447B"/>
+                <ListView x:Name="listView" />
             </StackLayout>
             <StackLayout x:Name="lowerBlock">
+                <StackLayout HorizontalOptions="Fill">
+                    <Label x:Name="lblPulse"
+                           Text="Vurder Rytme"
+                           FontSize="Small"
+                           TextColor="White"
+                           FontFamily="HelveticaNeue-Light"
+                           HorizontalTextAlignment="Center"
+                           BackgroundColor="#00447B"/>
+                </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20"
-                Margin="5, 15, 5, 15">
+                Margin="5, 0, 5, 15">
                     <Label
                     x:Name="lblTotalElapsedCycles"
                     Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"

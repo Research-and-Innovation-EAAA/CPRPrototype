@@ -201,12 +201,37 @@ namespace CprPrototype.View
         public void OnCriticalTimeChanged(object source, TimeEventArgs args)
         {
             if (args.IsInCriticalTime)
-                BlinkingBackgroundAnimation();
-            else
-                lowerBlock.AbortAnimation("colorchange");
+                BlinkingBackgroundAnimationLowerBlock();
         }
 
-        void BlinkingBackgroundAnimation()
+        void BlinkingBackgroundAnimationLowerBlock()
+        {
+            var isBackgroundColored = false;
+
+            lowerBlock.Animate(
+                "colorchange",
+                x =>
+                {
+                    if (!isBackgroundColored)
+                        lowerBlock.BackgroundColor = Color.Green;
+                    else
+                        lowerBlock.BackgroundColor = Color.Default;
+
+                },
+                length: 1000,
+                finished: delegate (double d, bool b)
+                {
+                    lowerBlock.BackgroundColor = Color.Default;
+                },
+                repeat: () =>
+                {
+                    isBackgroundColored = !isBackgroundColored;
+                    return true;
+                }
+            );
+        }
+
+        void BlinkingBackgroundAnimationNotificationBlock()
         {
             var isBackgroundColored = false;
 
