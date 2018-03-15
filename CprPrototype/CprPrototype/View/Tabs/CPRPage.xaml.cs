@@ -83,7 +83,7 @@ namespace CprPrototype.View
         private async Task<string> CheckShockGivenActionSheet()
         {
             string answer = null;
-
+            _viewModel.IsInCriticalTime = false;
             while (answer == null)
             {
                 answer = await DisplayActionSheet(actionSheetTitle, cancelAction, null, shockGiven, shockNotGiven);
@@ -108,8 +108,7 @@ namespace CprPrototype.View
 
             try
             {
-                _viewModel.IsInCriticalTime = false;
-                lowerBlock.AbortAnimation("colorchange");
+
                 var answer = await CheckShockGivenActionSheet();
 
                 if (answer == cancelAction)
@@ -141,6 +140,8 @@ namespace CprPrototype.View
             {
                 lock (_syncLock)
                 {
+                    _viewModel.IsInCriticalTime = false;
+                    lowerBlock.AbortAnimation("colorchange");
                     _isInCall = false;
                 }
             }
@@ -162,8 +163,6 @@ namespace CprPrototype.View
 
             try
             {
-
-                lowerBlock.AbortAnimation("colorchange");
                 var answer = await CheckShockGivenActionSheet();
                 if (answer == cancelAction)
                 {
@@ -193,6 +192,8 @@ namespace CprPrototype.View
             {
                 lock (_syncLock)
                 {
+                    _viewModel.IsInCriticalTime = false;
+                    lowerBlock.AbortAnimation("colorchange");
                     _isInCall = false;
                 }
             }
@@ -205,33 +206,6 @@ namespace CprPrototype.View
         }
 
         void BlinkingBackgroundAnimationLowerBlock()
-        {
-            var isBackgroundColored = false;
-
-            lowerBlock.Animate(
-                "colorchange",
-                x =>
-                {
-                    if (!isBackgroundColored)
-                        lowerBlock.BackgroundColor = Color.Green;
-                    else
-                        lowerBlock.BackgroundColor = Color.Default;
-
-                },
-                length: 1000,
-                finished: delegate (double d, bool b)
-                {
-                    lowerBlock.BackgroundColor = Color.Default;
-                },
-                repeat: () =>
-                {
-                    isBackgroundColored = !isBackgroundColored;
-                    return true;
-                }
-            );
-        }
-
-        void BlinkingBackgroundAnimationNotificationBlock()
         {
             var isBackgroundColored = false;
 
