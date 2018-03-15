@@ -51,6 +51,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CPRHistory.cs" />
     <Compile Include="Service\IAudio.cs" />
+    <Compile Include="Model\ExtraDrugs.cs" />
+    <Compile Include="Model\ExtraDrugsModel.cs" />
+    <Compile Include="View\Tabs\ExtraDrugsPage.xaml.cs">
+      <DependentUpon>ExtraDrugsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="View\LogDetailPage.xaml.cs">
       <DependentUpon>LogDetailPage.xaml</DependentUpon>
@@ -65,9 +70,6 @@
       <DependentUpon>CPRPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Cells\DrugCell.cs" />
-    <Compile Include="View\Tabs\ExtraDrugs.xaml.cs">
-      <DependentUpon>ExtraDrugs.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Tabs\MasterTabbedPage.xaml.cs">
       <DependentUpon>MasterTabbedPage.xaml</DependentUpon>
     </Compile>
@@ -157,12 +159,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\Tabs\ExtraDrugs.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +188,7 @@
     <Content Include="Graphics\TabIcons\injection.png" />
     <Content Include="Graphics\TabIcons\log.png" />
     <Content Include="Graphics\TabIcons\reasons.png" />
-	<EmbeddedResource Include="Audio\beep1.mp3" />
+    <EmbeddedResource Include="Audio\beep1.mp3" />
     <EmbeddedResource Include="Audio\beep2.mp3" />
   </ItemGroup>
   <ItemGroup>
@@ -212,7 +208,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="View\Tabs\ExtraDrugsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.5.0.122203\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
