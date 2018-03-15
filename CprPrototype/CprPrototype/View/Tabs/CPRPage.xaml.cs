@@ -203,6 +203,8 @@ namespace CprPrototype.View
         {
             if (args.IsInCriticalTime)
                 BlinkingBackgroundAnimationLowerBlock();
+            else
+                lowerBlock.AbortAnimation("colorchange");
         }
 
         void BlinkingBackgroundAnimationLowerBlock()

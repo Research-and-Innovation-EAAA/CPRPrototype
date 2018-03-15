@@ -41,7 +41,7 @@ namespace CprPrototype.ViewModel
         private const int CRITICAL_ALERT_TIME = 10;
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
-        private bool _enableDisableUI = true;
+        private bool _enableDisableUI = false;
         private bool _isInCriticalTime = false;
         private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
@@ -539,6 +539,7 @@ namespace CprPrototype.ViewModel
             EnableDisableUI = false;
             IsLogAvailable = true;
             IsDoneAvailable = false;
+            OnCriticalTimeChanged(false);
         }
 
         #endregion
