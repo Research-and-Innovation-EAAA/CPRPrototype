@@ -38,7 +38,7 @@ namespace CprPrototype.ViewModel
         private TimeSpan _totalTime, _stepTime;
         private int _totalElapsedCycles;
 
-        private const int CRITICAL_ALERT_TIME = 110;
+        private const int CRITICAL_ALERT_TIME = 10;
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
         private bool _enableDisableUI = true;
