@@ -29,6 +29,7 @@ namespace CprPrototype.ViewModel
 
         private static BaseViewModel _instance;
         private static object _padlock = new object(); // Object used to make singleton thread-safe
+        private static object _timerPadlock = new object(); // Object used to make singleton thread-safe
         private bool _isInCall = false;
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
@@ -37,7 +38,7 @@ namespace CprPrototype.ViewModel
         private TimeSpan _totalTime, _stepTime;
         private int _totalElapsedCycles;
 
-        private const int CRITICAL_ALERT_TIME = 10;
+        private const int CRITICAL_ALERT_TIME = 110;
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
         private bool _enableDisableUI = true;
@@ -250,7 +251,6 @@ namespace CprPrototype.ViewModel
             set
             {
                 _isInCriticalTime = value;
-                OnPropertyChanged(nameof(IsInCriticalTime));
             }
             get
             {
@@ -298,10 +298,26 @@ namespace CprPrototype.ViewModel
 
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
-                    if (!_isInCriticalTime)
+                    lock (_timerPadlock)
                     {
-                        _isInCriticalTime = true;
-                        OnCriticalTimeChanged(IsInCriticalTime);
+                        if (_isInCall)
+                            return;
+                        _isInCall = true;
+                    }
+                    try
+                    {
+                        if (IsInCriticalTime == false)
+                        {
+                            IsInCriticalTime = true;
+                            OnCriticalTimeChanged(IsInCriticalTime);
+                        }
+                    } 
+                    finally
+                    {
+                        lock (_timerPadlock)
+                        {
+                            _isInCall = false;
+                        }
                     }
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                     this.PlayMp3File(2);
