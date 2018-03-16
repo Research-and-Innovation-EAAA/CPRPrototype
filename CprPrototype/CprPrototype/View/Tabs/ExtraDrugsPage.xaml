@@ -17,12 +17,12 @@
         <StackLayout>
             <Label Text="Ekstra Medicin" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,0,0,0" FontFamily="HelveticaNeue-Light"/>
             <StackLayout Padding="0,20,0,0">
-                <ListView x:Name="lstDrugs" HasUnevenRows="True" SeparatorVisibility="None" >
-                    <ListView.ItemTemplate>
+                <ListView x:Name="lstDrugs" HasUnevenRows="True" SeparatorVisibility="None">
+                <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" BackgroundColor="#eee">
+                                    <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                                         <StackLayout Orientation="Vertical" IsEnabled="False">
                                             <Label x:Name= "lblname" Text = "{Binding DrugName}" FontSize="Medium" TextColor="Black" Margin="15,0,0,0" />
                                             <Label Text="{Binding DrugUsage}" FontSize="11" VerticalOptions="Start" TextColor="Black" Margin="15,0,0,0" 
@@ -42,11 +42,20 @@
                                                 </OnPlatform>
                                             </Button.HeightRequest>
                                         </Button>
+                                        <StackLayout.BackgroundColor>
+                                            <OnPlatform x:TypeArguments="Color" Android="#eee" iOS="White">
+                                            </OnPlatform>
+                                        </StackLayout.BackgroundColor>
                                     </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
+                            
+                        </TapGestureRecognizer>
+                    </ListView.GestureRecognizers>
                 </ListView>
             </StackLayout>
         </StackLayout>

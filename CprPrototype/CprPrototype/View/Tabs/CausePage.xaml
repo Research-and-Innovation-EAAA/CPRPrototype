@@ -18,7 +18,7 @@
             <Label Text="Årsager" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>
             <TableView>
                 <TableRoot>
-                    <TableSection x:Name="sectionH"/>
+                    <TableSection x:Name="sectionH" />
                     <TableSection x:Name="sectionT"/>
                 </TableRoot>
             </TableView>
