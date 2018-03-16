@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="785" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" image="cardiogram_launch.png">
+                                <rect key="frame" x="68" y="286" width="240" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0.53333333333333333" blue="0.33333333333333331" alpha="1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cross.png" width="16" height="16"/>
+        <image name="cardiogram.png" width="128" height="128"/>
+        <image name="icon_alive.png" width="128" height="128"/>
+        <image name="icon_dead.png" width="128" height="128"/>
+        <image name="icon_cpr.png" width="28" height="24"/>
+        <image name="icon_nonshockable.png" width="127" height="126"/>
+        <image name="icon_medicin.png" width="128" height="128"/>
+        <image name="icon_performcpr.png" width="128" height="128"/>
+        <image name="icon_injection.png" width="30" height="30"/>
+        <image name="icon_shockable.png" width="126" height="126"/>
+        <image name="icon_reasons.png" width="30" height="31"/>
+        <image name="icon_log.png" width="24" height="28"/>
+        <image name="cardiogram_launch.png" width="402" height="402"/>
+    </resources>
+</document>
