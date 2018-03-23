@@ -43,7 +43,7 @@
                                             </Button.HeightRequest>
                                         </Button>
                                         <StackLayout.BackgroundColor>
-                                            <OnPlatform x:TypeArguments="Color" Android="#eee" iOS="White">
+                                            <OnPlatform x:TypeArguments="Color" Android="White" iOS="White">
                                             </OnPlatform>
                                         </StackLayout.BackgroundColor>
                                     </StackLayout>
@@ -52,9 +52,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
-                            
-                        </TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                     </ListView.GestureRecognizers>
                 </ListView>
             </StackLayout>

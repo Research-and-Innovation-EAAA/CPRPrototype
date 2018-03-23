@@ -74,7 +74,6 @@ namespace CprPrototype.View
             // Insert call for all connected to CPRHIstory here.
 
             await Navigation.PushAsync(new LogDetailPage(intTemp));
-
         }
 
         #endregion

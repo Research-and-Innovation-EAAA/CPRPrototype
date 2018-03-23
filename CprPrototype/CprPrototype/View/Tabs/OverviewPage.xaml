@@ -39,7 +39,7 @@
             <StackLayout HorizontalOptions="Fill"
                          VerticalOptions="Fill"
                          Margin="0,5,0,0"
-                         Spacing="0">
+                         Spacing="3">
                 <StackLayout HorizontalOptions="Fill">
                     <Label Text="Historie"
                        FontSize="Small"
@@ -50,7 +50,7 @@
                 </StackLayout>
                 <ListView x:Name="listView"
                 VerticalOptions="StartAndExpand"
-                HorizontalOptions="CenterAndExpand"/>
+                HorizontalOptions="CenterAndExpand" SeparatorVisibility="None"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label Text="Handling"

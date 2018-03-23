@@ -85,7 +85,7 @@ namespace CprPrototype.View
             drugCellLayout = new StackLayout
             {
                 Spacing = 2,
-                Margin = new Thickness(3),
+                Margin = new Thickness(1),
                 Orientation = StackOrientation.Horizontal,
                 BackgroundColor = BackgroundColor
             };
