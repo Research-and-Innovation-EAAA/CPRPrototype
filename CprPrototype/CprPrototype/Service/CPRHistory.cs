@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -10,54 +12,88 @@ namespace CprPrototype.Service
     /// </summary>
     public class CPRHistory
     {
-        private ObservableCollection<CPRHistoryEntry> list = new ObservableCollection<CPRHistoryEntry>();
+        #region Properties
 
-        public ObservableCollection<CPRHistoryEntry> Records
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        [MaxLength(40)]
+        public string HistoryName { get; set; }
+
+        public string CPRHistoryTotalCycles { set; get; }
+
+        /// <summary>
+        /// Gets and sets the date and time for the resuscitation attempt is started.
+        /// </summary>
+        public DateTime AttemptStarted { get; set; }
+
+        /// <summary>
+        /// Gets and sets the date and time for the resuscitation attempt is finished
+        /// </summary>
+        public DateTime AttemptFinished { get; set; }
+
+        [Ignore]
+        public ObservableCollection<CPRHistoryEntry> Entries { get; private set; }
+
+        /// <summary>
+        /// Gets and set the imagesource connected to the <see cref="CPRHistory"/> 
+        /// </summary>
+        public string ImageSource { get; set; }
+        
+        #endregion
+
+        #region Contruction
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CPRHistory"/> class
+        /// </summary>
+        public CPRHistory()
         {
-            get { return list; }
+            Entries = new ObservableCollection<CPRHistoryEntry>();
         }
 
-        public void AddItem(string name, DateTime date)
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Adds an item to the log of the app with an image attached.
+        /// </summary>
+        /// <param name="name">Name of the event</param>
+        /// <param name="source">Image sourcepath</param>
+        public void AddItem(string name, string source = null)
         {
-            var item = new CPRHistoryEntry(name, date);
-            item.DateTimeString = date.ToString("{0:MM/dd/yy H:mm:ss}");
+            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now, source);
+            item.DateTimeString = item.Date.ToString("dd/MM/yy  H:mm:ss");
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
-            list.Add(item);
-            
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
-
-            Records.Clear();
-
-            foreach (var i in list)
+            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)
             {
-                Records.Add(i);
-            }
+                item
+            };
+
+            UpdateList(list);
         }
 
         /// <summary>
-        /// Adds an item the the log of the app.
+        /// Helpermethod for ordering the incoming <see cref="CPRHistoryEntry"/>-list, 
+        /// so it will be displayed correctly on screen.
         /// </summary>
-        /// <param name="name"></param>
-        public void AddItem(string name)
+        /// <param name="incomingList">List to be sorted</param>
+        private void UpdateList(List<CPRHistoryEntry> incomingList)
         {
-            var item = new CPRHistoryEntry(name, DateTime.Now);
-            item.DateTimeString = item.Date.ToString("{0:MM/dd/yy H:mm:ss}");
+            incomingList.Sort((x, y) => y.Date.CompareTo(x.Date));
+            incomingList.Reverse();
+            
+            Entries.Clear();
 
-            List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Records);
-            list.Add(item);
-
-            list.Sort((x, y) => y.Date.CompareTo(x.Date));
-            //list.Reverse();
-
-            Records.Clear();
-
-            foreach (var i in list)
+            foreach (var i in incomingList)
             {
-                Records.Add(i);
+                Entries.Add(i);
+
             }
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -65,31 +101,51 @@ namespace CprPrototype.Service
     /// </summary>
     public class CPRHistoryEntry
     {
+        #region Properties
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        [ForeignKey(typeof(CPRHistory))]
+        public int CPRHistoryId { get; set; }
+
+        [ManyToOne]
+        public CPRHistory CPRHistory { get; set; }
+
         /// <summary>
-        /// Name of the event occured
+        /// Gets or sets the mame of the event occured
         /// </summary>
-        /// <example>
-        /// Adrenalin
-        /// </example>
         public string Name { get; set; }
+
         /// <summary>
-        /// Time for when the event occured
+        /// Gets or sets the time for when the event occured
         /// </summary>
         public DateTime Date { get; set; }
+
         /// <summary>
-        /// Formatted time string shown in GUI
+        /// Gets or sets the formatted time string shown in GUI
         /// </summary>
         public string DateTimeString { get; set; }
 
+        // Need some description
+        public string ImageSource { get; set; }
+
+        public CPRHistoryEntry()
+        {
+
+        }
+
+        public CPRHistoryEntry(string name, DateTime date, string imageSource)
+        {
+            Name = name;
+            Date = date;
+            ImageSource = imageSource;
+        }
         public CPRHistoryEntry(string name, DateTime date)
         {
             Name = name;
             Date = date;
         }
 
-        public CPRHistoryEntry()
-        {
-
-        }
+        #endregion
     }
 }

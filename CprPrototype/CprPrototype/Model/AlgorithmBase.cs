@@ -18,15 +18,12 @@ namespace CprPrototype.Model
     {
         #region Properties
 
-        private List<AlgorithmStep> steps;
-        private List<Drug> drugs;
-        private DateTime? startTime;
-        private TimeSpan stepTime;
-        private AssessmentStep step1;
-        private AlgorithmStep smallShock1,smallNShock1, smallNShock2, exit1, currentStep;
-        private StepSize stepSize;
+        private List<Drug> _drugsCollection;
+        private DateTime? _startTime;
+        private TimeSpan _stepTime;
+        private AlgorithmStep _firstStep, _shockable1, _nonShockable1, _nonShockable2, _exitStep, _currentStep;
 
-        private int cycles = 0;
+        private int totalElapsedCycles = 0;
 
         /// <summary>
         /// Property Changed event handler.
@@ -34,16 +31,17 @@ namespace CprPrototype.Model
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Gets or sets the current step in the algorithm
         /// Current step in the algorithm.
         /// </summary>
         public AlgorithmStep CurrentStep
         {
-            get { return currentStep; }
+            get { return _currentStep; }
             set
             {
-                if (currentStep != value)
+                if (_currentStep != value)
                 {
-                    currentStep = value;
+                    _currentStep = value;
 
                     if (PropertyChanged != null)
                     {
@@ -54,16 +52,16 @@ namespace CprPrototype.Model
         }
 
         /// <summary>
-        /// Returns the remaining step time.
+        /// Gets or set the remaining step time
         /// </summary>
         public TimeSpan StepTime
         {
-            get { return stepTime; }
+            get { return _stepTime; }
             set
             {
-                if (stepTime != value)
+                if (_stepTime != value)
                 {
-                    stepTime = value;
+                    _stepTime = value;
 
                     if (PropertyChanged != null)
                     {
@@ -74,121 +72,123 @@ namespace CprPrototype.Model
         }
 
         /// <summary>
-        /// Returns the number of cycles the algorithm went through.
+        /// Gets the number of cycles the algorithm went through.
         /// </summary>
-        public int Cycles { get { return cycles; } }
+        public int TotalElapsedCycles { get { return totalElapsedCycles; } }
 
         /// <summary>
-        /// Returns the first step in the algorithm.
+        /// Gets the first step in the algorithm.
         /// </summary>
-        public AlgorithmStep FirstStep { get { return steps[0]; } }
+        public AlgorithmStep FirstStep { get { return _firstStep; } }
 
         /// <summary>
-        /// Returns the starting Date and Time for current
+        /// Gets the starting Date and Time for current
         /// resuscitation process.
         /// </summary>
-        public DateTime? StartTime { get { return startTime; } }
+        public DateTime? StartTime { get { return _startTime; } }
 
         #endregion
 
         #region Construction & Initialization
 
         /// <summary>
-        /// Constructor.
+        /// Initializes a new instance of the <see cref="AlgorithmBase"/> class
         /// </summary>
-        public AlgorithmBase(StepSize stepSize)
+        public AlgorithmBase()
         {
-            steps = InitializeSteps(stepSize);
-            drugs = new DrugFactory().CreateDrugs();
-            stepTime = TimeSpan.FromMinutes(2);
-            this.stepSize = stepSize;
+            InitializeAlgorithmSteps();
+            _drugsCollection = new DrugFactory().CreateDrugs();
+            StepTime = TimeSpan.FromMinutes(2);
 
-            // Select first step
-            CurrentStep = steps[0];
+            // Initiate so we start at firstStep
+            CurrentStep = _firstStep;
         }
 
         /// <summary>
-        /// Consturct and Initialize algorithm steps.
+        /// Construct and Initialize algorithm steps.
         /// </summary>
-        public List<AlgorithmStep> InitializeSteps(StepSize stepSize)
+        public void InitializeAlgorithmSteps()
         {
-            if (steps != null)
-            {
-                throw new Exception("AlgorithmBase - InitiliazeSteps() : Steps already initialized.");
-            }
-
-            List<AlgorithmStep> result = new List<AlgorithmStep>();
-
+            //========================================================================
             // Initial Step
-            step1 = new AssessmentStep("Vurder Rytmen", "Vurder patientens rytme");
+            //========================================================================
 
-            // Exit Step
-            exit1 = new AlgorithmStep("Circulation restored", "Continue with further resuscitation");
+            _firstStep = new AlgorithmStep("Vurder Rytmen", "Vurder patientens rytme");
 
-
+            //========================================================================
             // Shockable Steps
-            smallShock1 = new AlgorithmStep("Stød en gang", "Fortsæt HLR");
-            smallShock1.RythmStyle = RythmStyle.Shockable;
+            //========================================================================
 
+            _shockable1 = new AlgorithmStep("", "Fortsæt HLR")
+            {
+                RythmStyle = RythmStyle.Shockable,
+            };
+
+            //========================================================================
             // Non-Shockable Steps
-            smallNShock1 = new AlgorithmStep("Giv 1mg Adrenalin", "Fortsæt HLR");
-            smallNShock1.RythmStyle = RythmStyle.NonShockable;
+            //========================================================================
 
-            smallNShock2 = new AlgorithmStep("Fortsæt HLR ", "Fortsæt HLR");
-            smallNShock2.RythmStyle = RythmStyle.NonShockable;
+            _nonShockable1 = new AlgorithmStep("Giv 1mg Adrenalin", "Fortsæt HLR")
+            {
+                RythmStyle = RythmStyle.NonShockable
+            };
 
-            // Setup Step Relations
-            step1.PreviousStep = null;
-            step1.CircRestoredStep = exit1;
+            _nonShockable2 = new AlgorithmStep("", "Fortsæt HLR")
+            {
+                RythmStyle = RythmStyle.NonShockable
+            };
 
-            smallShock1.PreviousStep = step1;
-            smallShock1.NextStep = step1;
+            //========================================================================
+            // Exit Step (Currently not used)
+            //========================================================================
 
-            smallNShock1.PreviousStep = step1;
-            smallNShock1.NextStep = step1;
+            _exitStep = new AlgorithmStep("Circulation restored", "Continue with further resuscitation");
 
-            smallNShock2.PreviousStep = step1;
-            smallNShock2.NextStep = step1;
+            //========================================================================
+            // Setup Step Relations (Linked List)
+            //========================================================================
 
-            exit1.PreviousStep = step1;
+            _firstStep.PreviousStep = null;
 
-            // Add everything to the list
-            result.Add(step1);
-            result.Add(smallShock1);
-            result.Add(smallNShock1);
-            result.Add(smallNShock2);
-            result.Add(exit1);
+            _shockable1.PreviousStep = _firstStep;
+            _shockable1.NextStep = _firstStep;
 
-            return result;
+            _nonShockable1.PreviousStep = _firstStep;
+            _nonShockable1.NextStep = _firstStep;
+
+            _nonShockable2.PreviousStep = _firstStep;
+            _nonShockable2.NextStep = _firstStep;
+
+            _exitStep.PreviousStep = _firstStep;
         }
 
         #endregion
 
-        #region Timer Related Methods
+        #region Methods & Events
 
         /// <summary>
         /// Adds drug shots to the drug queue if it
         /// does not exist in it already.
         /// </summary>
-        public void AddDrugsToQueue(ObservableCollection<DrugShot> list, RythmStyle style)
+        public void AddDrugsToQueue(ObservableCollection<DrugShot> notificationQueue, RythmStyle rythmStyle)
         {
-            if (drugs != null && drugs.Count > 0)
+            if (_drugsCollection != null && _drugsCollection.Count > 0)
             {
-                foreach (Drug drug in drugs)
+                foreach (Drug drug in _drugsCollection)
                 {
-                    var shot = drug.GetDrugShot(Cycles, style);
+                    var shot = drug.GetDrugShot(TotalElapsedCycles, rythmStyle);
 
-                    if (shot != null && !list.Contains(shot))
+                    if (shot != null && !notificationQueue.Contains(shot))
                     {
-                        if (cycles == 0 && CurrentStep.NextStep.RythmStyle == RythmStyle.NonShockable)
+                        if (TotalElapsedCycles == 0 && CurrentStep.NextStep.RythmStyle == RythmStyle.NonShockable) // Handles the first Non-Shockable drug shot
                         {
-                            shot.TimeRemaining = TimeSpan.FromMinutes(2);
-                            list.Add(shot);
+                            shot.TimeRemaining = TimeSpan.FromMinutes(0);
+                            notificationQueue.Add(shot);
                         }
                         else
                         {
                             shot.ResetShot();
-                            list.Add(shot);
+                            notificationQueue.Add(shot);
                         }
                     }
                 }
@@ -198,51 +198,45 @@ namespace CprPrototype.Model
         /// <summary>
         /// Removes Expired Drug Reminders form queue.
         /// </summary>
-        public void RemoveDrugsFromQueue(ObservableCollection<DrugShot> list)
+        public void RemoveDrugsFromQueue(ObservableCollection<DrugShot> notificationQueue)
         {
-            if (drugs != null && drugs.Count > 0)
+            if (_drugsCollection != null && _drugsCollection.Count > 0)
             {
-                foreach (DrugShot shot in list)
+                for (int i = 0; i < notificationQueue.Count; i++)
                 {
-                    var drug = drugs.Find(x => x.DrugType == shot.Drug.DrugType);
+                    var shot = notificationQueue[i];
+                    var drug = _drugsCollection.Find(x => x.DrugType == shot.Drug.DrugType);
 
-                    if (shot.Injected)
+                    if (shot.IsInjected || shot.IsIgnored)
                     {
-                        list.Remove(shot);
+                        notificationQueue.Remove(shot);
                     }
                 }
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Initiates the CPR sequence based on
         /// the provided rythm style.
         /// </summary>
-        public void BeginSequence(RythmStyle style)
+        public void BeginSequence(RythmStyle rythmStyle)
         {
-            if (startTime == null)
-            {
-                startTime = DateTime.Now;
-            }
+            if (StartTime == null) { _startTime = DateTime.Now; }
 
-            if (cycles == 1) // Fjerner instansen hvor der skal gives medicin omgående, så ikke stødbar kan gå i sin normale cyklus.
-            {   
-                // Dette gør ikke noget.
-                //smallNShock2.PreviousStep = step1;
-                //smallNShock2.NextStep = step1;
-                steps.Remove(smallNShock1);
-            }
-
-            switch (style)
+            switch (rythmStyle)
             {
                 case RythmStyle.Shockable:
-                    CurrentStep.NextStep = smallShock1;
+                    CurrentStep.NextStep = _shockable1;
                     break;
-                case RythmStyle.NonShockable: // Har ændret her:
-                    CurrentStep.NextStep = smallNShock2;
-                    //CurrentStep.NextStep = steps[2];
+                case RythmStyle.NonShockable:
+                    if (TotalElapsedCycles != 0)
+                    {
+                        CurrentStep.NextStep = _nonShockable2;
+                    }
+                    else
+                    {
+                        CurrentStep.NextStep = _nonShockable1;
+                    }
                     break;
             }
         }
@@ -253,12 +247,8 @@ namespace CprPrototype.Model
         public void AdvanceOneStep()
         {
             var next = CurrentStep.NextStep;
+            totalElapsedCycles++;
 
-            // Update Cycle count
-            if (next.GetType().Equals(typeof(AssessmentStep)))
-            {
-                cycles++;
-            }
 
             // Sanity check
             if (next != null)
@@ -272,9 +262,17 @@ namespace CprPrototype.Model
         }
 
         /// <summary>
-        /// Event handler for INotifyPropertyChanged.
+        /// IDisposible implementation.
         /// </summary>
-        /// <param name="propertyName">Name of the property changed. Optional</param>
+        public void Dispose()
+        {
+            this._drugsCollection = null;
+        }
+
+        /// <summary>
+    /// Event handler for INotifyPropertyChanged.
+    /// </summary>
+    /// <param name="propertyName">Name of the property changed. Optional</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -285,12 +283,6 @@ namespace CprPrototype.Model
             }
         }
 
-        /// <summary>
-        /// IDisposible implementation.
-        /// </summary>
-        public void Dispose()
-        {
-            this.steps = null;
-        }
+        #endregion
     }
 }

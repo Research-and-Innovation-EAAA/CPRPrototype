@@ -4,35 +4,48 @@ using System.Collections.Generic;
 namespace CprPrototype.Model
 {
     /// <summary>
-    /// The DrugFactory class is responsible for the construction
+    /// Provides a Factory who is responsible for the construction
     /// of all drugs and their dosages.
     /// </summary>
     public class DrugFactory
     {
+        #region Methods
+
         /// <summary>
-        /// Creates a list of Drugs, including dosage for each drug.
+        /// Creates a list of Drugs, including dosages for each drug.
         /// </summary>
-        /// <param name="prepTimeMinutes">Optional - Drug Prep Time in Minutes. (Default = 5.0)</param>
+        /// <param name="preparationTimeMinutes">Drug preparation time in minutes.</param>
+        /// <param name="injectionTimeMinutes">Drug injection time in minutes</param>
         /// <returns>List of Drugs</returns>
-        public List<Drug> CreateDrugs(double prepTimeMinutes = 5)
+        public List<Drug> CreateDrugs(double preparationTimeMinutes = 3, double injectionTimeMinutes = 2)
         {
-            var result = new List<Drug>();
-            var prepTime = TimeSpan.FromMinutes(prepTimeMinutes);
+            var newDrugList = new List<Drug>();
+            var preparationTime = TimeSpan.FromMinutes(preparationTimeMinutes);
+            var injectionTime = TimeSpan.FromMinutes(injectionTimeMinutes);
 
-            // Adrenalin
-            var adrenalinDrug = new Drug(DrugType.Adrenalin, prepTime);
-            adrenalinDrug.Doses.Add(new DrugShot(adrenalinDrug, DrugDoseTarget.Adult, "1mg"));
-            result.Add(adrenalinDrug);
+            //========================================================================
+            // Adrenalin init
+            //========================================================================
 
-            // Amiodoran
-            var amiodoranDrug = new Drug(DrugType.Amiodaron, prepTime);
-            amiodoranDrug.Doses.Add(new DrugShot(amiodoranDrug, DrugDoseTarget.Adult, "300ml"));
-            amiodoranDrug.Doses.Add(new DrugShot(amiodoranDrug, DrugDoseTarget.Adult, "150ml"));
-            result.Add(amiodoranDrug);
+            var adrenalinDrug = new Drug(DrugType.Adrenalin, preparationTime, injectionTime);
+            adrenalinDrug.DosesCollection.Add(new DrugShot(adrenalinDrug, "1mg"));
+            newDrugList.Add(adrenalinDrug);
 
-            // TODO: Add extra drugs
+            //========================================================================
+            // Amiodaron init
+            //========================================================================
 
-            return result;
+            var amiodoranDrug = new Drug(DrugType.Amiodaron, preparationTime, injectionTime);
+            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "300ml"));
+            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "150ml"));
+            newDrugList.Add(amiodoranDrug);
+
+            //========================================================================
+            // TODO: Extras
+            //========================================================================
+            return newDrugList;
         }
+        
+        #endregion
     }
 }

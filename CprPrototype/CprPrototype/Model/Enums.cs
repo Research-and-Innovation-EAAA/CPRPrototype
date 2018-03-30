@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CprPrototype.Model
+﻿namespace CprPrototype.Model
 {
-   public enum InteractionMode
-   {
-        Silent,
-        Sound
-   }
-
-   public enum StepSize
-    {
-        Small,
-        Big
-    }
-
-   public enum DrugType
+    /// <summary>
+    /// The different types of drugs available
+    /// </summary>
+    public enum DrugType
     {
         Adrenalin,
         Amiodaron,
@@ -27,9 +12,34 @@ namespace CprPrototype.Model
         Magnesium
     }
 
-    public enum DrugDoseTarget
+    /// <summary>
+    /// The states the patients heartbeat can be in
+    /// </summary>
+    public enum RythmStyle
     {
-        Adult,
-        Children
+        Shockable,
+        NonShockable
+    }
+
+    /// <summary>
+    /// The special mnemonics for the 4 H's
+    /// </summary>
+    public enum SpecialCasesH
+    {
+        Hypoxi,
+        Hypovolæmi,
+        Hyperkalæmi,
+        Hypotermi
+    }
+
+    /// <summary>
+    /// The special mnemonics for the 4 T's
+    /// </summary>
+    public enum SpecialCasesT
+    {
+        Tamponade,
+        Trykneumothorax,
+        Trombose,
+        Toksisk
     }
 }

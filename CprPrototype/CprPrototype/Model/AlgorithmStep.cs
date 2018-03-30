@@ -14,53 +14,43 @@ namespace CprPrototype.Model
         #region Properties
 
         /// <summary>
-        /// Name of the Step.
+        /// Gets or sets the name of the <see cref="AlgorithmStep"/>.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Description of the Step.
+        /// Gets or sets the description of the <see cref="AlgorithmStep"/>.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Previous Step.
+        /// Gets or sets the previous <see cref="AlgorithmStep"/>.
         /// </summary>
         public AlgorithmStep PreviousStep { get; set; }
 
         /// <summary>
-        /// Next Step.
+        /// Gets or sets the nest <see cref="AlgorithmStep"/>
         /// </summary>
         public AlgorithmStep NextStep { get; set; }
 
         /// <summary>
-        /// Represents the style of the assessed rythm.
+        /// Gets or sets the <see cref="AlgorithmStep"/>'s <see cref="Model.RythmStyle"/>
         /// </summary>
-        public RythmStyle? RythmStyle { get; set; }
+        public RythmStyle RythmStyle { get; set; }
 
         #endregion
 
         #region Construction & Initialization
 
         /// <summary>
-        /// Default Constructor.
+        /// Initializes a new instance of the <see cref="AlgorithmStep"/> class.
         /// </summary>
         /// <param name="name">Name of the step</param>
         /// <param name="description">Description of the step</param>
-        /// <param name="previous">Previous step</param>
-        /// <param name="next">Next</param>
         public AlgorithmStep(string name, string description)
         {
-            this.Name = name;
-            this.Description = description;
-        }
-
-        /// <summary>
-        /// CTOR.
-        /// </summary>
-        public AlgorithmStep()
-        {
-            // Empty
+            Name = name;
+            Description = description;
         }
 
         /// <summary>
@@ -68,11 +58,10 @@ namespace CprPrototype.Model
         /// </summary>
         public virtual void Dispose()
         {
-            this.Name = null;
-            this.Description = null;
-            this.NextStep = null;
-            this.PreviousStep = null;
-            this.RythmStyle = null;
+            Name = null;
+            Description = null;
+            NextStep = null;
+            PreviousStep = null;
         }
 
         #endregion

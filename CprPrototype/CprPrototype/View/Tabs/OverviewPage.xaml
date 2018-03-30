@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CprPrototype.View.OverviewPage"
+             Title="Historik">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_log.png" Android="icon_log.png">
+        </OnPlatform>
+    </ContentPage.Icon>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0, 20, 0, 0">
+        </OnPlatform>
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout 
+                VerticalOptions="Start"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                Spacing="5"
+                Margin="5, 5, 5, 10">
+                <Label 
+                    Text="{Binding TotalTime, StringFormat='{0:hh\\:mm\\:ss}'}"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Fill"
+                    Margin="5"
+                    FontSize="Large"
+                    FontFamily="HelveticaNeue-Light"/>
+                <Label
+                    Text="{Binding Cycles, StringFormat='{0} Cykler'}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Fill"
+                    Margin="5"
+                    FontSize="Large"
+                    FontFamily="HelveticaNeue-Light"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         Margin="0,5,0,0"
+                         Spacing="3">
+                <StackLayout HorizontalOptions="Fill">
+                    <Label Text="Historie"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"
+                           FontFamily="HelveticaNeue-Light"/>
+                </StackLayout>
+                <ListView x:Name="listView"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="CenterAndExpand" SeparatorVisibility="None"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Fill">
+                <Label Text="Handling"
+                       FontSize="Small"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#00447B"
+                       FontFamily="HelveticaNeue-Light"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="80">
+                <Button x:Name="btnROSC"
+                    Text="ROSC" WidthRequest="150"
+                        Clicked="BtnROSC_Clicked"
+                        FontSize="Medium"
+                        FontFamily="HelveticaNeue-Light" 
+                        BackgroundColor="#A2CD54">
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
+                </Button>
+                <Button x:Name="btnDoed"
+                    Text="DØD" WidthRequest="150"
+                    Clicked="BtnDoed_Clicked"
+                    FontSize="Medium"
+                        FontFamily="HelveticaNeue-Light"
+                        BackgroundColor="#D13F3D">
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="iOS">Black</On>
+                            <On Platform="Android">Black</On>
+                        </OnPlatform>
+                    </Button.TextColor>
+                </Button>
+                <Button x:Name="btnlog" Text="Vis Historikker" FontFamily="HelveticaNeue-Light"
+                        Clicked="GoToLogPage"
+                        HorizontalOptions="CenterAndExpand"
+                        BackgroundColor="#E0E0E0">
+                    <Button.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double"
+                    iOS="200" Android="150">
+                        </OnPlatform>
+                    </Button.WidthRequest>
+                    <Button.TextColor>
+                        <OnPlatform x:TypeArguments="Color"
+                    iOS="Black">
+                        </OnPlatform>
+                    </Button.TextColor>
+                </Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
