@@ -9,7 +9,7 @@ namespace CprPrototype.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CausePage : ContentPage
     {
-
+        public TextCell  SpecialCases {get; set;}
         public CausePage()
         {
             InitializeComponent();
