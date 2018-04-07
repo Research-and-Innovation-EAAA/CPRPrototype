@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CprPrototype.View.TestPage"
-             Title="TestPage">
+             x:Class="CprPrototype.View.ExtraDrugsPage"
+             Title="Medicin">
+    <ContentPage.Icon>
+        <OnPlatform x:TypeArguments="FileImageSource"
+                    iOS="icon_injection.png" Android="icon_injection.png">
+        </OnPlatform>
+    </ContentPage.Icon>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="0, 20, 0, 0">
@@ -13,19 +18,19 @@
             <Label Text="Ekstra Medicin" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,0,0,0" FontFamily="HelveticaNeue-Light"/>
             <StackLayout Padding="0,20,0,0">
                 <ListView x:Name="lstDrugs" HasUnevenRows="True" SeparatorVisibility="None">
-                    <ListView.ItemTemplate>
+                <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" >
-                                        <StackLayout Orientation="Vertical">
-                                             <Label x:Name= "lblname" Text = "{Binding DrugName}" FontSize="Medium" TextColor="Black" Margin="15,0,0,0" />
-                                             <Label Text="{Binding DrugUsage}" FontSize="11" VerticalOptions="Start" TextColor="Black" Margin="15,0,0,0" 
+                                    <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                        <StackLayout Orientation="Vertical" IsEnabled="False">
+                                            <Label x:Name= "lblname" Text = "{Binding DrugName}" FontSize="Medium" TextColor="Black" Margin="15,0,0,0" />
+                                            <Label Text="{Binding DrugUsage}" FontSize="11" VerticalOptions="Start" TextColor="Black" Margin="15,0,0,0" 
                                                     FontAttributes="Italic"/>
                                         </StackLayout>
-                                        <Button Text = "Giv" HorizontalOptions="EndAndExpand" BackgroundColor="#E0E0E0" TextColor="Black" Clicked="Button_Clicked">
+                                        <Button Text = "Giv" HorizontalOptions="EndAndExpand" BackgroundColor="#E0E0E0" TextColor="Black" Clicked="Button_Clicked" FontFamily="HelveticaNeue-Light">
                                             <Button.Margin>
-                                                <OnPlatform x:TypeArguments="Thickness" iOS="15, 5, 2, 5">
+                                                <OnPlatform x:TypeArguments="Thickness" iOS="15, 5, 2, 5" Android="15,5,2,5">
                                                 </OnPlatform>
                                             </Button.Margin>
                                             <Button.WidthRequest>
@@ -37,11 +42,18 @@
                                                 </OnPlatform>
                                             </Button.HeightRequest>
                                         </Button>
+                                        <StackLayout.BackgroundColor>
+                                            <OnPlatform x:TypeArguments="Color" Android="White" iOS="White">
+                                            </OnPlatform>
+                                        </StackLayout.BackgroundColor>
                                     </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                    </ListView.GestureRecognizers>
                 </ListView>
             </StackLayout>
         </StackLayout>

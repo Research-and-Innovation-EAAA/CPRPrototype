@@ -85,7 +85,7 @@ namespace CprPrototype.View
             drugCellLayout = new StackLayout
             {
                 Spacing = 2,
-                Margin = new Thickness(3),
+                Margin = new Thickness(1),
                 Orientation = StackOrientation.Horizontal,
                 BackgroundColor = BackgroundColor
             };
@@ -185,9 +185,13 @@ namespace CprPrototype.View
         /// <param name="newValue">The new value that triggered the eventcall.</param>
         static void OnTimeRemainingStringChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var drugCell = bindable as DrugCell;
-            drugCell.lblTime.Text = (string)newValue;
+            if (bindable is DrugCell drugCell)
+            {
+                if (newValue is string val)
+                    drugCell.lblTime.Text = val;
+            }
         }
+
 
         static void OnBackgroundColorChanged(BindableObject bindable, object oldValue, object newValue)
         {

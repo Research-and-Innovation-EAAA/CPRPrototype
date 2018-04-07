@@ -5,7 +5,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="lblEmpty" IsVisible="False"/>
-            <ListView x:Name="loglist" ItemSelected="OnItemSelected" />
+            <ListView x:Name="loglist" ItemSelected="OnItemSelected" Margin="0,5,0,0"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

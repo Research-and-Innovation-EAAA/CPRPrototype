@@ -29,6 +29,7 @@ namespace CprPrototype.ViewModel
 
         private static BaseViewModel _instance;
         private static object _padlock = new object(); // Object used to make singleton thread-safe
+        private static object _timerPadlock = new object(); // Object used to make singleton thread-safe
         private bool _isInCall = false;
 
         private ObservableCollection<DrugShot> _notificationQueue = new ObservableCollection<DrugShot>();
@@ -40,10 +41,14 @@ namespace CprPrototype.ViewModel
         private const int CRITICAL_ALERT_TIME = 10;
         public bool _isDoneAvailable;
         public bool _isLogAvailable = true;
-        private bool _enableDisableUI = true;
+        private bool _enableDisableUI = false;
+        private bool _isInCriticalTime = false;
         private List<CPRHistory> tempHistoryList = new List<CPRHistory>();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public EventHandler<TimeEventArgs> CriticalTimeChanged;
+
         //public event EventHandler TimerElapsed;
 
 
@@ -186,7 +191,7 @@ namespace CprPrototype.ViewModel
         /// <summary>
         /// Gets the Timer object.
         /// </summary>
-        public System.Threading.Timer CycleTimer { get; set; }
+        public Timer CycleTimer { get; set; }
 
         /// <summary>
         /// Gets the Algorithm model.
@@ -241,6 +246,18 @@ namespace CprPrototype.ViewModel
             }
         }
 
+        public bool IsInCriticalTime
+        {
+            set
+            {
+                _isInCriticalTime = value;
+            }
+            get
+            {
+                return _isInCriticalTime;
+            }
+        }
+
         #endregion
 
         #region Construction & Initialization
@@ -281,6 +298,27 @@ namespace CprPrototype.ViewModel
 
                 if (StepTime.TotalSeconds <= CRITICAL_ALERT_TIME)
                 {
+                    lock (_timerPadlock)
+                    {
+                        if (_isInCall)
+                            return;
+                        _isInCall = true;
+                    }
+                    try
+                    {
+                        if (IsInCriticalTime == false)
+                        {
+                            IsInCriticalTime = true;
+                            OnCriticalTimeChanged(IsInCriticalTime);
+                        }
+                    } 
+                    finally
+                    {
+                        lock (_timerPadlock)
+                        {
+                            _isInCall = false;
+                        }
+                    }
                     CrossVibrate.Current.Vibration(TimeSpan.FromSeconds(0.25));
                     this.PlayMp3File(2);
                 }
@@ -370,7 +408,7 @@ namespace CprPrototype.ViewModel
                 stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".Audio.beep1.mp3");
             else
                 stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".Audio.beep2.mp3");
-            
+
             var player = CrossSimpleAudioPlayer.Current;
             player.Load(stream);
 
@@ -426,6 +464,7 @@ namespace CprPrototype.ViewModel
             BaseViewModel baseViewModel = (BaseViewModel)sender;
             baseViewModel.NotifyTimerIncremented();
         }
+
         private void NotifyTimerIncremented()
         {
             // Update Total Time
@@ -469,10 +508,18 @@ namespace CprPrototype.ViewModel
         /// This method notifies a specific notify object to change its properties.
         /// fx buttons going from nonvisible to visible.
         /// </summary>
-        protected void OnPropertyChanged(string n)
+        protected virtual void OnPropertyChanged(string n)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             handler(this, new PropertyChangedEventArgs(n));
+        }
+
+        protected virtual void OnCriticalTimeChanged(bool isInCriticalTime)
+        {
+            if (CriticalTimeChanged != null)
+            {
+                CriticalTimeChanged(this, new TimeEventArgs() { IsInCriticalTime = isInCriticalTime });
+            }
         }
 
         /// <summary>
@@ -492,8 +539,17 @@ namespace CprPrototype.ViewModel
             EnableDisableUI = false;
             IsLogAvailable = true;
             IsDoneAvailable = false;
+            OnCriticalTimeChanged(false);
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// This class enables us to send custom event arguments in OnCriticalTimeChanged eventhandler
+    /// </summary>
+    public class TimeEventArgs : EventArgs
+    {
+        public bool IsInCriticalTime { get; set; }
     }
 }

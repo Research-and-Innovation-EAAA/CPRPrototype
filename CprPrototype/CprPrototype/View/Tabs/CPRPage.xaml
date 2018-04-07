@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CPRPage"
@@ -10,7 +10,7 @@
     </ContentPage.Icon>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="0, 20, 0, 0">
+                    iOS="0, 35, 0, 0">
         </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.Content>
@@ -40,9 +40,7 @@
                     TextColor="Black"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Fill"
-                         VerticalOptions="Fill"
-                         Margin="0,0,0,0"
-                         Spacing="0">
+                         VerticalOptions="Fill">
                 <StackLayout HorizontalOptions="Fill">
                     <Label 
                         x:Name="lblMedicinReminders" 
@@ -51,23 +49,24 @@
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
-                        IsVisible="False"
-                        FontFamily="HelveticaNeue-Light"/>
+                        FontFamily="HelveticaNeue-Light"
+                        IsVisible="False"/>
                 </StackLayout>
-                <ListView x:Name="listView"/>
+                <ListView x:Name="listView" SeparatorVisibility="None"/>
             </StackLayout>
-            <StackLayout HorizontalOptions="Fill">
-                <Label x:Name="lblPulse"
-                       Text="Vurder Rytme"
-                       FontSize="Small"
-                       TextColor="White"
-                       FontFamily="HelveticaNeue-Light"
-                       HorizontalTextAlignment="Center"
-                       BackgroundColor="#00447B"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20"
-                Margin="5, 15, 5, 15">
-                <Label
+            <StackLayout x:Name="lowerBlock">
+                <StackLayout HorizontalOptions="Fill">
+                    <Label x:Name="lblPulse"
+                           Text="Vurder Rytme"
+                           FontSize="Small"
+                           TextColor="White"
+                           FontFamily="HelveticaNeue-Light"
+                           HorizontalTextAlignment="Center"
+                           BackgroundColor="#00447B"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20"
+                Margin="5, 0, 5, 15">
+                    <Label
                     x:Name="lblTotalElapsedCycles"
                     Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
                     VerticalOptions="Start"
@@ -78,7 +77,7 @@
                     IsVisible="False"
                     FontFamily="HelveticaNeue-Bold"
                     TextColor="Black"/>
-                <Label x:Name="lblStepTime" 
+                    <Label x:Name="lblStepTime" 
                 Text="{Binding StepTime, StringFormat='{0:mm\\:ss}'}"
                 VerticalOptions="Start"
                     Margin="-3"
@@ -88,49 +87,50 @@
                     IsVisible="False"
                     FontFamily="HelveticaNeue-Bold"
                     TextColor="Black"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100"
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" HeightRequest="100"
                 Margin="5, 5, 5, 15">
-                <Button x:Name="btnShockable"
+                    <Button x:Name="btnShockable"
                         Clicked="ShockableButton_Clicked"
                         Font="Bold"
                         FontSize="Large"
                         FontFamily="HelveticaNeue-Bold"
                         BackgroundColor="#A2CD54"
                         WidthRequest="150">
-                    <Button.Text>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS">Stødbar</On>
-                            <On Platform="Android">Stødbar</On>
-                        </OnPlatform>
-                    </Button.Text>
-                    <Button.TextColor>
-                        <OnPlatform x:TypeArguments="Color">
-                            <On Platform="iOS">Black</On>
-                            <On Platform="Android">Black</On>
-                        </OnPlatform>
-                    </Button.TextColor>
-                </Button>
-                <Button x:Name="btnNShockable"
+                        <Button.Text>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="iOS">Stødbar</On>
+                                <On Platform="Android">Stødbar</On>
+                            </OnPlatform>
+                        </Button.Text>
+                        <Button.TextColor>
+                            <OnPlatform x:TypeArguments="Color">
+                                <On Platform="iOS">Black</On>
+                                <On Platform="Android">Black</On>
+                            </OnPlatform>
+                        </Button.TextColor>
+                    </Button>
+                    <Button x:Name="btnNShockable"
                         Clicked="NShockableButton_Clicked"
                         Font="Bold"
                         FontSize="Large"
                         FontFamily="HelveticaNeue-Bold"
                         BackgroundColor="#A2CD54"
                         WidthRequest="150">
-                    <Button.Text>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS">Ikke-Stødbar</On>
-                            <On Platform="Android">Ikke-&#10;Stødbar</On>
-                        </OnPlatform>
-                    </Button.Text>
-                    <Button.TextColor>
-                        <OnPlatform x:TypeArguments="Color">
-                            <On Platform="iOS">Black</On>
-                            <On Platform="Android">Black</On>
-                        </OnPlatform>
-                    </Button.TextColor>
-                </Button>
+                        <Button.Text>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="iOS">Ikke-Stødbar</On>
+                                <On Platform="Android">Ikke-&#10;Stødbar</On>
+                            </OnPlatform>
+                        </Button.Text>
+                        <Button.TextColor>
+                            <OnPlatform x:TypeArguments="Color">
+                                <On Platform="iOS">Black</On>
+                                <On Platform="Android">Black</On>
+                            </OnPlatform>
+                        </Button.TextColor>
+                    </Button>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

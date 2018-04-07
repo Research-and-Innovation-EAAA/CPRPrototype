@@ -13,23 +13,31 @@ namespace CprPrototype.View
         public CausePage()
         {
             InitializeComponent();
-
-            var CaseH = Enum.GetValues(typeof(SpecialCasesH));
-            var CaseT = Enum.GetValues(typeof(SpecialCasesT));
-
-            List<TextCell> HList = new List<TextCell>();
-            List<TextCell> TList = new List<TextCell>();
-
-            foreach (var a in CaseH)
+            DataTemplate datatemple = new DataTemplate(typeof(TextCell));
+            datatemple.SetBinding(TextCell.TextProperty, "Text");
+            datatemple.SetValue(TextCell.TextColorProperty, Color.Black);
+            CauseList.ItemTemplate = datatemple;
+            CauseList.ItemsSource = GetSpecialCases();
+        }
+        public List<TextCell> GetSpecialCases()
+        {
+            List<TextCell> SpecialCaseList = new List<TextCell>()
             {
-                HList.Add(new TextCell { Text = a.ToString(), TextColor = Color.Black });
-            }
-            foreach (var b in CaseT)
-            {
-                TList.Add(new TextCell { Text = b.ToString(), TextColor = Color.Black });
-            }
-            sectionH.Add(HList);
-            sectionT.Add(TList);
+                new TextCell(){Text = SpecialCasesH.Hyperkalæmi.ToString(), TextColor = Color.Black},
+                new TextCell(){Text = SpecialCasesH.Hypotermi.ToString(), TextColor = Color.Black},
+                new TextCell(){Text = SpecialCasesH.Hypovolæmi.ToString(), TextColor = Color.Black},
+                new TextCell(){Text = SpecialCasesH.Hypoxi.ToString(), TextColor = Color.Black },
+                new TextCell(){Text = SpecialCasesT.Tamponade.ToString(), TextColor = Color.Black},
+                new TextCell(){Text = SpecialCasesT.Toksisk.ToString(), TextColor = Color.Black},
+                new TextCell(){Text = SpecialCasesT.Trombose.ToString(), TextColor = Color.Black},
+                new TextCell(){Text = SpecialCasesT.Trykneumothorax.ToString(), TextColor = Color.Black}
+            };
+            return SpecialCaseList;
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            ListView l = (ListView)sender;
         }
     }
 }

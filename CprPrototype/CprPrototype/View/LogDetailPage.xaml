@@ -4,7 +4,7 @@
              x:Class="CprPrototype.View.LogDetailPage">
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="logDetailList" />
+            <ListView x:Name="logDetailList"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

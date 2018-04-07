@@ -16,12 +16,15 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Årsager" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>
-            <TableView>
-                <TableRoot>
-                    <TableSection x:Name="sectionH"/>
-                    <TableSection x:Name="sectionT"/>
-                </TableRoot>
-            </TableView>
+            <ListView x:Name ="CauseList" SeparatorVisibility="None">
+                <ListView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </ListView.GestureRecognizers>
+            </ListView>
+            <StackLayout.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color" Android="White" iOS="White">
+                </OnPlatform>
+            </StackLayout.BackgroundColor>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
