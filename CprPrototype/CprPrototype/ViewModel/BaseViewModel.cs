@@ -178,9 +178,18 @@ namespace CprPrototype.ViewModel
                     if (PropertyChanged != null)
                     {
                         NotifyPropertyChanged("TotalElapsedCycles");
+                        NotifyPropertyChanged("TotalElapsedCyclesDisplayStr");
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or set the total number of cycles went through;
+        /// </summary>
+        public string TotalElapsedCyclesDisplayStr
+        {
+            get { return TotalElapsedCycles + ". " + CprPrototype.Service.Translator.Instance.Translate("Cycle"); }
         }
 
         /// <summary>
@@ -271,6 +280,14 @@ namespace CprPrototype.ViewModel
             {
                 AttemptStarted = DateTime.Now,
             };
+
+            /*
+            if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
+            {
+                var ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
+                CprPrototype.AppResources.Culture = ci; // set the RESX for resource localization
+                DependencyService.Get<ILocalize>().SetLocale(ci); // set the Thread for locale-aware methods
+            }*/
         }
 
         /// <summary>
@@ -434,19 +451,24 @@ namespace CprPrototype.ViewModel
             CycleTimer = new Timer(timerDelegate, this, 100, 1000);
         }
 
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
         /// <summary>
         /// Private helpermethod to AdvanceAlgorithm, this adds an entry to the history list.
         /// </summary>
         /// <param name="answer">answer from DisplayAlertSheet</param>
         private void AddAlertSheetAnswerToHistory(string answer)
         {
-            if (answer.Equals("GIVET"))
+            if (answer.Equals("AnswerShockGiven"))
             {
-                History.AddItem("Stød givet, HLR fortsættes", "icon_shockable.png");
+                History.AddItem(Translate("ShockGiven") + ", " + Translate("CprContinues"), "icon_shockable.png");
             }
             else
             {
-                History.AddItem("Stød ikke givet, HLR fortsættes", "icon_nonshockable.png");
+                History.AddItem(Translate("ShockNotGiven") + ", " + Translate("CprContinues"), "icon_nonshockable.png");
             }
         }
 

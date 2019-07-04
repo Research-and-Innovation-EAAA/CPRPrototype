@@ -79,7 +79,7 @@ namespace CprPrototype.Model
             // All drug types:
             switch (DrugType)
             {
-                case DrugType.Adrenalin:
+                case DrugType.Epinephrine:
 
                     // Address adrenaline immediatelly on the
                     // first non-shockable step, then every
@@ -118,7 +118,7 @@ namespace CprPrototype.Model
                             break;
                     }
                     break;
-                case DrugType.Amiodaron:
+                case DrugType.Amiodarone:
                     if (rythmStyle == RythmStyle.Shockable)
                     {
                         // Give at 3rd cycle, smaller dose if
@@ -137,7 +137,7 @@ namespace CprPrototype.Model
                         }
                     }
                     break;
-                case DrugType.Bikarbonat:
+                case DrugType.Bicarbonate:
                 case DrugType.Calcium:
                     result = DosesCollection[0];
                     TimeOfLatestInjection = DateTime.Now.Add(PreparationTime);

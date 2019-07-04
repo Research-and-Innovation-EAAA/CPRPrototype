@@ -16,10 +16,10 @@ namespace CprPrototype.View
         private BaseViewModel _viewModel = BaseViewModel.Instance;
         private DatabaseHelper _databaseHelper = DatabaseHelper.Instance;
 
-        private const string actionSheetTitle = "STØD GIVET?";
-        private const string shockGiven = "GIVET";
-        private const string shockNotGiven = "IKKE-GIVET";
-        private const string cancelAction = "ANULLER";
+        private const string actionSheetTitle = "QuestionShockGiven";
+        private const string shockGiven = "AnswerShockGiven";
+        private const string shockNotGiven = "AnswerShockNotGiven";
+        private const string cancelAction = "AnswerCancellation";
 
         private object _syncLock = new object();
         bool _isInCall = false;
@@ -66,6 +66,11 @@ namespace CprPrototype.View
 
         #region Methods & Event Handlers
 
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
         /// <summary>
         /// Refreshes the two minute timespan for HLR-countdown.
         /// </summary>
@@ -86,7 +91,17 @@ namespace CprPrototype.View
             _viewModel.IsInCriticalTime = false;
             while (answer == null)
             {
-                answer = await DisplayActionSheet(actionSheetTitle, cancelAction, null, shockGiven, shockNotGiven);
+                string displayAnswer = await DisplayActionSheet(
+                    Translate(actionSheetTitle), 
+                    Translate(cancelAction), null, 
+                    Translate(shockGiven), 
+                    Translate(shockNotGiven));
+                if (displayAnswer == Translate(shockGiven))
+                    answer = shockGiven;
+                else if (displayAnswer == Translate(shockNotGiven))
+                    answer = shockNotGiven;
+                else if (displayAnswer == Translate(cancelAction))
+                    answer = cancelAction;
             }
 
             return answer;
@@ -119,12 +134,14 @@ namespace CprPrototype.View
                 {
                     if (_viewModel.TotalElapsedCycles != 0)
                     {
-                        _viewModel.History.AddItem("Rytme vurderet - Stødbar", "cardiogram.png");
+                        _viewModel.History.AddItem(Translate("RhythmsAssessed") + " - " +
+                            Translate("Shockable"), "cardiogram.png");
                     }
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Stødbar", "icon_performcpr.png");
+                        _viewModel.History.AddItem(Translate("ResuscitationStarted") + " - " +
+                            Translate("Shockable"), "icon_performcpr.png");
                     }
 
                     _viewModel.IsDoneAvailable = true;
@@ -172,12 +189,14 @@ namespace CprPrototype.View
                 {
                     if (_viewModel.TotalElapsedCycles != 0)
                     {
-                        _viewModel.History.AddItem("Rytme vurderet - Ikke-Stødbar", "cardiogram.png");
+                        _viewModel.History.AddItem(Translate("RhythmsAssessed") + " - " +
+                            Translate("NonShockable"), "cardiogram.png");
                     }
                     else
                     {
                         _viewModel.History.AttemptStarted = DateTime.Now;
-                        _viewModel.History.AddItem("Genoplivning Startet - Ikke-Stødbar", "icon_performcpr.png");
+                        _viewModel.History.AddItem(Translate("ResuscitationStarted") + " - " + 
+                            Translate("NonShockable"), "icon_performcpr.png");
                     }
                     _viewModel.IsDoneAvailable = true;
                     _viewModel.IsLogAvailable = false;

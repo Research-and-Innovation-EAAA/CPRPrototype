@@ -109,26 +109,26 @@ namespace CprPrototype.Model
             {
                 switch (Drug.DrugType)
                 {
-                    case DrugType.Adrenalin:
+                    case DrugType.Epinephrine:
                         if (TimeRemaining.TotalSeconds <= 120)
                         {
-                            return "Giv " + DrugType.Adrenalin.ToString() + " " + Dose;
+                            return "Giv " + DrugType.Epinephrine.ToString() + " " + Dose;
                         }
                         else
                         {
-                            return "Klargør " + DrugType.Adrenalin.ToString() + " " + Dose;
+                            return "Klargør " + DrugType.Epinephrine.ToString() + " " + Dose;
                         }
-                    case DrugType.Amiodaron:
+                    case DrugType.Amiodarone:
                         if (TimeRemaining.TotalSeconds <= 120)
                         {
-                            return "Giv " + DrugType.Amiodaron.ToString() + " " + Dose;
+                            return "Giv " + DrugType.Amiodarone.ToString() + " " + Dose;
                         }
                         else
                         {
-                            return "Klargør " + DrugType.Amiodaron.ToString() + " " + Dose;
+                            return "Klargør " + DrugType.Amiodarone.ToString() + " " + Dose;
                         }
-                    case DrugType.Bikarbonat:
-                        return DrugType.Bikarbonat.ToString() + " " + Dose;
+                    case DrugType.Bicarbonate:
+                        return DrugType.Bicarbonate.ToString() + " " + Dose;
                     case DrugType.Calcium:
                         return DrugType.Calcium.ToString() + " " + Dose;
                     case DrugType.Magnesium:

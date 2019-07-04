@@ -1,8 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CausePage"
-             Title="Årsager">
+             xmlns:i18n="clr-namespace:CprPrototype;assembly=CprPrototype"
+             xmlns:local="clr-namespace:CprPrototype;assembly=CprPrototype"
+             Title="{i18n:Translate ReasonTabButton}">
     <ContentPage.Icon>
         <OnPlatform x:TypeArguments="FileImageSource"
                     iOS="icon_reasons.png" Android="icon_reasons.png">
@@ -15,7 +17,7 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Årsager" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>
+            <Label Text="{i18n:Translate Reasons}" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>
             <TableView>
                 <TableRoot>
                     <TableSection x:Name="sectionH"/>

@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CPRPage"
-             Title="CPR">
+             xmlns:i18n="clr-namespace:CprPrototype;assembly=CprPrototype"
+             xmlns:local="clr-namespace:CprPrototype"
+             Title="{i18n:Translate CprTabButton}">
     <ContentPage.Icon>
     <OnPlatform x:TypeArguments="FileImageSource"
                     iOS="icon_cpr.png" Android="icon_cpr.png">
@@ -17,7 +19,7 @@
         <StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
-                       Text="Hjertelungeredning"
+                       Text="{i18n:Translate CardiopulmonaryResuscitation}"
                        FontSize="Small"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
@@ -44,7 +46,7 @@
                 <StackLayout HorizontalOptions="Fill">
                     <Label 
                         x:Name="lblMedicinReminders" 
-                        Text="Medicinpåmindelser"
+                        Text="{i18n:Translate MedicineReminders}"
                        FontSize="Small"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
@@ -57,7 +59,7 @@
             <StackLayout x:Name="lowerBlock">
                 <StackLayout HorizontalOptions="Fill">
                     <Label x:Name="lblPulse"
-                           Text="Vurder Rytme"
+                           Text="{i18n:Translate AssessRhythms}"
                            FontSize="Small"
                            TextColor="White"
                            FontFamily="HelveticaNeue-Light"
@@ -68,7 +70,7 @@
                 Margin="5, 0, 5, 15">
                     <Label
                     x:Name="lblTotalElapsedCycles"
-                    Text="{Binding TotalElapsedCycles, StringFormat='{0}. Cyklus'}"
+                    Text="{Binding TotalElapsedCyclesDisplayStr}"
                     VerticalOptions="Start"
                     Margin="-3"
                     HorizontalOptions="CenterAndExpand"
@@ -93,42 +95,20 @@
                     <Button x:Name="btnShockable"
                         Clicked="ShockableButton_Clicked"
                         Font="Bold"
-                        FontSize="Large"
                         FontFamily="HelveticaNeue-Bold"
                         BackgroundColor="#A2CD54"
-                        WidthRequest="150">
-                        <Button.Text>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS">Stødbar</On>
-                                <On Platform="Android">Stødbar</On>
-                            </OnPlatform>
-                        </Button.Text>
-                        <Button.TextColor>
-                            <OnPlatform x:TypeArguments="Color">
-                                <On Platform="iOS">Black</On>
-                                <On Platform="Android">Black</On>
-                            </OnPlatform>
-                        </Button.TextColor>
+                        WidthRequest="150"
+                        TextColor="Black"
+                        Text="{i18n:Translate ShockableButton}">
                     </Button>
                     <Button x:Name="btnNShockable"
                         Clicked="NShockableButton_Clicked"
                         Font="Bold"
-                        FontSize="Large"
                         FontFamily="HelveticaNeue-Bold"
                         BackgroundColor="#A2CD54"
-                        WidthRequest="150">
-                        <Button.Text>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS">Ikke-Stødbar</On>
-                                <On Platform="Android">Ikke-&#10;Stødbar</On>
-                            </OnPlatform>
-                        </Button.Text>
-                        <Button.TextColor>
-                            <OnPlatform x:TypeArguments="Color">
-                                <On Platform="iOS">Black</On>
-                                <On Platform="Android">Black</On>
-                            </OnPlatform>
-                        </Button.TextColor>
+                        WidthRequest="150"                   
+                        TextColor="Black"
+                        Text="{i18n:Translate NonShockableButton}">
                     </Button>
                 </StackLayout>
             </StackLayout>

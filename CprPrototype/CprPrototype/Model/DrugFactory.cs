@@ -27,7 +27,7 @@ namespace CprPrototype.Model
             // Adrenalin init
             //========================================================================
 
-            var adrenalinDrug = new Drug(DrugType.Adrenalin, preparationTime, injectionTime);
+            var adrenalinDrug = new Drug(DrugType.Epinephrine, preparationTime, injectionTime);
             adrenalinDrug.DosesCollection.Add(new DrugShot(adrenalinDrug, "1mg"));
             newDrugList.Add(adrenalinDrug);
 
@@ -35,7 +35,7 @@ namespace CprPrototype.Model
             // Amiodaron init
             //========================================================================
 
-            var amiodoranDrug = new Drug(DrugType.Amiodaron, preparationTime, injectionTime);
+            var amiodoranDrug = new Drug(DrugType.Amiodarone, preparationTime, injectionTime);
             amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "300ml"));
             amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "150ml"));
             newDrugList.Add(amiodoranDrug);

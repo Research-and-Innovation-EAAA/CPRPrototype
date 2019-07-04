@@ -3,6 +3,7 @@ using Xamarin.Forms.Xaml;
 using System.Collections.Generic;
 using CprPrototype.Model;
 using System;
+using CprPrototype.Service;
 
 namespace CprPrototype.View
 {
@@ -22,11 +23,13 @@ namespace CprPrototype.View
 
             foreach (var a in CaseH)
             {
-                HList.Add(new TextCell { Text = a.ToString(), TextColor = Color.Black });
+                string value = Translator.Instance.Translate(a.ToString()).ToString();
+                HList.Add(new TextCell { Text = value, TextColor = Color.Black });
             }
             foreach (var b in CaseT)
             {
-                TList.Add(new TextCell { Text = b.ToString(), TextColor = Color.Black });
+                string value = Translator.Instance.Translate(b.ToString()).ToString();
+                TList.Add(new TextCell { Text = value, TextColor = Color.Black });
             }
             sectionH.Add(HList);
             sectionT.Add(TList);

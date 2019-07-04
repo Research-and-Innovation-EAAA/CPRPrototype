@@ -5,9 +5,9 @@
     /// </summary>
     public enum DrugType
     {
-        Adrenalin,
-        Amiodaron,
-        Bikarbonat,
+        Epinephrine,
+        Amiodarone,
+        Bicarbonate,
         Calcium,
         Magnesium
     }
@@ -26,10 +26,10 @@
     /// </summary>
     public enum SpecialCasesH
     {
-        Hypoxi,
-        Hypovolæmi,
-        Hyperkalæmi,
-        Hypotermi
+        Hypoxia,
+        Hypovolaemia,
+        Hyperkalaemia,
+        Hypothermia
     }
 
     /// <summary>
@@ -37,9 +37,9 @@
     /// </summary>
     public enum SpecialCasesT
     {
+        Thrombosis,
+        Tension,
         Tamponade,
-        Trykneumothorax,
-        Trombose,
-        Toksisk
+        Toxins
     }
 }

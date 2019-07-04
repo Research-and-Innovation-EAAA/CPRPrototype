@@ -1,8 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.ExtraDrugsPage"
-             Title="Medicin">
+             xmlns:i18n="clr-namespace:CprPrototype;assembly=CprPrototype"
+             xmlns:local="clr-namespace:CprPrototype;assembly=CprPrototype"
+             Title="{i18n:Translate MedicineTabButton}">
     <ContentPage.Icon>
         <OnPlatform x:TypeArguments="FileImageSource"
                     iOS="icon_injection.png" Android="icon_injection.png">
@@ -15,7 +17,7 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Ekstra Medicin" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,0,0,0" FontFamily="HelveticaNeue-Light"/>
+            <Label Text="{i18n:Translate ExtraMedicine}" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,0,0,0" FontFamily="HelveticaNeue-Light"/>
             <StackLayout Padding="0,20,0,0">
                 <ListView x:Name="lstDrugs" HasUnevenRows="True" SeparatorVisibility="None" >
                     <ListView.ItemTemplate>
@@ -28,7 +30,7 @@
                                             <Label Text="{Binding DrugUsage}" FontSize="11" VerticalOptions="Start" TextColor="Black" Margin="15,0,0,0" 
                                                     FontAttributes="Italic"/>
                                         </StackLayout>
-                                        <Button Text = "Giv" HorizontalOptions="EndAndExpand" BackgroundColor="#E0E0E0" TextColor="Black" Clicked="Button_Clicked" FontFamily="HelveticaNeue-Light">
+                                        <Button Text = "{i18n:Translate Give}" HorizontalOptions="EndAndExpand" BackgroundColor="#E0E0E0" TextColor="Black" Clicked="Button_Clicked" FontFamily="HelveticaNeue-Light">
                                             <Button.Margin>
                                                 <OnPlatform x:TypeArguments="Thickness" iOS="15, 5, 2, 5" Android="15,5,2,5">
                                                 </OnPlatform>

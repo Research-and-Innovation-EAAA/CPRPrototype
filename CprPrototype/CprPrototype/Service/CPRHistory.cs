@@ -56,6 +56,11 @@ namespace CprPrototype.Service
 
         #region Methods
 
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
         /// <summary>
         /// Adds an item to the log of the app with an image attached.
         /// </summary>
@@ -63,7 +68,8 @@ namespace CprPrototype.Service
         /// <param name="source">Image sourcepath</param>
         public void AddItem(string name, string source = null)
         {
-            var item = new CPRHistoryEntry(name + " - Cyklus: " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now, source);
+            var item = new CPRHistoryEntry(name + " - " + 
+            Translate("Cycle") + ": " + ViewModel.BaseViewModel.Instance.TotalElapsedCycles, DateTime.Now, source);
             item.DateTimeString = item.Date.ToString("dd/MM/yy  H:mm:ss");
 
             List<CPRHistoryEntry> list = new List<CPRHistoryEntry>(Entries)

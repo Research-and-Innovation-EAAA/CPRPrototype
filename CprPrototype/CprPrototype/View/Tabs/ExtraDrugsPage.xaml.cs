@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
 using CprPrototype.View;
+using CprPrototype.Service;
 
 namespace CprPrototype.View
 {
@@ -12,7 +13,6 @@ namespace CprPrototype.View
     public partial class ExtraDrugsPage : ContentPage
     {
         private BaseViewModel viewModel = BaseViewModel.Instance;
-        private const string shockGiven = " givet";
         private const string imagesource = "icon_medicin.png";
         public static BaseViewModel _bvm = BaseViewModel.Instance;
         ExDrugsModel vm;
@@ -42,7 +42,7 @@ namespace CprPrototype.View
             {
                 if (await CheckMedicinActionSheet() == "Bekræft")
                 {
-                    viewModel.History.AddItem(label.Text + shockGiven, imagesource);
+                    viewModel.History.AddItem(label.Text + " " + Translator.Instance.Translate("given"), imagesource);
                 }
             }
             finally
