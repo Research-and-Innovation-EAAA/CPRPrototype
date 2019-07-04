@@ -24,6 +24,18 @@
                     <TableSection x:Name="sectionT"/>
                 </TableRoot>
             </TableView>
+            <Label Text="Årsager" HorizontalOptions="CenterAndExpand" FontSize="Large" Margin="0,10,0,0" FontFamily="HelveticaNeue-Light"/>
+            <StackLayout>
+                <ListView x:Name ="CauseList" SeparatorVisibility="None" HasUnevenRows="True" IsEnabled="False">
+                <StackLayout.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color" Android="White" iOS="White">
+                    </OnPlatform>
+                </StackLayout.BackgroundColor>
+                <ListView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </ListView.GestureRecognizers>
+            </ListView>
+        </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

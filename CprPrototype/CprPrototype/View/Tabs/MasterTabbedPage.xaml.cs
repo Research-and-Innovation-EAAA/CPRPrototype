@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Collections.Specialized;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 
@@ -10,9 +11,7 @@ namespace CprPrototype.View
         public MasterTabbedPage()
         {
             InitializeComponent();
-            BarBackgroundColor = Color.FromHex("#004578");
-            BarTextColor = Color.White;
             NavigationPage.SetHasNavigationBar(this, false);
-        } 
+        }
     }
 }

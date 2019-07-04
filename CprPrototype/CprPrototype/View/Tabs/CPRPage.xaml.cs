@@ -59,7 +59,6 @@ namespace CprPrototype.View
             lblMedicinReminders.SetBinding(IsVisibleProperty, nameof(_viewModel.EnableDisableUI));
 
             _viewModel.CriticalTimeChanged += this.OnCriticalTimeChanged;
-
         }
 
         #endregion

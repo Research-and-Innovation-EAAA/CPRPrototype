@@ -54,7 +54,7 @@
                         FontFamily="HelveticaNeue-Light"
                         IsVisible="False"/>
                 </StackLayout>
-                <ListView x:Name="listView" />
+                <ListView x:Name="listView" SeparatorVisibility="None"/>
             </StackLayout>
             <StackLayout x:Name="lowerBlock">
                 <StackLayout HorizontalOptions="Fill">

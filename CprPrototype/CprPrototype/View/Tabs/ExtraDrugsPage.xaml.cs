@@ -25,6 +25,7 @@ namespace CprPrototype.View
 
             vm = new ExDrugsModel();
             lstDrugs.ItemsSource = vm.Exdrugs;
+           
         }
         public async void Button_Clicked(object sender, EventArgs e)
         {
@@ -65,6 +66,11 @@ namespace CprPrototype.View
             }
 
             return answer;
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            ListView l = (ListView)sender;
         }
     }
 }
