@@ -19,6 +19,12 @@ namespace CprPrototype.View
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(DrugCell), Color.LightGray, propertyChanged: OnBackgroundColorChanged);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(DrugCell), Color.Black);
 
+
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
         /// <summary>
         /// Gets or sets the Name connected with the BindableProperty (ex. DrugDoseString)
         /// </summary>
@@ -124,7 +130,7 @@ namespace CprPrototype.View
 
             btnInjected = new Button
             {
-                Text = "Giv",
+                Text = Translate("Giv"),
                 WidthRequest = 70,
                 HorizontalOptions = LayoutOptions.End
             };

@@ -100,6 +100,13 @@ namespace CprPrototype.Model
             }
         }
 
+
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
+
         /// <summary>
         /// Gets a formatted String to the notification text
         /// </summary>
@@ -112,27 +119,27 @@ namespace CprPrototype.Model
                     case DrugType.Epinephrine:
                         if (TimeRemaining.TotalSeconds <= 120)
                         {
-                            return "Giv " + DrugType.Epinephrine.ToString() + " " + Dose;
+                            return Translate("Give") + " " + Translate("Epinephrine") + " " + Dose;
                         }
                         else
                         {
-                            return "Klargør " + DrugType.Epinephrine.ToString() + " " + Dose;
+                            return Translate("Prepare") + " " + Translate("Epinephrine") + " " + Dose;
                         }
                     case DrugType.Amiodarone:
                         if (TimeRemaining.TotalSeconds <= 120)
                         {
-                            return "Giv " + DrugType.Amiodarone.ToString() + " " + Dose;
+                            return Translate("Give") + " " + Translate("Amiodarone") + " " + Dose;
                         }
                         else
                         {
-                            return "Klargør " + DrugType.Amiodarone.ToString() + " " + Dose;
+                            return Translate("Prepare") + " " + Translate("Amiodarone") + " " + Dose;
                         }
                     case DrugType.Bicarbonate:
-                        return DrugType.Bicarbonate.ToString() + " " + Dose;
+                        return Translate("Bicarbonate") + " " + Dose;
                     case DrugType.Calcium:
-                        return DrugType.Calcium.ToString() + " " + Dose;
+                        return Translate("Calcium") + " " + Dose;
                     case DrugType.Magnesium:
-                        return DrugType.Magnesium.ToString() + " " + Dose;
+                        return Translate("Magnesium") + " " + Dose;
                     default:
                         return string.Empty;
                 }
@@ -257,9 +264,9 @@ namespace CprPrototype.Model
 
             string localTimeRemainingString = "";
             if (minutes > 0)
-                localTimeRemainingString = minutes + " min " + seconds + " sek";
+                localTimeRemainingString = minutes + " "+ Translate("TimingMin") + " " + seconds + " " + Translate("TimingSec");
             else
-                localTimeRemainingString = seconds + " sek";
+                localTimeRemainingString = seconds + " " + Translate("TimingSec");
 
             TimeRemainingString = localTimeRemainingString;
         }

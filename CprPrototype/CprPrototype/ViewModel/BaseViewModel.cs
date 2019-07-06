@@ -342,6 +342,11 @@ namespace CprPrototype.ViewModel
             }
         }
 
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
         /// <summary>
         /// Updates the notification timers and sorts them correctly
         /// </summary>
@@ -371,7 +376,7 @@ namespace CprPrototype.ViewModel
                         if (shot.IsInjected)
                         {
                             shot.ShotAddressed();
-                            History.AddItem(shot.Drug.DrugType.ToString() + " Givet", "icon_medicin.png");
+                            History.AddItem(Translate(shot.Drug.DrugType.ToString()) + " " + Translate("HistoryGiven"), "icon_medicin.png");
                             AlgorithmBase.RemoveDrugsFromQueue(NotificationQueue);
                         }
                         else if (shot.IsIgnored) // Checks if the drug has been ignored
@@ -449,11 +454,6 @@ namespace CprPrototype.ViewModel
             }
             TimerCallback timerDelegate = new TimerCallback(StaticNotifyTimerIncremented);
             CycleTimer = new Timer(timerDelegate, this, 100, 1000);
-        }
-
-        private string Translate(string text)
-        {
-            return CprPrototype.Service.Translator.Instance.Translate(text);
         }
 
         /// <summary>

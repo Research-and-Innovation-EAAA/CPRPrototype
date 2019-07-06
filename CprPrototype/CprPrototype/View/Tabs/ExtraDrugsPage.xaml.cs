@@ -41,7 +41,7 @@ namespace CprPrototype.View
             }
             try
             {
-                if (await CheckMedicinActionSheet() == "Bekræft")
+                if (await CheckMedicinActionSheet() == "Confirm")
                 {
                     viewModel.History.AddItem(label.Text + " " + Translator.Instance.Translate("given"), imagesource);
                 }
@@ -56,13 +56,28 @@ namespace CprPrototype.View
 
         }
 
+        private string Translate(string text)
+        {
+            return CprPrototype.Service.Translator.Instance.Translate(text);
+        }
+
         private async Task<string> CheckMedicinActionSheet()
         {
             string answer = null;
 
             while (answer == null)
             {
-                answer = await DisplayActionSheet("Medicin givet? ", "Anuller", null, "Bekræft");
+                string displayAnswer = await DisplayActionSheet(
+                    Translate("QuestionMedicineGiven"), 
+                    Translate("Cancel"), null,
+                    Translate("Confirm"));
+
+                if (displayAnswer == Translate("QuestionMedicineGiven"))
+                    answer = "QuestionMedicineGiven";
+                else if (displayAnswer == Translate("Cancel"))
+                    answer = "Cancel";
+                else if (displayAnswer == Translate("Confirm"))
+                    answer = "Confirm";
             }
 
             return answer;

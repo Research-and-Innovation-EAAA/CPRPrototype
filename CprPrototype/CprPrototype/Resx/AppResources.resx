@@ -45,7 +45,7 @@
 
     <!-- ReasonTabButton -->
     <data name="ReasonTabButton" xml:space="preserve">
-        <value>Reasons</value>
+        <value>Causes​</value>
         <comment>label for Reason name</comment>
     </data>
     <data name="da:ReasonTabButton" xml:space="preserve">
@@ -129,9 +129,17 @@
         <value>Handling</value>
     </data>
     
+    <!-- OverviewPage Give -->
+    <data name="Give" xml:space="preserve">
+        <value>Give</value>
+    </data>
+    <data name="da:Give" xml:space="preserve">
+        <value>Giv</value>
+    </data>
+    
     <!-- CausePage Headline -->
     <data name="Reasons" xml:space="preserve">
-        <value>Reasons</value>
+        <value>Reversible causes​</value>
     </data>
     <data name="da:Reasons" xml:space="preserve">
         <value>Årsager</value>
@@ -230,7 +238,7 @@
         <value>300 mg bolus after 3rd shock. Possibly, repeat 150 mg of bolus after 5th shock</value>
     </data>
     <data name="da:AmiodaroneUsage" xml:space="preserve">
-        <value>300 mg bolus efter 3. stød. Evt. gentages 150 mg bolus efter 5.stød</value>
+        <value>300 mg bolus efter 3. stød. Evt. gentages 150 mg bolus efter 5. stød</value>
     </data>
     
     <!-- DrugsPage Bicarbonate -->
@@ -243,10 +251,10 @@
     
     <!-- DrugsPage BicarbonateUsage -->
     <data name="BicarbonateUsage" xml:space="preserve">
-        <value>50 ml of 8.4% (50 mmol) of sodium bicarbonate bolus are repeated as needed</value>
+        <value>50 ml of 8.4% (50 mmol) of sodium bicarbonate bolus. Repeat as needed</value>
     </data>
     <data name="da:BicarbonateUsage" xml:space="preserve">
-        <value>50 ml 8,4 % (50 mmol) natriumbikarbonat bolus gentages ved behov</value>
+        <value>50 ml 8,4% (50 mmol) natriumbikarbonat bolus gentages ved behov</value>
     </data>
     
     <!-- DrugsPage Calcium -->
@@ -397,5 +405,76 @@
         <value>Annullér</value>  
     </data>
     
+    <!-- Popup QuestionMedicineGiven -->
+    <data name="QuestionMedicineGiven" xml:space="preserve">
+        <value>Medicine given?</value>
+    </data>
+    <data name="da:QuestionMedicineGiven" xml:space="preserve">
+        <value>Medicin givet?</value>  
+    </data>
+    
+    <!-- Popup AnswerConfirm -->
+    <data name="AnswerConfirm" xml:space="preserve">
+        <value>Confirm</value>
+    </data>
+    <data name="da:AnswerConfirm" xml:space="preserve">
+        <value>Bekræft</value>  
+    </data>
+     
+    <!-- ReminderPrepare -->
+    <data name="ReminderPrepare" xml:space="preserve">
+        <value>Prepare</value>
+    </data>
+    <data name="da:ReminderPrepare" xml:space="preserve">
+        <value>Klargør</value>  
+    </data>
+     
+    <!-- ReminderGive -->
+    <data name="ReminderGive" xml:space="preserve">
+        <value>Give</value>
+    </data>
+    <data name="da:ReminderGive" xml:space="preserve">
+        <value>Giv</value>  
+    </data>
+     
+    <!-- Buttons Death -->
+    <data name="Death" xml:space="preserve">
+        <value>Death</value>
+    </data>
+    <data name="da:Death" xml:space="preserve">
+        <value>Død</value>  
+    </data>
+    
+    <!-- Buttons ROSC -->
+    <data name="ROSC" xml:space="preserve">
+        <value>ROSC</value>
+    </data>
+    <data name="da:ROSC" xml:space="preserve">
+        <value>ROSC</value>  
+    </data>
+    
+    <!-- HistoryGiven -->
+    <data name="HistoryGiven" xml:space="preserve">
+        <value>Given</value>
+    </data>
+    <data name="da:HistoryGiven" xml:space="preserve">
+        <value>Givet</value>  
+    </data>
+    
+    <!-- TimingSek -->
+    <data name="TimingSec" xml:space="preserve">
+        <value>Sec</value>
+    </data>
+    <data name="da:TimingSec" xml:space="preserve">
+        <value>Sek</value>  
+    </data>
+    
+    <!-- TimingMin -->
+    <data name="TimingMin" xml:space="preserve">
+        <value>Min</value>
+    </data>
+    <data name="da:TimingMin" xml:space="preserve">
+        <value>Min</value>  
+    </data>
     
 </root>

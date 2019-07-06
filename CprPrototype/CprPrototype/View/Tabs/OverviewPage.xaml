@@ -64,7 +64,7 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="80">
                 <Button x:Name="btnROSC"
-                    Text="ROSC" WidthRequest="150"
+                    Text="{i18n:Translate ROSC}" WidthRequest="150"
                         Clicked="BtnROSC_Clicked"
                         FontSize="Medium"
                         FontFamily="HelveticaNeue-Light" 
@@ -77,7 +77,7 @@
                     </Button.TextColor>
                 </Button>
                 <Button x:Name="btnDoed"
-                    Text="DØD" WidthRequest="150"
+                    Text="{i18n:Translate Death}" WidthRequest="150"
                     Clicked="BtnDoed_Clicked"
                     FontSize="Medium"
                         FontFamily="HelveticaNeue-Light"

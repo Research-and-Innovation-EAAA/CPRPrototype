@@ -74,6 +74,12 @@ namespace CprPrototype.iOS
 
         string iOSToDotnetLanguage(string iOSLanguage)
         {
+            char[] delimiterChars = { '-', '_' };
+            string[] words = iOSLanguage.Split(delimiterChars);
+            string lang = words.Length>0?words[0]:"en";
+            return lang;
+
+            /*
             // .NET cultures don't support underscores
             string netLanguage = iOSLanguage.Replace("_", "-");
 
@@ -90,7 +96,7 @@ namespace CprPrototype.iOS
                     // add more application-specific cases here (if required)
                     // ONLY use cultures that have been tested and known to work
             }
-            return netLanguage;
+            return netLanguage;*/
         }
 
         string ToDotnetFallbackLanguage(PlatformCulture platCulture)

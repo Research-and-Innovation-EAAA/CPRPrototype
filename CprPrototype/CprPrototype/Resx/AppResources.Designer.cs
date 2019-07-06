@@ -203,6 +203,18 @@ namespace CprPrototype.Resx {
             }
         }
         
+        public static string Give {
+            get {
+                return ResourceManager.GetString("Give", resourceCulture);
+            }
+        }
+        
+        public static string da_Give {
+            get {
+                return ResourceManager.GetString("da:Give", resourceCulture);
+            }
+        }
+        
         public static string Reasons {
             get {
                 return ResourceManager.GetString("Reasons", resourceCulture);
@@ -455,18 +467,6 @@ namespace CprPrototype.Resx {
             }
         }
         
-        public static string Give {
-            get {
-                return ResourceManager.GetString("Give", resourceCulture);
-            }
-        }
-        
-        public static string da_Give {
-            get {
-                return ResourceManager.GetString("da:Give", resourceCulture);
-            }
-        }
-        
         public static string ResuscitationStarted {
             get {
                 return ResourceManager.GetString("ResuscitationStarted", resourceCulture);
@@ -596,6 +596,114 @@ namespace CprPrototype.Resx {
         public static string da_AnswerCancellation {
             get {
                 return ResourceManager.GetString("da:AnswerCancellation", resourceCulture);
+            }
+        }
+        
+        public static string QuestionMedicineGiven {
+            get {
+                return ResourceManager.GetString("QuestionMedicineGiven", resourceCulture);
+            }
+        }
+        
+        public static string da_QuestionMedicineGiven {
+            get {
+                return ResourceManager.GetString("da:QuestionMedicineGiven", resourceCulture);
+            }
+        }
+        
+        public static string AnswerConfirm {
+            get {
+                return ResourceManager.GetString("AnswerConfirm", resourceCulture);
+            }
+        }
+        
+        public static string da_AnswerConfirm {
+            get {
+                return ResourceManager.GetString("da:AnswerConfirm", resourceCulture);
+            }
+        }
+        
+        public static string ReminderPrepare {
+            get {
+                return ResourceManager.GetString("ReminderPrepare", resourceCulture);
+            }
+        }
+        
+        public static string da_ReminderPrepare {
+            get {
+                return ResourceManager.GetString("da:ReminderPrepare", resourceCulture);
+            }
+        }
+        
+        public static string ReminderGive {
+            get {
+                return ResourceManager.GetString("ReminderGive", resourceCulture);
+            }
+        }
+        
+        public static string da_ReminderGive {
+            get {
+                return ResourceManager.GetString("da:ReminderGive", resourceCulture);
+            }
+        }
+        
+        public static string Death {
+            get {
+                return ResourceManager.GetString("Death", resourceCulture);
+            }
+        }
+        
+        public static string da_Death {
+            get {
+                return ResourceManager.GetString("da:Death", resourceCulture);
+            }
+        }
+        
+        public static string ROSC {
+            get {
+                return ResourceManager.GetString("ROSC", resourceCulture);
+            }
+        }
+        
+        public static string da_ROSC {
+            get {
+                return ResourceManager.GetString("da:ROSC", resourceCulture);
+            }
+        }
+        
+        public static string HistoryGiven {
+            get {
+                return ResourceManager.GetString("HistoryGiven", resourceCulture);
+            }
+        }
+        
+        public static string da_HistoryGiven {
+            get {
+                return ResourceManager.GetString("da:HistoryGiven", resourceCulture);
+            }
+        }
+        
+        public static string TimingSec {
+            get {
+                return ResourceManager.GetString("TimingSec", resourceCulture);
+            }
+        }
+        
+        public static string da_TimingSec {
+            get {
+                return ResourceManager.GetString("da:TimingSec", resourceCulture);
+            }
+        }
+        
+        public static string TimingMin {
+            get {
+                return ResourceManager.GetString("TimingMin", resourceCulture);
+            }
+        }
+        
+        public static string da_TimingMin {
+            get {
+                return ResourceManager.GetString("da:TimingMin", resourceCulture);
             }
         }
     }
