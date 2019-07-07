@@ -125,14 +125,14 @@ namespace CprPrototype.Model
                         // cycles >= 5.
                         if (totalCyclesElapsed == 1 && totalCyclesElapsed % 1 == 0 && IsInjected == false)
                         {
-                            result = DosesCollection.Find(d => d.Dose == "300ml");
+                            result = DosesCollection.Find(d => d.Dose == "300mg");
                             TimeOfLatestInjection = DateTime.Now.Add(PreparationTime);
                         }
                         // Address after 5 additional cycles, 
                         // rather than 5 in total
                         else if (totalCyclesElapsed >= 5 && IsInjected == true && ((totalCyclesElapsed - 3) % 5) == 0)
                         {
-                            result = DosesCollection.Find(d => d.Dose == "150ml");
+                            result = DosesCollection.Find(d => d.Dose == "150mg");
                             TimeOfLatestInjection = DateTime.Now.Add(PreparationTime);
                         }
                     }

@@ -36,8 +36,8 @@ namespace CprPrototype.Model
             //========================================================================
 
             var amiodoranDrug = new Drug(DrugType.Amiodarone, preparationTime, injectionTime);
-            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "300ml"));
-            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "150ml"));
+            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "300mg"));
+            amiodoranDrug.DosesCollection.Add(new DrugShot(amiodoranDrug, "150mg"));
             newDrugList.Add(amiodoranDrug);
 
             //========================================================================
