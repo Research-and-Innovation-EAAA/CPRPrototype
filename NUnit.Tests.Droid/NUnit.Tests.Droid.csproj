@@ -24,7 +24,7 @@
     </NuGetPackageImportStamp>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
-    <ReleaseVersion>1.14</ReleaseVersion>
+    <ReleaseVersion>1.15</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

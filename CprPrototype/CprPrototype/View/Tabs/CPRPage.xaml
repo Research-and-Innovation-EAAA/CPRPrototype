@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.CPRPage"
@@ -20,7 +20,7 @@
             <StackLayout HorizontalOptions="Fill">
                 <Label x:Name="lblHeart"
                        Text="{i18n:Translate CardiopulmonaryResuscitation}"
-                       FontSize="Small"
+                       FontSize="Default"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
@@ -47,7 +47,7 @@
                     <Label 
                         x:Name="lblMedicinReminders" 
                         Text="{i18n:Translate MedicineReminders}"
-                       FontSize="Small"
+                       FontSize="Default"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
@@ -60,7 +60,7 @@
                 <StackLayout HorizontalOptions="Fill">
                     <Label x:Name="lblPulse"
                            Text="{i18n:Translate AssessRhythms}"
-                           FontSize="Small"
+                           FontSize="Default"
                            TextColor="White"
                            FontFamily="HelveticaNeue-Light"
                            HorizontalTextAlignment="Center"

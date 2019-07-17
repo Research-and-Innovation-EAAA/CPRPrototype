@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CprPrototype.View.OverviewPage"
@@ -44,7 +44,7 @@
                          Spacing="3">
                 <StackLayout HorizontalOptions="Fill">
                     <Label Text="{i18n:Translate History}"
-                       FontSize="Small"
+                       FontSize="Default"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
@@ -56,13 +56,14 @@
             </StackLayout>
             <StackLayout HorizontalOptions="Fill">
                 <Label Text="{i18n:Translate Actions}"
-                       FontSize="Small"
+                       FontSize="Default"
                        TextColor="White"
                        HorizontalTextAlignment="Center"
                        BackgroundColor="#00447B"
                        FontFamily="HelveticaNeue-Light"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="80">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  HeightRequest="100"
+                Margin="5, 5, 5, 15">
                 <Button x:Name="btnROSC"
                     Text="{i18n:Translate ROSC}" WidthRequest="150"
                         Clicked="BtnROSC_Clicked"
