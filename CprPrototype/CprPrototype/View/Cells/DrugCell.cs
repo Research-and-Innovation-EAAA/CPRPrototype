@@ -130,7 +130,7 @@ namespace CprPrototype.View
 
             btnInjected = new Button
             {
-                Text = Translate("Giv"),
+                Text = Translate("Give"),
                 WidthRequest = 70,
                 HorizontalOptions = LayoutOptions.End
             };

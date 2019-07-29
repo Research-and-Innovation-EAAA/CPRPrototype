@@ -75,7 +75,7 @@
     
     <!-- CPRPage MedicineReminders -->
     <data name="MedicineReminders" xml:space="preserve">
-        <value>Medicine Reminders</value>
+        <value>Drug reminders</value>
     </data>
     <data name="da:MedicineNotification" xml:space="preserve">
         <value>Medicinpåmindelser</value>
@@ -235,7 +235,7 @@
     
     <!-- DrugsPage AmiodaroneUsage -->
     <data name="AmiodaroneUsage" xml:space="preserve">
-        <value>300 mg bolus after 3rd shock. Consider, repeat 150 mg of bolus after 5th shock.</value>
+        <value>300 mg bolus after 3rd shock. Consider, repeating 150 mg of bolus after 5th shock.</value>
     </data>
     <data name="da:AmiodaroneUsage" xml:space="preserve">
         <value>300 mg bolus efter 3. stød. Evt. gentages 150 mg bolus efter 5. stød</value>
@@ -283,7 +283,7 @@
     
     <!-- DrugsPage MagnesiumUsage -->
     <data name="MagnesiumUsage" xml:space="preserve">
-        <value>4 ml (8 mmol) of magnesium sulfate/magnesium chloride 2 mmol/ml over 1-2 min. Consider, repeat after 10-15 min.</value>
+        <value>4 ml (8 mmol) of magnesium sulfate/magnesium chloride 2 mmol/ml over 1-2 min. Consider, repeating after 10-15 min.</value>
     </data>
     <data name="da:MagnesiumUsage" xml:space="preserve">
         <value>4 ml (8 mmol) magnesiumsulfat/magnesiumklorid 2mmol/ml over 1-2 min. Evt. gentages efter 10-15 min.</value>
